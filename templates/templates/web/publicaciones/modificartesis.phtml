@@ -1,0 +1,33 @@
+{config_load file=$lang_file section="tesis"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  {if $codigo == 1}
+    <div class="col_izq">
+      <p>{#texto5#}</p>
+      <br /><br /><br /><br /><br /><br />
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto4#}</span>
+      <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.actualizartesis/id.{$tesis.id_tesis}>
+        <fieldset><legend>{#datos#}</legend>
+        <p>
+          {#titulo#} <input type="text" name="txtTitulo" value="{$tesis.titulo}" ><br />
+          {#autor#} <input type="text" name="txtAutor" value="{$tesis.autor}" ><br />
+          {#directores#} <input type="text" name="txtDir" value="{$tesis.directores}" ><br />
+        </p><br />
+        </fieldset>
+        <input type="submit" value={#aceptar#} />
+        <input type="reset" value={#borrar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.publi'" />
+      </form>
+    </div>
+  {elseif $codigo == 0}
+    {#notesis#}
+  {else}
+    {#noautorizado#}
+  {/if}
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

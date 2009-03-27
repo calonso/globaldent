@@ -1,0 +1,14 @@
+<div class="pac_info">
+  <div class="logoclinica">
+    <object data={$req_base}file.php/logo type="image/jpeg" width="100" height="110" ></object>
+  </div>
+  <div class="numpres">
+    <p>{#texto5#}: {$datos.fecha}</p>
+  </div>
+  {if is_array($paciente)}
+  <p>{$paciente.apellido}&nbsp;{$paciente.apellido2},&nbsp;{$paciente.nombre}</p>
+  <p>{$paciente.dni}</p>
+  <p>{$paciente.direccion}</p>
+  <p>{$paciente.telefono_fijo}/{$paciente.telefono_movil}</p>
+  {/if}
+</div>

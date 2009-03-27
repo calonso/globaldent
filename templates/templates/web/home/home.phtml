@@ -1,0 +1,10 @@
+{config_load file=$lang_file section="home"}
+
+{include file=$tpl_path_base|cat:"/common/header.phtml"}
+
+  <div class="contenedor">
+		<span class="intro">{#intro#}</span>
+		<p>{#texto1#}</p>
+	</div>
+	
+{include file=$tpl_path_base|cat:"/common/footer.phtml"}

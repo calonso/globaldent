@@ -1,0 +1,96 @@
+{config_load file=$lang_file section="personal"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript" src="{$req_base}js/fckeditor/fckeditor.js"></script>
+<script type="text/javascript">
+{literal}
+<!--
+function FCKeditor_OnComplete( editorInstance )
+{
+	editorInstance.Events.AttachEvent( 'OnBlur'	, FCKeditor_OnBlur ) ;
+	editorInstance.Events.AttachEvent( 'OnFocus', FCKeditor_OnFocus ) ;
+}
+
+function FCKeditor_OnBlur( editorInstance )
+{
+	editorInstance.ToolbarSet.Collapse() ;
+}
+
+function FCKeditor_OnFocus( editorInstance )
+{
+	editorInstance.ToolbarSet.Expand() ;
+}
+function verificar(){
+  var login = document.formulario.txtLogin.value;
+  if(login.length == 0){
+    alert ("El login no puede estar vacio");
+  }else {
+    document.formulario.submit();
+  }
+}
+-->
+{/literal}
+</script>
+
+  <div class="contenidos">
+    <div class="col_izq">
+      <span class="intro">{#texto39#}</span>
+      <p>{#texto40#}</p>
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto41#}</span>
+      <p>{#texto42#}</p>
+      {if isset($datos)}
+      <form name="formulario" enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.actualizaempleado/id.{$datos.id_personal}">
+        <fieldset><legend>{#texto9#}</legend>
+          <p>{#texto10#}</p><input type="text" name="txtNombre" value="{$datos.nombre}" ><br />
+          <p>{#texto11#}</p><input type="text" name="txtApe" value="{$datos.apellido}" ><br />
+          <p>{#texto12#}</p><input type="text" name="txtApe2" value="{$datos.apellido2}" ><br />
+          <p>{#texto13#}</p><input type="text" name="txtDNI" value="{$datos.dni}" ><br />
+          <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
+          <p>{#texto14#}</p><input type="file" name="fileFoto" />  
+        </fieldset>
+        <fieldset><legend>{#texto66#}</legend>
+          <p>{#texto67#}</p><input type="text" name="txtLogin" value="{$datos.login}"><br />
+        </fieldset>
+        <fieldset><legend>{#texto15#}</legend>
+          <p>{#texto16#}</p><input type="text" name="txtDir" value="{$datos.direccion}" ><br />
+          <p>{#texto17#}</p><input type="text" name="txtCP" value="{$datos.cp}" ><br />
+          <p>{#texto18#}</p><input type="text" name="txtCiudad" value="{$datos.ciudad}" ><br />
+          <p>{#texto19#}</p>
+            {if isset($provincias)}
+              <select name="selProv">
+                <option label={#texto20#} value=0>{#texto20#}</option>
+                {html_options options=$provincias selected=$datos.id_provincia|default:0}
+              </select>
+            {else}
+              <p>{#texto21#}</p>
+            {/if}<br />
+          <p>{#texto22#}</p><input type="text" name="txtTelfijo" value="{$datos.telefono}" ><br />
+          <p>{#texto23#}</p><input type="text" name="txtMovil" value="{$datos.movil}" ><br />
+          <p>{#texto24#}</p><input type="text" name="txtEmail" value="{$datos.email}" ><br />
+        </fieldset>
+        <fieldset><legend>{#texto25#}</legend>
+          <p>{#texto26#}</p><input type="text" name="txtNumcol" value="{$datos.num_colegiado}" ><br />
+          <p>{#texto27#}</p><input type="text" name="txtEspecialidad" value="{$datos.especialidad}" ><br />
+          <p>{#texto28#}</p>
+          <script type="text/javascript">
+            var oFCKeditor = new FCKeditor('txtCV','100%','200','MyToolbar','{$datos.curriculum|regex_replace:"/[\r\n]/":""}');
+            oFCKeditor.BasePath = "{$req_base}js/fckeditor/";
+            oFCKeditor.Config['ToolbarStartExpanded'] = false ;
+            oFCKeditor.Create();
+          </script><br />
+        </fieldset>
+        <input type="button" value={#aceptar#} onclick="verificar()"/>
+        <input type="reset" value={#borrar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.personal'" />
+      </form>
+      {else}
+        {#texto36#}
+      {/if}
+  </div>
+  
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

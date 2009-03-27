@@ -1,0 +1,99 @@
+{config_load file=$lang_file section="pacientes"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript" src="{$req_base}/js/motionpack.js"></script>
+
+  <div class="contenidos">
+    <div class="col_central">
+      <span class="intro">{#texto41#}</span>
+      <p>{#texto42#}</p>
+      {if isset($datos)}
+        <fieldset><legend>{#texto9#}</legend>
+          <p>{#texto10#}{$datos.nombre}</p><br />
+          {if $datos.extension|count_characters > 0}
+          <div class="fotopers">
+            <object data="{$req_base}file.php/fotopers/{$datos.id_paciente}/{$datos.extension}" type="image/{$datos.extension}" width="160px" height="160px">para abrir click aqui:
+              <a href="{$req_base}file.php/fotopers/{$datos.id_paciente}/{$datos.extension}">foto</a>
+            </object>
+          </div>
+          {else}
+          <div class="fotopers">
+            <img src={$img_path_base}foto.jpg width="60" height="60">
+          </div>
+          {/if}
+          <p>{#texto11#}{$datos.apellido}</p><br />
+          <p>{#texto12#}{$datos.apellido2}</p><br />
+          <p>{#texto13#}{$datos.dni}</p><br />
+          <p>{#texto14#}{$datos.fecha_nacimiento}</p><br />
+          <p>{#texto15#}{$datos.profesion}</p><br />
+        </fieldset>
+        <fieldset><legend>{#texto16#}</legend>
+          <p>{#texto17#}{$datos.direccion}</p><br />
+          <p>{#texto18#}{$datos.cp}</p><br />
+          <p>{#texto19#}{$datos.ciudad}</p><br />
+          <p>{#texto20#}{$datos.provincia}</p><br />
+          <p>{#texto23#}{$datos.telefono_fijo}</p><br />
+          <p>{#texto24#}{$datos.telefono_movil}</p><br />
+          <p>{#texto25#}{$datos.telefono_trabajo}</p><br />
+          <p>{#texto26#}{$datos.email}</p><br />
+        </fieldset>
+        <fieldset><legend>{#texto27#}</legend>
+          <p>{#texto83#}</p>
+          	{if $datos.num_citas > 0}
+          		<a href={$req_base}index.php/cod.agenda/dia.{$datos.cita.0.fecha}>{#texto85#} {$datos.cita.0.fecha} {#texto86#} {$datos.cita.0.hora} {#texto87#} {$datos.cita.0.gabinete}</a>
+          		{if $datos.num_citas > 1}
+          			<a href="javascript:slide('citas')">({#texto88#})</a>
+          			<div id="citas" style="display:none; overflow:hidden;">
+          				{section name=ind loop=$datos.cita start=1 step=1}
+          					<a href={$req_base}index.php/cod.agenda/dia.{$datos.cita[ind].fecha}>{#texto85#} {$datos.cita[ind].fecha} {#texto86#} {$datos.cita[ind].hora} {#texto87#} {$datos.cita[ind].gabinete}</a><br />
+          				{/section}
+          			</div>
+          		{/if}
+          	{else}
+          		<p>{#texto84#}</p>
+          	{/if}
+          <br />
+          <p>{#texto28#}</p>
+            {if isset($datos.nombre_dr_referidor)}
+              <a href={$req_base}index.php/cod.verdr/id.{$datos.id_dr_referidor}>{$datos.nombre_dr_referidor}</a>
+            {else}
+              <p>{#texto44#}</p>
+            {/if}<br />
+          <p>{#texto31#}</p>
+            {if isset($datos.nombre_pac_referidor)}
+              <a href={$req_base}index.php/cod.verpac/id.{$datos.id_paciente_referidor}>{$datos.nombre_pac_referidor}</a>
+            {else}
+              <p>{#texto44#}</p>
+            {/if}<br />
+          <p>{#texto55#}</p>
+            {if isset($datos.referidos)}
+              {foreach from=$datos.referidos item=referido}
+                <a href={$req_base}index.php/cod.verpac/id.{$referido.id}>{$referido.nombre}</a>
+              {/foreach}
+            {else}
+              <p>{#texto44#}</p>
+            {/if}<br />
+          <p>{#texto34#}{$datos.alertas_medicas|default:#texto44#}</p><br />
+          <p>{#texto35#}{$datos.observaciones|default:#texto44#}</p><br />
+          <p>{#texto73#}{$datos.alto_riesgo|default:#texto44#}</p><br />
+          <p>{#texto48#}{$datos.fecha_alta}</p><br />
+        </fieldset>
+      {else}
+        {#texto43#}
+      {/if}  
+  </div>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+      {if isset($datos)}
+        <li><a href={$req_base}index.php/cod.historia/id.{$datos.id_paciente}>{#texto70#}</a></li>
+        <li><a href={$req_base}index.php/cod.historiaecon/id.{$datos.id_paciente}>{#texto79#}</a></li>
+        <li><a href={$req_base}index.php/cod.modpac/id.{$datos.id_paciente}>{#texto45#}</a></li>
+        <li><a href={$req_base}index.php/cod.borrapac/id.{$datos.id_paciente}>{#texto46#}</a></li>
+      {/if}
+      <li><a href={$req_base}index.php/cod.nuevopaciente>{#texto2#}</a></li>
+      <li><a href={$req_base}index.php/cod.buscapacientes>{#texto3#}</a></li>
+      <li><a href={$req_base}index.php/cod.listapacientes>{#texto4#}</a></li>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

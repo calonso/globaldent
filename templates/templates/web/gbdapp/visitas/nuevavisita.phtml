@@ -1,0 +1,18 @@
+{config_load file=$lang_file section="visitas"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto12#}</span>
+    {if $codigo > 0}
+      <p>{#texto21#}</p>
+      <p>{#texto22#}<a href={$req_base}index.php/cod.vervisita/id.{$paciente.id_paciente}/vis.{$codigo}>{#texto23#}</a>{#texto24#}</p>
+    {else}
+      <p>{#texto25#}</p>
+    {/if}
+  </div>
+
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

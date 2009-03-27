@@ -1,0 +1,31 @@
+{config_load file=$lang_file section="tesis"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+{if $codigo == 1}
+  <div class="col_central">
+    <span class="intro">{$tesis.titulo}</span>
+    <fieldset><legend>{#datos#}</legend>
+    <p>
+      {#titulo#}{$tesis.titulo}<br />
+      {#autor#}{$tesis.autor}<br />
+      {#directores#}{$tesis.directores}<br />
+      {#publicada#}{$tesis.usuario} {#cuando#}{$tesis.fecha}
+    </p><br /><br /><br />
+    </fieldset>
+    <object data={$req_base}file.php/tesis/{$tesis.id_tesis}.pdf type="application/pdf" width="100%" height="1000px">para abrir click aqui:
+      <a href={$req_base}file.php/tesis/{$tesis.id_tesis}.pdf>Tesis</a>
+    </object>
+  </div>
+  {include file=$tpl_path_base|cat:"common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.publi>{#volverpubli#}</a></li>
+    <li><a href={$req_base}index.php/cod.listatesis>{#volvertesis#}</a></li>
+    <li><a href={$req_base}index.php/cod.colgartesis>{#colgartesis#}</a></li>
+  {include file=$tpl_path_base|cat:"common/recuadro_footer.phtml"}
+{else}
+  {#notesis#}
+{/if}
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

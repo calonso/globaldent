@@ -1,0 +1,26 @@
+{config_load file=$lang_file section="conf"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_central">
+      <span class="intro">{#texto78#}</span>
+      {if is_array($datos)}
+      <p>{#texto79#}</p>
+      <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.modtipocons/id.{$datos.id_tipo_consentimiento}>
+        <p>{#texto68#}<input type="text" name="txtNombre" value="{$datos.nombre}"/></p><br />
+        <p>{#texto69#}</p><textarea name="txtTexto" cols="80" rows="100">{$datos.texto_incluido}</textarea><br />
+        <input type="submit" value={#aceptar#} />
+        <input type="reset" value={#borrar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.tipocons'">
+      </form>
+      {else}
+        <p>{#texto80#}</p>
+      {/if}
+    </div>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+      <li><a href={$req_base}index.php/cod.tipocons>{#volver#}</a></li>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

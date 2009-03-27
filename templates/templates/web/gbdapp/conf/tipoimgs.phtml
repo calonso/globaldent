@@ -1,0 +1,35 @@
+{config_load file=$lang_file section="conf"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_central">
+      <span class="intro">{#texto22#}</span>
+      <p>{#texto23#}</p>
+      {if is_array($datos)}
+        <div class="tablabusqueda">
+          <div class="lineabusqueda">
+            <div class="primera">{#texto5#}</div>
+            <div class="tratamiento">{#texto14#}</div>
+            <div class="indentar">&nbsp;</div>
+          </div>
+        {foreach from=$datos item=tipo}
+          <div class="lineabusqueda">
+            <div class="lineaopts">
+              <a href={$req_base}index.php/cod.borratipo/id.{$tipo.id_tipo_imagen}><img src={$img_path_base}icoborrar.ico alt="{#borrar#}" width="16" height="16" title="{#borrar#}" /></a>
+            </div>
+            <div class="primera">{$tipo.nombre}</div>
+            <div class="tratamiento">{$tipo.descripcion}</div>
+          </div>
+        {/foreach}
+        </div>
+      {else}
+        <p>{#texto25#}</p>
+      {/if}
+    </div>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.nuevotipoimg>{#texto24#}</a></li>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

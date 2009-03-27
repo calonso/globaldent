@@ -1,0 +1,112 @@
+{config_load file=$lang_file section="personal"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript" src="{$req_base}js/fckeditor/fckeditor.js"></script>
+<script type="text/javascript">
+{literal}
+function FCKeditor_OnComplete( editorInstance )
+{
+	editorInstance.Events.AttachEvent( 'OnBlur'	, FCKeditor_OnBlur ) ;
+	editorInstance.Events.AttachEvent( 'OnFocus', FCKeditor_OnFocus ) ;
+}
+
+function FCKeditor_OnBlur( editorInstance )
+{
+	editorInstance.ToolbarSet.Collapse() ;
+}
+
+function FCKeditor_OnFocus( editorInstance )
+{
+	editorInstance.ToolbarSet.Expand() ;
+}
+
+function verificar()
+{
+  var pass = document.formulario.txtPass.value;
+  var login = document.formulario.txtLogin.value;
+  
+  if(login.length == 0){
+    alert ("Introduzca un login");
+  }else{
+    if(pass.length == 0)
+    {
+      alert("Introduzca contraseña.")
+    }else{
+      var conf = document.formulario.txtPass2.value;
+      if(pass == conf) {
+        document.formulario.submit();
+      }else {
+        alert("Las contraseñas introducidas son distintas.");
+      }
+    }
+  }
+  
+}
+{/literal}
+	</script>
+
+  <div class="contenidos">
+    <div class="col_izq">
+      <span class="intro">{#texto5#}</span>
+      <p>{#texto6#}</p>
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto7#}</span>
+      <p>{#texto8#}</p>
+      <form name="formulario" enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.altaempleado">
+        <fieldset><legend>{#texto9#}</legend>
+          <p>{#texto10#}</p><input type="text" name="txtNombre" ><br />
+          <p>{#texto11#}</p><input type="text" name="txtApe" ><br />
+          <p>{#texto12#}</p><input type="text" name="txtApe2" ><br />
+          <p>{#texto13#}</p><input type="text" name="txtDNI" ><br />
+          <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
+          <p>{#texto14#}</p><input type="file" name="fileFoto"><br />  
+        </fieldset>
+        <fieldset><legend>{#texto66#}</legend>
+          <p>{#texto67#}</p><input type="text" name="txtLogin" ><br />
+          <p>{#texto68#}</p><input type="password" name="txtPass" ><br />
+          <p>{#texto69#}</p><input type="password" name="txtPass2" ><br />
+        </fieldset>
+        <fieldset><legend>{#texto92#}</legend>
+          <p>{#texto93#}</p><input type="radio" name="RPrivilegios" value="Empleado" checked="checked"><br />
+          <p>{#texto94#}</p><input type="radio" name="RPrivilegios" value="SubAdmin"><br />
+          <p>{#texto95#}</p><input type="radio" name="RPrivilegios" value="Admin"><br />
+        </fieldset>
+        <fieldset><legend>{#texto15#}</legend>
+          <p>{#texto16#}</p><input type="text" name="txtDir" ><br />
+          <p>{#texto17#}</p><input type="text" name="txtCP" ><br />
+          <p>{#texto18#}</p><input type="text" name="txtCiudad" ><br />
+          <p>{#texto19#}</p>
+            {if isset($provincias)}
+              <select name="selProv">
+                <option label={#texto20#} value=0>{#texto20#}</option>
+                {html_options options=$provincias selected=0}
+              </select>
+            {else}
+              <p>{#texto21#}</p>
+            {/if}<br />
+          <p>{#texto22#}</p><input type="text" name="txtTelfijo" ><br />
+          <p>{#texto23#}</p><input type="text" name="txtMovil" ><br />
+          <p>{#texto24#}</p><input type="text" name="txtEmail" ><br />
+        </fieldset>
+        <fieldset><legend>{#texto25#}</legend>
+          <p>{#texto26#}</p><input type="text" name="txtNumcol" ><br />
+          <p>{#texto27#}</p><input type="text" name="txtEspecialidad" ><br />
+          <p>{#texto28#}</p>
+          <script type="text/javascript">
+            var oFCKeditor = new FCKeditor('txtCV','100%','200','MyToolbar');
+            oFCKeditor.BasePath = "{$req_base}js/fckeditor/";
+            oFCKeditor.Config['ToolbarStartExpanded'] = false ;
+            oFCKeditor.Create();
+          </script><br />
+        </fieldset>
+        <input type="button" value={#aceptar#} onclick="verificar()"/>
+        <input type="reset" value={#borrar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.personal'" />
+      </form>
+  </div>
+  
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

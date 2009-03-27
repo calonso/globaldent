@@ -1,0 +1,30 @@
+{config_load file=$lang_file section="usuarios"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+
+  {if $codigo == 1}
+    <div class="col_central">
+      <span class="intro">{#texto15#}</span>
+      <fieldset><legend>{#datosp#}</legend>
+      <p>{#nombre#} {$datos.nombre}</p><br />
+      <p>{#apellidos#} {$datos.apellido} {$datos.apellido2}</p><br />
+      </fieldset>
+      <fieldset><legend>{#datosc#}</legend>
+      <p>{#telefono#} {$datos.telefono}</p><br />
+      <p>{#email#} {$datos.email}</p><br />
+      </fieldset>
+    </div>
+    {include file=$tpl_path_base|cat:"common/recuadro_header.phtml"}
+      <li><a href={$req_base}index.php/cod.borrar/id.{$datos.id_usuario}>{#texto26#}</a></li>
+      <li><a href={$req_base}index.php/cod.modificarpassadmin/id.{$datos.id_usuario}>{#texto27#}</a></li>
+    {include file=$tpl_path_base|cat:"common/recuadro_footer.phtml"}
+  {else}
+    <span class="intro">{#error#}</span>
+    <p>{#fichaerror#}</p>
+  {/if}
+    
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

@@ -1,0 +1,21 @@
+{config_load file=$lang_file section="publicaciones"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+{if $codigo == -2}
+  <span class="intro">{#error#}</span>
+  <p>{#noarchivo#}</p>
+{elseif $codigo == -3}
+  <span class="intro">{#error#}</span>
+  <p>{#archivoinvalido#}</p>
+{elseif $codigo <= 0}
+  <span class="intro">{#error#}</span>
+  <p>{#guardarerror#}</p>
+{else}
+  <span class="intro">{#intronueva#}</span>
+  <p>{#ok#}</p>
+{/if}
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

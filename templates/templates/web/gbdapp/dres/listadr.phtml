@@ -1,0 +1,48 @@
+{config_load file=$lang_file section="dres"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto40#}</span>
+    <p>{#texto41#}</p>
+    <div class="letras">
+      <ul>
+        {foreach from=$todas item=letra}
+          {assign var=encontrada value=0}
+          {foreach from=$letras item=valida}
+            {if $valida|upper == $letra}
+              <li><a href={$req_base}index.php/cod.listadr/let.{$letra}>{$letra}</a></li>
+              {assign var=encontrada value=1}
+            {/if}
+          {/foreach}
+          {if $encontrada == 0}
+            <li>{$letra}</li>
+          {/if}
+        {/foreach}
+      </ul>
+    </div>
+    {if $codigo != 0}
+    <div class="tablabusqueda">
+      {foreach from=$datos item=doctor}
+        <div class="lineabusqueda">
+          <div class="lineaopts">
+            <a href={$req_base}index.php/cod.verdr/id.{$doctor.id_dr_externo}><img src={$img_path_base}icover.ico alt="{#ver#}" title="{#ver#}" /></a>
+            <a href={$req_base}index.php/cod.moddr/id.{$doctor.id_dr_externo}><img src={$img_path_base}icoedit.png alt="{#modificar#}" title="{#modificar#}" /></a>
+            <a href={$req_base}index.php/cod.borrardr/id.{$doctor.id_dr_externo}><img src={$img_path_base}icoborrar.ico alt="{#borrar#}" title="{#borrar#}" height="16" width="16"/></a>
+          </div>
+          <a href={$req_base}index.php/cod.verdr/id.{$doctor.id_dr_externo}>{$doctor.apellido} {$doctor.apellido2}, {$doctor.nombre}</a>
+        </div> 
+      {/foreach}
+    </div>
+    {else}
+      <p>{#texto42#}</p>
+    {/if}
+  </div>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.nuevodr>{#texto2#}</a></li>
+      <li><a href={$req_base}index.php/cod.buscadr>{#texto31#}</a></li>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

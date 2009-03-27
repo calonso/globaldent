@@ -1,0 +1,75 @@
+{config_load file=$lang_file section="personal"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_central">
+      <span class="intro">{#texto34#}</span>
+      <p>{#texto35#}</p>
+      {if isset($datos)}
+        <fieldset><legend>{#texto9#}</legend>
+          {if $datos.extension|count_characters > 0}
+          <div class="fotopers">
+            <object data="{$req_base}file.php/fotoemp/{$datos.id_personal}/{$datos.extension}" type="image/{$datos.extension}" width="160px" height="160px">para abrir click aqui:
+              <a href="{$req_base}file.php/fotoemp/{$datos.id_personal}/{$datos.extension}">foto</a>
+            </object>
+          </div>
+          {else}
+          <div class="fotopers">
+            <img src={$img_path_base}foto.jpg width="60" height="60">
+          </div>
+          {/if}
+          <p>{#texto10#}{$datos.nombre}</p><br />
+          <p>{#texto11#}{$datos.apellido}</p><br />
+          <p>{#texto12#}{$datos.apellido2}</p><br />
+          <p>{#texto13#}{$datos.dni}</p><br />  
+        </fieldset>
+        <fieldset><legend>{#texto15#}</legend>
+          <p>{#texto16#}{$datos.direccion}</p><br />
+          <p>{#texto17#}{$datos.cp}</p><br />
+          <p>{#texto18#}{$datos.ciudad}</p><br />
+          <p>{#texto19#}{$datos.provincia}</p><br />
+          <p>{#texto22#}{$datos.telefono}</p><br />
+          <p>{#texto23#}{$datos.movil}</p><br />
+          <p>{#texto24#}{$datos.email}</p><br />
+        </fieldset>
+        <fieldset><legend>{#texto92#}</legend>
+          <p>{#texto67#}{$datos.login}</p><br />
+          <p>{#texto92#}:
+          {if $datos.privilegios == 4}
+            {#texto95#}</p>
+          {elseif $datos.privilegios == 5}
+            {#texto94#}</p>
+          {elseif $datos.privilegios == 6}
+            {#texto93#}</p>
+          {else}
+            {#texto96#}</p>
+          {/if}
+        </fieldset>
+        <fieldset><legend>{#texto25#}</legend>
+          <p>{#texto26#}{$datos.num_colegiado}</p><br />
+          <p>{#texto27#}{$datos.especialidad}</p><br />
+          <p>{#texto28#}</p><br /><div class="texto">{$datos.curriculum}</div><br />
+        </fieldset>
+      {else}
+        {#texto36#}
+      {/if}
+  </div>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+    {if isset($datos)}
+      <li><a href={$req_base}index.php/cod.actividademp/id.{$datos.id_personal}>{#texto58#}</a></li>
+      {if $puedoModificar == 1}
+        <li><a href={$req_base}index.php/cod.modemp/id.{$datos.id_personal}>{#texto37#}</a></li>
+        <li><a href={$req_base}index.php/cod.verModPassEmp/id.{$datos.id_personal}>{#texto82#}</a></li>
+      {/if}
+      <li><a href={$req_base}index.php/cod.borraemp/id.{$datos.id_personal}>{#texto38#}</a></li>
+    {/if}
+    {if $privilegios == 4}
+      <li><a href={$req_base}index.php/cod.nuevoempleado>{#texto2#}</a></li>
+    {/if}
+    <li><a href={$req_base}index.php/cod.buscaempleados>{#texto3#}</a></li>
+    <li><a href={$req_base}index.php/cod.listaempleados>{#texto4#}</a></li>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

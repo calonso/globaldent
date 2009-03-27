@@ -1,0 +1,18 @@
+{config_load file=$lang_file section="recetas"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_central">
+    {if $codigo > 0}
+      <p>{#texto30#}</p>
+      <p>{#texto33#}<a href={$req_base}index.php/cod.verreceta/id.{$paciente.id_paciente}/vis.{$visita.id_visita}/r.{$codigo}>{#texto34#}</a>{#texto35#}</p>
+      <input type="button" value="{#texto31#}" onclick="window.open('{$req_base}index.php/cod.verreceta/id.{$paciente.id_paciente}/vis.{$visita.id_visita}/r.{$codigo}/imp.1')">
+    {else}
+      <p>{#texto32#}</p>
+    {/if}
+      <p><a href={$req_base}index.php/cod.vervisita/id.{$paciente.id_paciente}/vis.{$visita.id_visita}>{#volver#}</a></p>
+  </div>
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

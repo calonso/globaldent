@@ -1,0 +1,44 @@
+{config_load file=$lang_file section="dres"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_izq">
+      <span class="intro">{#texto24#}</span>
+      <p>{#texto25#}</p>
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto26#}</span>
+      <p>{#texto27#}</p>
+      <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.busquedadr">
+        <fieldset><legend>{#texto9#}</legend>
+          <p>{#nombre#}</p><input type="text" name="txtNombre"><br />
+          <p>{#apellido#}</p><input type="text" name="txtApe"><br />
+          <p>{#apellido2#}</p><input type="text" name="txtApe2"><br />
+          <p>{#dni#}</p><input type="text" name="txtDNI"><br />
+          <p>{#fechanac#}</p><input type="text" name="txtFechanac"><br />
+        </fieldset>
+        <fieldset><legend>{#texto10#}</legend>
+          <p>{#direccion#}</p><input type="text" name="txtDir"><br />
+          <p>{#cp#}</p><input type="text" name="txtCP"><br />
+          <p>{#ciudad#}</p><input type="text" name="txtCiudad"><br />
+          <p>{#provincia#}</p><select name="selProv">
+            <option label="{#texto11#}" value="0">{#texto11#}</option>
+            {html_options options=$provincias selected=0}
+            </select><br />
+          <p>{#telcli#}</p><input type="text" name="txtTelcli"><br />
+          <p>{#movil#}</p><input type="text" name="txtMovil"><br />
+          <p>{#telcasa#}</p><input type="text" name="txtTelcasa"><br /> 
+          <p>{#email#}</p><input type="text" name="txtEmail"><br />
+          <p>{#fax#}</p><input type="text" name="txtFax"><br />  
+        </fieldset>
+        <fieldset><legend>{#texto12#}</legend>
+          <p>{#especialidad#}</p><input type="text" name="txtEspecialidad"><br />
+        </fieldset>
+        <input type="submit" value={#aceptar#} />
+        <input type="reset" value={#borrar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.dres'" />
+      </form>
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

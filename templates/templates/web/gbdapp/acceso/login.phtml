@@ -1,0 +1,26 @@
+{config_load file=$lang_file section="gbdapp"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+  <div class="contenedor">
+		<div class="col_izq">
+			<p>{#texto1#}</p>
+			<p>{#texto2#}</p>
+			<a href={$req_base}index.php/cod.registroapp><img src="{$img_path_base}btn_registroapp.jpg" alt="boton de registro" /></a>
+			<br /><br /><br />
+		</div>
+		<div class="col_central">
+			<span class="intro">{#texto3#}</span>
+			<form enctype="multipart/form-data" method="post" action="{$req_base}index.php/cod.accesoapp">
+				<fieldset><legend>{#texto4#}</legend>
+				{#login#} <input type="text"  name="txtLogin"/><br />
+				{#pass#} <input type="password" name="txtPass"/><br />
+				</fieldset>
+				<input type="submit" value={#aceptar#} />
+				<input type="reset" value={#borrar#} />
+				<input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.gestion'"/>
+			</form>
+		</div>
+	</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

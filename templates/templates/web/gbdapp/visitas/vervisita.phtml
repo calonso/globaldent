@@ -1,0 +1,82 @@
+{config_load file=$lang_file section="visitas"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto32#}</span>
+    {if is_array($datos)}
+    {include file=$tpl_path_base|cat:"gbdapp/visitas/pac_info.phtml"}
+    <p>{#texto33#}</p>
+      <fieldset><legend>{#texto14#}</legend>
+        <p>{#texto15#}{$datos.fecha}</p><br />
+        <p>{#texto16#}{$datos.asiento}</p><br />
+        <p>{#texto17#}</p><div class="texto">{$datos.motivo}</div><br />
+        <p>{#texto18#}</p><div class="texto">{$datos.diagnostico}</div><br />
+        <p>{#texto19#}</p>
+        <table border="0" width="90%">
+          <tr>
+            <th colspan="2">{#texto66#}</th>
+            <th>{#texto67#}</th>
+            <th>{#texto68#}</th>
+            <th>&nbsp;</th>
+          </tr>
+          <tr>
+            <th colspan="4" class="lineahor">&nbsp;</th>
+          </tr>
+        {counter assign=numlinea start=1 skip=1}
+        {if is_array($lineas)}
+          {foreach from=$lineas key=llave item=linea}
+            <tr>
+              <td colspan="2">{$numlinea}.&nbsp;{$linea.servicio|default:#texto57#}</td>
+              <td align="center">{$linea.cantidad}</td>
+              <td align="center">{$linea.total} €.</td>
+            </tr>
+          {counter}
+          {/foreach}
+        {/if}
+        <tr>
+          <td colspan="4" class="lineahor">&nbsp;</td>
+        </tr>
+        <tr>
+          <th colspan="3" align="center">{#texto68#}</th>
+          <th>{$datos.precio} €.</th>
+          <th>&nbsp;</th>
+        </tr>
+      </table>
+        <p>{#texto20#}</p>
+          <div class="texto">{$datos.observaciones}</div><br />
+      </fieldset>
+      <fieldset><legend>{#texto46#}</legend>
+        <p>{#texto47#}
+          {if is_array($datos.asistentes)}
+            {foreach from=$datos.asistentes item=asist}
+              <a href={$req_base}index.php/cod.verpers/id.{$asist.id_personal}>{$asist.nombre}</a>
+            {/foreach}
+          {else}
+            {#texto56#}
+          {/if}</p><br />
+        <p>{#texto51#}
+          {if is_array($datos.colaboradores)}
+            {foreach from=$datos.colaboradores item=colab}
+              <a href={$req_base}index.php/cod.verdr/id.{$colab.id_dr}>{$colab.nombre}</a>
+            {/foreach}
+          {else}
+            {#texto56#}
+          {/if}</p><br />
+      </fieldset>
+    {else}
+      <p>{#texto34#}</p>
+    {/if}
+  </div>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+    {if is_array($datos)}
+    <li><a href={$req_base}index.php/cod.modvisita/id.{$paciente.id_paciente}/vis.{$datos.id_visita}>{#texto35#}</a></li>
+    <li><a href={$req_base}index.php/cod.borravisita/id.{$paciente.id_paciente}/vis.{$datos.id_visita}>{#texto36#}</a></li>
+    <li><a href={$req_base}index.php/cod.receta/id.{$paciente.id_paciente}/vis.{$datos.id_visita}>{#texto59#}</a></li>
+    {/if}
+    <li><a href={$req_base}index.php/cod.historia/id.{$paciente.id_paciente}>{#texto37#}</a></li>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

@@ -1,0 +1,13 @@
+{config_load file=$lang_file section="pacientes"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    {if $codigo == 0}
+      <p>{#texto56#}</p>
+    {else}
+      <p>{#texto57#}</p>
+    {/if}
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

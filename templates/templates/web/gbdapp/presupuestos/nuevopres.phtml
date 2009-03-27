@@ -1,0 +1,154 @@
+{config_load file=$lang_file section="presupuestos"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript">
+{literal}
+<!--
+function borrar(num)
+{
+  var x = document.getElementById ("formulario");
+  {/literal}
+    x.action = "{$req_base}index.php/cod.borralineap/id.{$paciente.id_paciente}/num." + num;
+  {literal}
+  x.submit();
+}
+function linea()
+{
+  var x = document.getElementById ("formulario");
+  {/literal}
+    x.action = "{$req_base}index.php/cod.nuevalineap/id.{$paciente.id_paciente}";
+  {literal}
+  x.submit();
+}
+function servicio()
+{
+  var x = document.getElementsByName ("txtUnitario");
+  var y = document.getElementsByName ("selServicio");
+  var txt = y[0].options[y[0].selectedIndex].text;
+  var primero = txt.lastIndexOf ("-");
+  primero += 2;
+  var ultimo = txt.lastIndexOf ("€");
+  var cadena = txt.slice (primero, ultimo);
+  x[0].value= cadena ;  
+}
+function firmar()
+{
+    document.Sign.setSignThickness(2);
+    {/literal}
+    var nombre = "{$paciente.apellido}" + " " + "{$paciente.apellido2}" + ", " + "{$paciente.nombre}";
+	document.Sign.signNowEx({$paciente.id_paciente},nombre,"none","none","{$paciente.direccion}","{$paciente.dni}",true);
+	{literal}
+	if(document.Sign.isSigned()){
+		var info = document.getElementsByName ("txtSignData");
+		info[0].value = document.Sign.getString();
+	}
+}
+-->
+{/literal}
+</script>
+
+<div class="contenidos">
+  <div class="col_izq">
+    <span class="intro">{#texto5#}</span>
+    <p>{#texto6#}</p>
+  </div>
+  <div class="col_central">
+    <span class="intro">{#texto7#}</span>
+    <form id="formulario" enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.guardapres/id.{$paciente.id_paciente}>
+    {include file=$tpl_path_base|cat:"gbdapp/presupuestos/cabecera.phtml"}
+    <table border="0" width="100%">
+      <tr>
+        <th colspan="3">{#texto13#}</th>
+        <th colspan="3">&nbsp;</th>
+      </tr>
+      <tr>
+        <td colspan="6">&nbsp;</td>
+      </tr>
+      <tr>
+        <th colspan="2">{#texto14#}</th>
+        <th>{#texto56#}</th>
+        <th>{#texto15#}</th>
+        <th>{#texto16#}</th>
+        
+        <th>&nbsp;</th>
+      </tr>
+      <tr>
+        <td colspan="6" class="lineahor">&nbsp;</td>
+      </tr>
+      {counter assign=numlinea start=1 skip=1}
+      {assign var=total value=0}
+        {if is_array($datos)}
+          {foreach from=$datos key=llave item=linea}
+            <tr>
+              <td colspan="2">{$numlinea}.&nbsp;{$linea.servicio|default:#texto20#}</td>
+              <td>{$linea.unitario}</p>
+              <td align="center">{$linea.cantidad}</td>
+              <td align="right">{$linea.total} €.</td>
+              <td><input type="button" value="{#borrar#}" onclick="borrar({$llave})">
+            </tr>
+          {counter}
+          {math equation="x + y" x=$total y=$linea.total assign=total}
+          {/foreach}
+        {/if}
+      <tr>
+        <td colspan="2">{$numlinea}.&nbsp;
+          {if is_array($servicios)}
+            <select name="selServicio" onchange="servicio()">
+              <option label="{#texto17#}" value=0>{#texto17#}</option>
+              {html_options options=$servicios selected=0}
+            </select>
+          {else}
+            {#texto18#}
+            <a href={$req_base}index.php/cod.servicios>{#texto19#}</a>
+          {/if}
+        </td>
+        <td><input type="text" name="txtUnitario" /></td>
+        <td><input type="text" name="txtCuantos" value="1" /></td>
+        <td><input type="button" value="{#aceptar#}" onclick="linea()"/></td>
+      </tr>
+      <tr>
+        <td colspan="5" class="lineahor">&nbsp;</td>
+      </tr>
+      <tr>
+        <th colspan="3">{#texto16#}</th>
+        <th>{$total} €.</th>
+        <th>&nbsp;</th>
+      </tr>
+    </table>
+    <b>{#texto21#}</b><p>{#texto22#} <input type="text" name="txtValidez" value="{$presup.validez|default:6}" />{#texto36#}</p>
+    <ol>
+      <li>{#texto23#}</li>
+      <li>{#texto24#}</li>
+    </ol>
+    <b>{#texto25#}</b><p>{#texto26#}</p>
+    <ol>
+      <li>{#texto27#}</li>
+      <li>{#texto28#}</li>
+    </ol>
+    <b>{#texto29#}</b><p>{#texto30#}</p>
+    <p><b>{#texto31#}</b><input type="text" name="txtDuracion" value="{$presup.duracion|default:30}" />{#texto37#}</p>
+    <p>{#texto33#}</p>
+    <div class="firmas">
+    <APPLET code="integrisign.webclient.WebSign" width=125 height=65 name="Sign" codebase="{$req_base}lib/" archive="websignsunjvm.jar" MAYSCRIPT>
+	  <PARAM NAME="borderstyle" VALUE="1" >
+	  <PARAM NAME="scriptable" VALUE="true" >
+	  <PARAM NAME="cache_option" VALUE="Plugin" >
+	  <PARAM NAME="cache_archive" VALUE="websignsunjvm.jar" >
+	  <PARAM NAME="cache_version" VALUE="7.5.0.3" >
+	  No va
+	</APPLET>
+      <input type="button" value="{#texto63#}" onclick="firmar()"/>
+      <br />
+      <p>{#texto34#}</p>
+      <p>{#texto35#}</p>
+    </div>   
+    	<input type="hidden" name="txtSignData" />
+      <input type="hidden" name="txtTotal" value="{$total}" />
+      <input type="submit" value="{#texto38#}" />
+      <input type="button" value="{#cancelar#}" onclick="document.location='{$req_base}index.php/cod.presupuestos/id.{$paciente.id_paciente}'">
+    </form>
+  </div>
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

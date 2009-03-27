@@ -1,0 +1,16 @@
+{config_load file=$lang_file section="visitas"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_central">
+    {if $codigo > 0}
+      <p>{#texto41#}</p>
+    {else}
+      <p>{#texto42#}</p>
+    {/if}
+  </div>
+
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

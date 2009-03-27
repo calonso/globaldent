@@ -1,0 +1,55 @@
+{config_load file=$lang_file section="personal"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+{literal}
+<script type="text/javascript">
+  function verificar()
+  {
+    var pass = document.formulario.txtPass.value;
+    var conf = document.formulario.txtPass2.value;
+
+    if(pass == conf && pass.length != 0) {
+      document.formulario.submit();
+    }else {
+      alert("Las contraseñas introducidas son distintas o esta vacia.");
+      document.formulario.reset();
+    }
+    
+  }
+</script>
+{/literal}
+
+  <div class="contenidos">
+    <div class="col_izq">
+      <p>{#texto83#}</p>
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto84#}</span>
+      {if isset($id)}
+      <form name="formulario" enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.actualizaPassEmp/id.{$id}>
+        {if $privilegios == 4}
+          <fieldset><legend>{#texto92#}</legend>
+            <p>{#texto93#}</p><input type="radio" name="RPrivilegios" value="Empleado" checked="checked"><br />
+            <p>{#texto94#}</p><input type="radio" name="RPrivilegios" value="SubAdmin"><br />
+            <p>{#texto95#}</p><input type="radio" name="RPrivilegios" value="Admin"><br />
+          </fieldset>
+          <fieldset><legend>{#texto67#}</legend>
+        {else}
+          <fieldset><legend>{#texto67#}</legend>
+          <p>{#texto85#}<input type="password" name="txtAnt" /></p><br />
+        {/if}
+        <p>{#texto86#}<input type="password" name="txtPass" /></p><br />
+        <p>{#texto87#}<input type="password" name="txtPass2" /></p>
+        </fieldset>
+        <input type="button" value={#aceptar#} onclick="verificar()"/>
+        <input type="reset" value={#borrar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.personal'">
+      </form>
+      {else}
+        <p>{#texto88#}</p>
+      {/if}  
+    </div>
+
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

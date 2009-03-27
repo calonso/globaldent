@@ -1,0 +1,13 @@
+{config_load file=$lang_file section="agenda"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  {if $codigo == 1}
+    {#texto10#}
+  {else}
+    {#texto11#}
+  {/if}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

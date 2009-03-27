@@ -1,0 +1,15 @@
+{config_load file=$lang_file section="presupuestos"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <span class="intro">{#texto5#}</span>
+  {if $codigo > 0}
+    <p>{#texto39#}</p>
+    <p>{#texto42#}<a href={$req_base}index.php/cod.verpres/id.{$paciente.id_paciente}/pres.{$codigo}>{#texto43#}</a>{#texto44#}</p>
+  {else}
+    <p>{#texto41#}</p>
+  {/if}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

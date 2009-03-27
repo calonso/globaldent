@@ -1,0 +1,126 @@
+{config_load file=$lang_file section="publicaciones"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  <div class="col_central">
+    <span class="intro">{#intro#}</span>
+    <fieldset><legend>{#tesis#}</legend>
+      {if $num_tesis > 0}
+        <div class="tablapubli">
+        {foreach from=$tesis item=elemento}
+          <div class="lineapubli">
+            <p class="publicacion">
+              <span><a href={$req_base}index.php/cod.vertesis/id.{$elemento.id_tesis}>{$elemento.titulo}</a></span>
+              {#escrita#}{$elemento.autor}
+            </p>
+            <p class="publiusu">
+              {#publicada#}{$elemento.usuario}<br />
+              {#cuando#}{$elemento.fecha}
+            </p>
+          </div>
+        {/foreach}
+          <div class="lineapubli">
+            <p class="opcionespubli">
+              <a href={$req_base}index.php/cod.listatesis>{#vertodas#}</a>
+            </p>
+          </div>
+        </div>
+      {else}
+        <p>{#notesis#}</p>
+      {/if}
+    </fieldset>
+    <fieldset><legend>{#libros#}</legend>
+      {if $num_libros > 0}
+        <div class="tablapubli">
+        {foreach from=$libros item=elemento}
+          <div class="lineapubli">
+            <p class="publicacion">
+              <span><a href={$req_base}index.php/cod.verlibro/id.{$elemento.id_libro}>{$elemento.titulo}</a></span>
+              {#escrito#}{$elemento.autor}
+            </p>
+            <p class="publiusu">
+              {#publicado#}{$elemento.usuario}<br />
+              {#cuando#}{$elemento.fecha}
+            </p>
+          </div>
+        {/foreach}
+          <div class="lineapubli">
+            <p class="opcionespubli">
+              <a href={$req_base}index.php/cod.listalibros>{#vertodos#}</a>
+            </p>
+          </div>
+        </div>
+      {else}
+        <p>{#nolibros#}</p>
+      {/if}
+    </fieldset>
+    <fieldset><legend>{#casos#}</legend>
+      {if $num_casos > 0}
+        <div class="tablapubli">
+        {foreach from=$casos item=elemento}
+          <div class="lineapubli">
+            <p class="publicacion">
+              <span><a href={$req_base}index.php/cod.vercaso/id.{$elemento.id_caso}>{$elemento.titulo}</a></span>
+              {#escrito#}{$elemento.autor}
+            </p>
+            <p class="publiusu">
+              {#publicado#}{$elemento.usuario}<br />
+              {#cuando#}{$elemento.fecha}
+            </p>
+          </div>
+        {/foreach}
+          <div class="lineapubli">
+            <p class="opcionespubli">
+              <a href={$req_base}index.php/cod.listacasos>{#vertodos#}</a>
+            </p>
+          </div>
+        </div>
+      {else}
+        <p>{#nocasos#}</p>
+      {/if}
+    </fieldset>
+    <fieldset><legend>{#articulos#}</legend>
+      {if $num_articulos > 0}
+        <div class="tablapubli">
+        {foreach from=$articulos item=elemento}
+          <div class="lineapubli">
+            <p class="publicacion">
+              <span><a href={$req_base}index.php/cod.verarticulo/id.{$elemento.id_articulo}>{$elemento.titulo}</a></span>
+              {#escrito#}{$elemento.autor}
+            </p>
+            <p class="publiusu">
+              {#publicado#}{$elemento.usuario}<br />
+              {#cuando#}{$elemento.fecha}
+            </p>
+          </div>
+        {/foreach}
+          <div class="lineapubli">
+            <p class="opcionespubli">
+              <a href={$req_base}index.php/cod.listaarticulos>{#vertodos#}</a>
+            </p>
+          </div>
+        </div>
+      {else}
+        <p>{#noarticulos#}</p>
+      {/if}
+    </fieldset>
+  </div>
+  
+  {include file=$tpl_path_base|cat:"common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.colgartesis>{#colgartesis#}</a></li>
+    <li><a href={$req_base}index.php/cod.colgarlibro>{#colgarlibro#}</a></li>
+    <li><a href={$req_base}index.php/cod.colgarcaso>{#colgarcaso#}</a></li>
+    <li><a href={$req_base}index.php/cod.colgararticulo>{#colgararticulo#}</a></li>
+    <li>
+      <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.buscarpubli>
+        <input type="text" name="txtBuscar">
+        <input type="submit" value={#buscar#}>
+      </form>
+    </li>
+    <li><a href={$req_base}index.php/cod.verpubli>{#verpubli#}</a></li>
+  {include file=$tpl_path_base|cat:"common/recuadro_footer.phtml"}
+  
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

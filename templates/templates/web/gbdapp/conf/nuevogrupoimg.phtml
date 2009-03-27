@@ -1,0 +1,25 @@
+{config_load file=$lang_file section="conf"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_izq">
+    <span class="intro">{#texto108#}</span>
+    <p>{#texto109#}</p>
+  </div>
+  <div class="col_central">
+    <span class="intro">{#texto110#}</span>
+    <p>{#texto111#}</p>
+      <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.altagrupoimg">
+      <fieldset><legend>{#texto112#}</legend>
+        <p>{#texto113#}</p><input type="text" name="txtNombre" /><br />
+      </fieldset>
+      <input type="submit" value={#aceptar#} />
+      <input type="reset" value={#borrar#} />
+      <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.grupoimgs'" />
+    </form>
+  </div>
+
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

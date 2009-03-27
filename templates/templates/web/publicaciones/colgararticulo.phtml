@@ -1,0 +1,35 @@
+{config_load file=$lang_file section="articulos"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  <div class="col_izq">
+			<p>{#texto2#}</p>
+			<br /><br /><br /><br /><br /><br />
+		</div>
+  <div class="col_central">
+    <span class="intro">{#intronuevo#}</span>
+    <p>{#texto1#}</p>
+    <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.nuevoarticulo">
+    <fieldset><legend>{#datos#}</legend>
+    {#titulo#} <input type="text" name="txtTitulo" /><br />
+    {#autor#} <input type="text" name="txtAutor" /><br />
+    {#numero#} <input type="text" name="txtNumero" /><br />
+    {#volumen#} <input type="text" name="txtVolumen" /><br />
+    {#paginas#} <input type="text" name="txtPaginas" /><br />
+    {#organizacion#} <input type="text" name="txtOrganizacion" /><br />
+    {#issn#} <input type="text" name="txtISSN" /><br />
+    {#mes#} <input type="text" name="txtMes" /><br />
+    {#annio#} <input type="text" name="txtAnnio" /><br />
+    {#tirada#} <input type="text" name="txtTirada" /><br />
+    <input type="hidden" name="MAX_FILE_SIZE" value="20000000" />
+    {#archivo#} <input type="file" name="fileArticulo"/><br />
+    </fieldset>
+    <input type="submit" value={#aceptar#} />
+    <input type="reset" value={#borrar#} />
+    <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.publi'"/>
+    </form>
+  </div>
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

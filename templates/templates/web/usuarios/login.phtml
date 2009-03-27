@@ -1,0 +1,26 @@
+{config_load file=$lang_file section="usuarios"}
+
+{include file=$tpl_path_base|cat:"/common/header.phtml"}
+
+  <div class="contenedor">
+		<div class="col_izq">
+			<p>{#texto9#}</p>
+			<p>{#texto10#}</p>
+			<a href={$req_base}index.php/cod.registro><img src="{$img_path_base}btn_registro.jpg" alt="boton de registro" /></a>
+			<br /><br /><br />
+		</div>
+		<div class="col_central">
+			<span class="intro">{#areausu#}</span>
+			<form enctype="multipart/form-data" method="post" action="{$req_base}index.php/cod.acceso">
+				<fieldset><legend>{#datosa#}</legend>
+				{#login#} <input type="text"  name="txtLogin"/><br />
+				{#pass#} <input type="password" name="txtPass"/><br />
+				</fieldset>
+				<input type="submit" value={#aceptar#} />
+				<input type="reset" value={#borrar#} />
+				<input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.usuarios'"/>
+			</form>
+		</div>
+	</div>
+
+{include file=$tpl_path_base|cat:"/common/footer.phtml"}

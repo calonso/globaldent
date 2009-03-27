@@ -1,0 +1,27 @@
+{config_load file=$lang_file section="foros"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  <div class="col_izq">
+    <p>{#texto7#}</p>
+  </div>
+  <div class="col_central">
+    <span class="intro">{#intronuevo#}</span>
+      <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.nuevomensaje/id.{$id}>
+        <fieldset><legend>{#datosm#}</legend>
+          <p>
+          {#titulo#}<input type="text" name="txtTitulo" value="{$cadena}"><br />
+          </p>
+          <div class="areatexto">
+            <label>{#texto#}</label><textarea name="txtTexto" rows="2" cols="40"></textarea>
+          </div>
+        </fieldset>
+        <input type="submit" value={#aceptar#}>
+        <input type="reset" value={#borrar#}>
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.foros'">
+      </form>
+  </div>
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

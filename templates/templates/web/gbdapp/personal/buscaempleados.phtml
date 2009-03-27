@@ -1,0 +1,50 @@
+{config_load file=$lang_file section="personal"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_izq">
+      <span class="intro">{#texto47#}</span>
+      <p>{#texto48#}</p>
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto49#}</span>
+      <p>{#texto50#}</p>
+      <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.busquedaempleados">
+        <fieldset><legend>{#texto9#}</legend>
+          <p>{#texto10#}</p><input type="text" name="txtNombre" ><br />
+          <p>{#texto11#}</p><input type="text" name="txtApe" ><br />
+          <p>{#texto12#}</p><input type="text" name="txtApe2" ><br />
+          <p>{#texto13#}</p><input type="text" name="txtDNI" ><br />  
+        </fieldset>
+        <fieldset><legend>{#texto15#}</legend>
+          <p>{#texto16#}</p><input type="text" name="txtDir" ><br />
+          <p>{#texto17#}</p><input type="text" name="txtCP" ><br />
+          <p>{#texto18#}</p><input type="text" name="txtCiudad" ><br />
+          <p>{#texto19#}</p>
+            {if isset($provincias)}
+              <select name="selProv">
+                <option label={#texto20#} value=0>{#texto20#}</option>
+                {html_options options=$provincias selected=0}
+              </select>
+            {else}
+              <p>{#texto21#}</p>
+            {/if}<br />
+          <p>{#texto22#}</p><input type="text" name="txtTelfijo" ><br />
+          <p>{#texto23#}</p><input type="text" name="txtMovil" ><br />
+          <p>{#texto24#}</p><input type="text" name="txtEmail" ><br />
+        </fieldset>
+        <fieldset><legend>{#texto25#}</legend>
+          <p>{#texto26#}</p><input type="text" name="txtNumcol" ><br />
+          <p>{#texto27#}</p><input type="text" name="txtEspecialidad" ><br />
+          <p>{#texto28#}</p><textarea name="txtCV"></textarea><br />
+        </fieldset>
+        <input type="submit" value={#aceptar#} />
+        <input type="reset" value={#borrar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.personal'" />
+      </form>
+  </div>
+  
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

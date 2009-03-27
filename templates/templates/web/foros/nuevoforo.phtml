@@ -1,0 +1,19 @@
+{config_load file=$lang_file section="foros"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  {if $codigo == -1}
+    <span class="intro">{#error#}</span>
+    <p>{#foroerror#}</p>
+  {elseif $codigo == 0}
+    <span class="intro">{#error#}</span>
+    <p>{#menserror#}</p>
+  {else}
+    <span class="intro">{#intronuevo#}</span>
+    <p>{#texto4#}</p>
+    <p>{#texto5#}</p>
+  {/if}
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

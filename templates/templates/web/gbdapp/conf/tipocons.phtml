@@ -1,0 +1,35 @@
+{config_load file=$lang_file section="conf"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_central">
+      <span class="intro">{#texto63#}</span>
+      {if is_array($datos)}
+        <p>{#texto58#}</p>
+        <div class="tablabusqueda">
+          <div class="lineainicial">
+            <div class="tratamiento">{#texto68#}</div>
+          </div>
+        {foreach from=$datos item=tipo}
+          <div class="lineabusqueda">
+            <div class="lineaopts">
+              <a href={$req_base}index.php/cod.vertipocons/id.{$tipo.id_tipo_consentimiento}><img src={$img_path_base}icoedit.png alt="{#modificar#}" title="{#modificar#}" /></a>
+              <a href={$req_base}index.php/cod.borratipocons/id.{$tipo.id_tipo_consentimiento}><img src={$img_path_base}icoborrar.ico alt="{#borrar#}" width="16" height="16" title="{#borrar#}" /></a>
+            </div>
+            <div class="tratamiento">{$tipo.nombre}</div>
+          </div>
+        {/foreach}
+        </div>
+      {else}
+        <p>{#texto59#}</p>
+        <a href={$req_base}index.php/cod.nuevotipocons>{#texto60#}</a>
+      {/if}
+    </div>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+      <li><a href={$req_base}index.php/cod.nuevotipocons>{#texto61#}</a></li>
+      <li><a href={$req_base}index.php/cod.conf>{#texto62#}</a></li>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

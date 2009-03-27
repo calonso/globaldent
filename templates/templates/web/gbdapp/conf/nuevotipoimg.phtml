@@ -1,0 +1,26 @@
+{config_load file=$lang_file section="conf"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_izq">
+    <span class="intro">{#texto26#}</span>
+    <p>{#texto27#}</p>
+  </div>
+  <div class="col_central">
+    <span class="intro">{#texto28#}</span>
+    <p>{#texto29#}</p>
+      <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.altatipoimg">
+      <fieldset><legend>{#texto30#}</legend>
+        <p>{#texto5#}</p><input type="text" name="txtNombre" /><br />
+        <p>{#texto14#}</p><textarea name="txtDescripcion"></textarea><br />
+      </fieldset>
+      <input type="submit" value={#aceptar#} />
+      <input type="reset" value={#borrar#} />
+      <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.tipoimgs'" />
+    </form>
+  </div>
+
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

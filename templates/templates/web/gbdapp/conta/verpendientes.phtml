@@ -1,0 +1,90 @@
+{config_load file=$lang_file section="conta"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript">
+{literal}
+<!--
+function pagar (idp)
+{
+  document.fpago.idpaciente.value = idp;
+  var x = document.getElementById (idp + "Tarj");
+  document.fpago.tarjeta.value = x.value;
+  x = document.getElementById (idp + "Met");
+  document.fpago.efectivo.value = x.value;
+  document.fpago.submit();
+}
+-->
+{/literal}
+</script>
+  <div class="contenidos">
+    <div class="col_central">
+      <span class="intro">{#texto15#}</span>
+      {if is_array($datos)}
+        <p>{#texto16#}</p>
+        {assign var=total_pend value=0}
+        {counter assign=total_vis start=0 skip=1}
+        <table cellspadding="0" cellspacing="2" border="0" width="98%">
+          <tr>
+            <th>{#texto7#}</th>
+            <th>{#texto6#}</th>
+            <th>{#texto10#}</th>
+          </tr>
+          <tr>
+            <td colspan="3" class="lineahor">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="3">&nbsp;</td>
+          </tr>
+        {foreach from=$datos item=paciente}
+          <tr>
+            <td><a href={$req_base}index.php/cod.verpac/id.{$paciente.id_paciente}>{$paciente.apellido} {$paciente.apellido2}, {$paciente.nombre}</a></td>
+            <td class="pendiente" align="center">{$paciente.saldo} €.</td>
+            {math equation="x + y" x=$paciente.saldo y=$total_pend assign=total_pend}
+            <td align="center"> 
+              <input type="text" id="{$paciente.id_paciente}Tarj" size="5" />
+              <input type="text" id="{$paciente.id_paciente}Met" size="5" /> 
+              <input type="button" value={#texto25#} onclick="pagar({$paciente.id_paciente})"/>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">&nbsp;</td>
+          </tr>
+          {counter}
+        {/foreach}
+          <tr>
+            <td colspan="3">&nbsp;</td>
+          </tr>
+          <tr>
+            <th colspan="3">{#texto18#}</th>
+          </tr>
+          <tr>
+            <td colspan="3" class="lineahor">&nbsp;</td>
+          </tr>
+          <tr>
+            <th>{#texto11#}</th>
+            <th colspan="2">{#texto13#}</th>
+          </tr>
+          <tr>
+            <td colspan="3">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="center">{$total_vis}</td>
+            <td class="pendiente" colspan="2" align="center">{$total_pend} €</td>
+          </tr>
+        </table>
+        <form name="fpago" enctype="multipart/form-data" action="{$req_base}index.php/cod.pagavisita">
+          <input type="hidden" name="idpaciente" value="0" />
+          <input type="hidden" name="efectivo" value="0" />
+          <input type="hidden" name="tarjeta" value="0" />
+        </form>
+      {else}
+        <p>{#texto17#}</p>
+      {/if}
+    </div>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+      <li><a href={$req_base}index.php/cod.vercaja>{#texto23#}</a></li>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

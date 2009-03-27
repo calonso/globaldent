@@ -1,0 +1,38 @@
+{config_load file=$lang_file section="articulos"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+{if $codigo == 1}
+  <div class="col_central">
+    <span class="intro">{$articulo.titulo}</span>
+    <fieldset><legend>{#datos#}</legend>
+    <p>
+      {#titulo#}{$articulo.titulo}<br />
+      {#autor#}{$articulo.autor}<br />
+      {#numero#}{$articulo.numero}<br />
+      {#volumen#}{$articulo.volumen}<br />
+      {#paginas#}{$articulo.paginas}<br />
+      {#organizacion#}{$articulo.organizacion}<br />
+      {#issn#}{$articulo.issn}<br />
+      {#mes#}{$articulo.mes}<br />
+      {#annio#}{$articulo.año}<br />
+      {#tirada#}{$articulo.tirada}<br />
+      {#publicado#}{$articulo.usuario} {#cuando#}{$articulo.fecha}
+    </p><br /><br /><br />
+    </fieldset>
+    <object data={$req_base}file.php/articulos/{$articulo.id_articulo}.pdf type="application/pdf" width="100%" height="1000px">para abrir click aqui:
+      <a href={$req_base}file.php/articulos/{$articulo.id_articulo}.pdf>Tesis</a>
+    </object>
+  </div>
+  {include file=$tpl_path_base|cat:"common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.publi>{#volverpubli#}</a></li>
+    <li><a href={$req_base}index.php/cod.listaarticulos>{#volverarticulos#}</a></li>
+    <li><a href={$req_base}index.php/cod.colgararticulo>{#colgararticulo#}</a></li>
+  {include file=$tpl_path_base|cat:"common/recuadro_footer.phtml"}
+{else}
+  {#noarticulos#}
+{/if}
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

@@ -1,0 +1,47 @@
+{config_load file=$lang_file section="foros"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  <div class="col_central">
+    <span class="intro">{#intro#}</span>
+    {counter start=1 skip=1 assign=i}
+    {foreach from=$nombres key=llave item=nombreforo}
+      <fieldset><legend>{$nombreforo}</legend>
+      {if $numeros[$llave] > 0}
+        <div class="tablapubli">
+        {foreach from=$foros[$llave] item=elemento}
+          <div class="lineapubli">
+            <p class="publicacion">
+              <span><a href={$req_base}index.php/cod.verforo/id.{$elemento.id_foro}>{$elemento.nombre}</a></span>
+              {#mensajes#}{$elemento.numero}
+            </p>
+            {if $elemento.numero > 0}
+              <p class="publiusu">
+                {#abierto#}{$elemento.fecha} {#hora#} {$elemento.hora}<br />
+                {#por#} {$elemento.usuario}
+              </p>
+            {/if}
+          </div>
+        {/foreach}
+          <div class="lineapubli">
+            <p class="opcionespubli">
+              <a href={$req_base}index.php/cod.listaforos/id.{$i}>{#vertodos#}</a>
+            </p>
+          </div>
+        </div>
+      {else}
+        {#noforo#}
+      {/if}
+      </fieldset>
+      {counter}
+    {/foreach}
+  </div>
+  {include file=$tpl_path_base|cat:"common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.abrirforo>{#nuevo#}</a></li>
+  {include file=$tpl_path_base|cat:"common/recuadro_footer.phtml"}
+  
+</div>
+
+  {include file=$tpl_path_base|cat:"common/footer.phtml"}
+      

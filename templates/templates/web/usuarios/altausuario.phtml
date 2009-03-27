@@ -1,0 +1,17 @@
+{config_load file=$lang_file section="usuarios"}
+
+{include file=$tpl_path_base|cat:"/common/header.phtml"}
+
+  <div class="contenedor">
+    {if $codigo == -3}
+      {#nocuenta#}
+    {elseif $codigo == -2}
+      {#loginrepetido#}
+		{elseif $codigo <= 0}
+		  {#altaerror#}
+		{else}
+		  {#altaok#}
+		{/if}
+	</div>
+
+{include file=$tpl_path_base|cat:"/common/footer.phtml"}

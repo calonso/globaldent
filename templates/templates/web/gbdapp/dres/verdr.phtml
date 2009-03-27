@@ -1,0 +1,46 @@
+{config_load file=$lang_file section="dres"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_central">
+      <span class="intro">{#texto18#}</span>
+      <p>{#texto19#}</p>
+      {if $codigo != 0}
+      <fieldset><legend>{#texto9#}</legend>
+        <p>{#nombre#}{$datos.nombre}</p><br />
+        <p>{#apellido#}{$datos.apellido}</p><br />
+        <p>{#apellido2#}{$datos.apellido2}</p><br />
+        <p>{#dni#}{$datos.dni}</p><br />
+        <p>{#fechanac#}{$datos.fecha_nacimiento}</p><br />
+      </fieldset>
+      <fieldset><legend>{#texto10#}</legend>
+        <p>{#direccion#}{$datos.direccion}</p><br />
+        <p>{#cp#}{$datos.cp}</p><br />
+        <p>{#ciudad#}{$datos.ciudad}</p><br />
+        <p>{#provincia#}{$datos.provincia}</p><br />
+        <p>{#telcli#}{$datos.telefono_clinica}</p><br />
+        <p>{#movil#}{$datos.telefono_movil}</p><br />
+        <p>{#telcasa#}{$datos.telefono_casa}</p><br /> 
+        <p>{#email#}{$datos.email}</p><br />
+        <p>{#fax#}{$datos.fax}</p><br />  
+      </fieldset>
+      <fieldset><legend>{#texto12#}</legend>
+        <p>{#especialidad#}{$datos.especialidad}</p><br />
+      </fieldset>
+      {else}
+        {#texto29#}
+      {/if}
+    </div>  
+    
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+      {if $codigo !=0}
+        <li><a href={$req_base}index.php/cod.moddr/id.{$datos.id_dr_externo}>{#texto20#}</a></li>
+        <li><a href={$req_base}index.php/cod.borrardr/id.{$datos.id_dr_externo}>{#texto21#}</a></li>
+      {/if}
+      <li><a href={$req_base}index.php/cod.listadr>{#texto22#}</a></li>
+      <li><a href={$req_base}index.php/cod.buscadr>{#texto23#}</a></li>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"} 
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

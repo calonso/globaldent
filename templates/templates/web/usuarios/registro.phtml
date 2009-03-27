@@ -1,0 +1,34 @@
+{config_load file=$lang_file section="usuarios"}
+
+{include file=$tpl_path_base|cat:"/common/header.phtml"}
+
+  <div class="contenedor">
+		<div class="col_izq">
+			<p>{#texto8#}</p>
+			<br /><br /><br /><br /><br /><br />
+		</div>
+		<div class="col_central">
+			<span class="intro">{#registro#}</span>
+			<form enctype="multipart/form-data" method="post" action="{$req_base}index.php/cod.altausuario">
+				<fieldset><legend>{#datosp#}</legend>
+				{#nombre#} <input type="text" name="txtNombre"/><br />
+				{#apellido#} <input type="text"  name="txtApe"/><br />
+				{#apellido2#} <input type="text"  name="txtApe2"/><br />
+				</fieldset>
+				<fieldset><legend>{#datosa#}</legend>
+				{#login#} <input type="text"  name="txtLogin"/><br />
+				{#pass#} <input type="password" name="txtPass"/><br />
+				{#pass2#} <input type="password"  name="txtPass2"/><br />
+				</fieldset>
+				<fieldset><legend>{#datosc#}</legend>
+				{#email#} <input type="text" name="txtEmail"/><br />
+				{#telefono#} <input type="text" name="txtTelefono"><br />
+				</fieldset>
+				<input type="submit" value={#aceptar#} />
+				<input type="reset" value={#borrar#} />
+				<input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.usuarios'"/>
+			</form>
+		</div>
+	</div>
+
+{include file=$tpl_path_base|cat:"/common/footer.phtml"}

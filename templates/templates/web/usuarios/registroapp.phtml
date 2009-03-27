@@ -1,0 +1,85 @@
+{config_load file=$lang_file section="usuarios"}
+
+{include file=$tpl_path_base|cat:"/common/header.phtml"}
+<script type="text/javascript">
+{literal}<!--
+  function cambiar()
+  {
+    var valor;
+    if (document.formreg.chkReg.checked == true)
+      valor = true;
+    else
+      valor = false;
+      
+    document.formreg.txtNombre.disabled = valor; 
+    document.formreg.txtApe.disabled = valor;
+    document.formreg.txtApe2.disabled = valor;
+    document.formreg.txtPass2.disabled = valor;
+    document.formreg.txtEmail.disabled = valor;
+    document.formreg.txtTelefono.disabled = valor;
+  }
+  function confirmar()
+  {
+    var importe = document.formreg.txtTiempo.value * 20;
+    var opcion = confirm ("Se cargarán a su tarjeta "+ importe +"euros \n Esta de acuerdo?")
+    if(opcion == true)
+    {
+      document.formreg.txtImporte.value = importe;
+      document.formreg.Reg.value = document.formreg.chkReg.checked;
+      document.formreg.submit();
+    }
+  }//-->
+{/literal}
+</script>
+  <div class="contenedor">
+		<div class="col_izq">
+			<p>{#texto8#}</p>
+			<br /><br /><br /><br /><br /><br />
+		</div>
+		<div class="col_central">
+			<span class="intro">{#registro#}</span>
+			<form name="formreg" enctype="multipart/form-data" method="post" action="{$req_base}index.php/cod.altasuscriptor"> 
+			  {if $registrado == 1}
+			     <p>{#texto12#}</p>
+			  {/if}
+			  <input type="checkbox" name="chkReg" onchange="cambiar()"/>{#texto13#}
+			  <input type="hidden" name="Reg" />
+			  <input type="hidden" name="txtImporte" value="0" />
+				<fieldset><legend>{#datosp#}</legend>
+				{#nombre#} <input type="text" name="txtNombre"/><br />
+				{#apellido#} <input type="text"  name="txtApe"/><br />
+				{#apellido2#} <input type="text"  name="txtApe2"/><br />
+				</fieldset>
+				<fieldset><legend>{#datosa#}</legend>
+				{#login#} <input type="text"  name="txtLogin"/><br />
+				{#pass#} <input type="password" name="txtPass"/><br />
+				{#pass2#} <input type="password"  name="txtPass2"/><br />
+				</fieldset>
+				<fieldset><legend>{#datosc#}</legend>
+				{#email#} <input type="text" name="txtEmail"/><br />
+				{#telefono#} <input type="text" name="txtTelefono"><br />
+				</fieldset>
+				<fieldset><legend>{#datospago#}</legend>
+				{#tarjeta#}<input type="text" name="txtTarjeta" /><br />
+        {#caducidad#}<input type="text" name="txtCaducidad" /><br /> 
+        {#tiempo#}<input type="text" name="txtTiempo" />{#texto14#} 
+				</fieldset>
+				<input type="button" value={#aceptar#} onclick="confirmar()"/>
+				<input type="reset" value={#borrar#} />
+				<input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.gestion'"/>
+			</form>
+		</div>
+	</div>
+	{if $registrado == 1}
+	<script type="text/javascript">
+    <!-- 
+     document.formreg.chkReg.checked = true;
+     document.formreg.chkReg.disabled = true;
+     cambiar();
+     document.formreg.txtLogin.disabled = true;
+     document.formreg.txtPass.disabled = true;
+     //-->
+   </script>
+  {/if}
+
+{include file=$tpl_path_base|cat:"/common/footer.phtml"}

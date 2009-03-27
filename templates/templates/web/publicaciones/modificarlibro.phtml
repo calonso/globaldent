@@ -1,0 +1,35 @@
+{config_load file=$lang_file section="libros"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  {if $codigo == 1}
+    <div class="col_izq">
+      <p>{#texto5#}</p>
+      <br /><br /><br /><br /><br /><br />
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto4#}</span>
+      <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.actualizarlibro/id.{$libro.id_libro}>
+        <fieldset><legend>{#datos#}</legend>
+        <p>
+          {#titulo#} <input type="text" name="txtTitulo" value="{$libro.titulo}" ><br />
+          {#autor#} <input type="text" name="txtAutor" value="{$libro.autor}" ><br />
+          {#editorial#} <input type="text" name="txtEditorial" value="{$libro.editorial}" ><br />
+          {#isbn#} <input type="text" name="txtISBN" value="{$libro.isbn}" ><br />
+          {#annio#} <input type="text" name="txtAnnio" value="{$libro.año}" ><br />
+        </p><br />
+        </fieldset>
+        <input type="submit" value={#aceptar#} />
+        <input type="reset" value={#borrar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.publi'" />
+      </form>
+    </div>
+  {elseif $codigo == 0}
+    {#nolibros#}
+  {else}
+    {#noautorizado#}
+  {/if}
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

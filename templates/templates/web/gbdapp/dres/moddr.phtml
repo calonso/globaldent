@@ -1,0 +1,49 @@
+{config_load file=$lang_file section="dres"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_izq">
+      <span class="intro">{#texto32#}</span>
+      <p>{#texto33#}</p>
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto34#}</span>
+      <p>{#texto35#}</p>
+      {if $codigo == 1}
+      <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.actualizadr/id.{$datos.id_dr_externo}">
+        <fieldset><legend>{#texto9#}</legend>
+          <p>{#nombre#}</p><input type="text" name="txtNombre" value="{$datos.nombre}" ><br />
+          <p>{#apellido#}</p><input type="text" name="txtApe" value="{$datos.apellido}" ><br />
+          <p>{#apellido2#}</p><input type="text" name="txtApe2" value="{$datos.apellido2}" ><br />
+          <p>{#dni#}</p><input type="text" name="txtDNI" value="{$datos.dni}" ><br />
+          <p>{#fechanac#}</p><input type="text" name="txtFechanac" value="{$datos.fecha_nacimiento}" ><br />
+        </fieldset>
+        <fieldset><legend>{#texto10#}</legend>
+          <p>{#direccion#}</p><input type="text" name="txtDir" value="{$datos.direccion}" ><br />
+          <p>{#cp#}</p><input type="text" name="txtCP" value="{$datos.cp}" ><br />
+          <p>{#ciudad#}</p><input type="text" name="txtCiudad" value="{$datos.ciudad}" ><br />
+          <p>{#provincia#}</p><select name="selProv">
+            <option label="{#texto11#}" value="0">{#texto11#}</option>
+            {html_options options=$provincias selected=$datos.id_provincia}
+            </select><br />
+          <p>{#telcli#}</p><input type="text" name="txtTelcli" value="{$datos.telefono_clinica}" ><br />
+          <p>{#movil#}</p><input type="text" name="txtMovil" value="{$datos.telefono_movil}" ><br />
+          <p>{#telcasa#}</p><input type="text" name="txtTelcasa" value="{$datos.telefono_casa}" ><br /> 
+          <p>{#email#}</p><input type="text" name="txtEmail" value="{$datos.email}" ><br />
+          <p>{#fax#}</p><input type="text" name="txtFax" value="{$datos.fax}" ><br />  
+        </fieldset>
+        <fieldset><legend>{#texto12#}</legend>
+          <p>{#especialidad#}</p><input type="text" name="txtEspecialidad" value="{$datos.especialidad}" ><br />
+        </fieldset>
+        <input type="submit" value={#aceptar#} />
+        <input type="reset" value={#borrar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.verdr/id.{$datos.id_dr_externo}'" />
+      </form>
+      {else}
+        {#texto29#}
+      {/if}
+  </div>
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

@@ -1,0 +1,45 @@
+{config_load file=$lang_file section="usuarios"}
+
+{include file=$tpl_path_base|cat:"/common/header.phtml"}
+
+  <div class="contenedor">
+    <div class="col_central">
+		  <span class="intro">{#texto15#}</span>
+		  <p>{#texto17#}</p>
+		  {if is_array($datos)}
+		    <table border="0" width="98%">
+		      <tr>
+		        <th colspan="2">{#texto19#}</th>
+		        <th>{#texto20#}</th>
+		        <th>{#texto21#}</th>
+		      </tr>
+		      <tr><td colspan="4" class="lineahor">&nbsp;</td></tr>
+		      {foreach from=$datos item=usr}
+		        <tr>
+		          <td colspan="2"><a href={$req_base}index.php/cod.verfichaadmin/id.{$usr.id_usuario}>{$usr.apellido} {$usr.apellido2}, {$usr.nombre}</a></td>
+		          <td>{$usr.login}</td>
+		          <td>
+		            {if $usr.privilegios == 1}
+		              {#texto22#}
+		            {elseif $usr.privilegios == 4}
+		              {#texto23#}
+		            {elseif $usr.privilegios == 9}
+		              {#texto24#}
+		            {else}
+		              {#texto25#} {$usr.privilegios}
+		            {/if}
+		          </td>
+		        </tr>
+		      {/foreach}
+		    </table>
+		  {else}
+		    <p>{#texto18#}</p>
+		  {/if}
+		</div>
+		{include file=$tpl_path_base|cat:"common/recuadro_header.phtml"}
+		  <li><a href={$req_base}index.php/cod.usuarios>{#volver#}</a></li>
+		{include file=$tpl_path_base|cat:"common/recuadro_footer.phtml"}
+	</div>
+
+{include file=$tpl_path_base|cat:"/common/footer.phtml"}
+

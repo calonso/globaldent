@@ -1,0 +1,116 @@
+{config_load file=$lang_file section="publicaciones"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  <div class="col_central">
+    <span class="intro">{#introusr#}</span>
+    <p>{#texto1#}</p>
+    <fieldset><legend>{#tesis#}</legend>
+      {if $num_tesis > 0}
+        <div class="tablapubli">
+        {foreach from=$tesis item=elemento}
+          <div class="lineapubli">
+            <p class="publicacion">
+              <span><a href={$req_base}index.php/cod.vertesis/id.{$elemento.id_tesis}>{$elemento.titulo}</a></span>
+              {#escrita#}{$elemento.autor}
+            </p>
+            <ul class="publiusu">
+              <li><a href={$req_base}index.php/cod.vertesis/id.{$elemento.id_tesis}><img src={$img_path_base}icover.ico alt={#ver#} height="20" width="20"></a></li>
+              <li><a href={$req_base}index.php/cod.modificartesis/id.{$elemento.id_tesis}><img src={$img_path_base}icoedit.png alt={#modificar#} height="20" width="20"></a></li> 
+              <li><a href={$req_base}index.php/cod.borrartesis/id.{$elemento.id_tesis}><img src={$img_path_base}icoborrar.ico alt={#borrar#} height="20" width="20"></a></li>
+            </ul>
+            <p class="publiusu">
+              {#publicadacuando#}{$elemento.fecha}
+            </p>
+          </div>
+        {/foreach}
+        </div>
+      {else}
+        <p>{#notesis#}</p>
+      {/if}
+    </fieldset>
+    <fieldset><legend>{#libros#}</legend>
+      {if $num_libros > 0}
+        <div class="tablapubli">
+        {foreach from=$libros item=elemento}
+          <div class="lineapubli">
+            <p class="publicacion">
+              <span><a href={$req_base}index.php/cod.verlibro/id.{$elemento.id_libro}>{$elemento.titulo}</a></span>
+              {#escrito#}{$elemento.autor}
+            </p>
+            <ul class="publiusu">
+              <li><a href={$req_base}index.php/cod.verlibro/id.{$elemento.id_libro}><img src={$img_path_base}icover.ico alt={#ver#} height="20" width="20"></a></li>
+              <li><a href={$req_base}index.php/cod.modificarlibro/id.{$elemento.id_libro}><img src={$img_path_base}icoedit.png alt={#modificar#} height="20" width="20"></a></li> 
+              <li><a href={$req_base}index.php/cod.borrarlibro/id.{$elemento.id_libro}><img src={$img_path_base}icoborrar.ico alt={#borrar#} height="20" width="20"></a></li>
+            </ul>
+            <p class="publiusu">
+              {#publicadacuando#}{$elemento.fecha}
+            </p>
+          </div>
+        {/foreach}
+        </div>
+      {else}
+        <p>{#nolibros#}</p>
+      {/if}
+    </fieldset>
+    <fieldset><legend>{#casos#}</legend>
+      {if $num_casos > 0}
+        <div class="tablapubli">
+        {foreach from=$casos item=elemento}
+          <div class="lineapubli">
+            <p class="publicacion">
+              <span><a href={$req_base}index.php/cod.vercaso/id.{$elemento.id_caso}>{$elemento.titulo}</a></span>
+              {#escrito#}{$elemento.autor}
+            </p>
+            <ul class="publiusu">
+              <li><a href={$req_base}index.php/cod.vercaso/id.{$elemento.id_caso}><img src={$img_path_base}icover.ico alt={#ver#} height="20" width="20"></a></li>
+              <li><a href={$req_base}index.php/cod.modificarcaso/id.{$elemento.id_caso}><img src={$img_path_base}icoedit.png alt={#modificar#} height="20" width="20"></a></li> 
+              <li><a href={$req_base}index.php/cod.borrarcaso/id.{$elemento.id_caso}><img src={$img_path_base}icoborrar.ico alt={#borrar#} height="20" width="20"></a></li>
+            </ul>
+            <p class="publiusu">
+              {#publicadacuando#}{$elemento.fecha}
+            </p>
+          </div>
+        {/foreach}
+        </div>
+      {else}
+        <p>{#nocasos#}</p>
+      {/if}
+    </fieldset>
+    <fieldset><legend>{#articulos#}</legend>
+      {if $num_articulos > 0}
+        <div class="tablapubli">
+        {foreach from=$articulos item=elemento}
+          <div class="lineapubli">
+            <p class="publicacion">
+              <span><a href={$req_base}index.php/cod.verarticulo/id.{$elemento.id_articulo}>{$elemento.titulo}</a></span>
+              {#escrito#}{$elemento.autor}
+            </p>
+            <ul class="publiusu">
+              <li><a href={$req_base}index.php/cod.verarticulo/id.{$elemento.id_articulo}><img src={$img_path_base}icover.ico alt={#ver#} height="20" width="20"></a></li>
+              <li><a href={$req_base}index.php/cod.modificararticulo/id.{$elemento.id_articulo}><img src={$img_path_base}icoedit.png alt={#modificar#} height="20" width="20"></a></li> 
+              <li><a href={$req_base}index.php/cod.borrararticulo/id.{$elemento.id_articulo}><img src={$img_path_base}icoborrar.ico alt={#borrar#} height="20" width="20"></a></li>
+            </ul>
+            <p class="publiusu">
+              {#publicadacuando#}{$elemento.fecha}
+            </p>
+          </div>
+        {/foreach}
+        </div>
+      {else}
+        <p>{#noarticulos#}</p>
+      {/if}
+    </fieldset>
+  </div>
+  
+  {include file=$tpl_path_base|cat:"common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.colgartesis>{#colgartesis#}</a></li>
+    <li><a href={$req_base}index.php/cod.colgarlibro>{#colgarlibro#}</a></li>
+    <li><a href={$req_base}index.php/cod.colgarcaso>{#colgarcaso#}</a></li>
+    <li><a href={$req_base}index.php/cod.colgararticulo>{#colgararticulo#}</a></li>
+  {include file=$tpl_path_base|cat:"common/recuadro_footer.phtml"}
+  
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

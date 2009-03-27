@@ -1,0 +1,105 @@
+{config_load file=$lang_file section="visitas"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript">
+<!--
+{literal}
+function confirmar(id)
+{
+  {/literal}
+  var enlace = "{$req_base}index.php/cod.borravisita/id.{$paciente.id_paciente}/vis." + id;
+  var x = confirm ("{#texto81#}");
+  {literal}
+  if (x == true)
+  {
+    location.href = enlace;
+  }
+}
+{/literal}
+-->
+</script>
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto1#}</span>
+    {include file=$tpl_path_base|cat:"gbdapp/visitas/pac_info.phtml"}
+    {if is_array($datos)}
+      <p>{#texto2#}</p>
+      {include file=$tpl_path_base|cat:"gbdapp/common/pags_inverse.phtml"}
+      <table border="0" width="90%" cellspacing="4" cellpadding="0">
+        <tr>
+          <th>{#texto15#}</th>
+          <th colspan="2">{#texto27#}</th>
+          <th>{#texto58#}</th>
+          <th>&nbsp;</th>
+        </tr>
+        <tr>
+          <td colspan="5" class="lineahor">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="5">&nbsp;</td>
+        </tr>
+      {foreach from=$datos key=llave item=visita}
+        <tr>
+          <td>{$visita.fecha}</td>
+          <td colspan="2">
+            {if is_array ($visita.tratamiento)}
+            {foreach from=$visita.tratamiento item=servicio}
+              {$servicio.cantidad} x {$servicio.servicio}<br />
+            {/foreach}
+            {else}
+              {#texto57#}
+            {/if}
+          </td>
+          <td align="center" colspan="2">{$visita.observaciones}</td>
+          <td>
+            <a href={$req_base}index.php/cod.vervisita/id.{$paciente.id_paciente}/vis.{$visita.id_visita}><img src={$img_path_base}icover.ico alt={#ver#}></a>
+            <a href={$req_base}index.php/cod.modvisita/id.{$paciente.id_paciente}/vis.{$visita.id_visita}><img src={$img_path_base}icoedit.png alt={#modificar#} width="16"></a>
+            <img src={$img_path_base}icoborrar.ico alt={#borrar#} width="16" onclick="confirmar({$visita.id_visita})" /></a>
+          </td>
+        </tr>
+        {if is_array($visita.recetas)}
+        <tr>
+          <td>&nbsp;</td>
+          <td>{#texto64#}</td>
+          <td colspan="3" class="lineahor">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+          {foreach from=$visita.recetas item=receta}
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>{$receta.nombre}</td>
+            <td>
+              <a href={$req_base}index.php/cod.verreceta/id.{$paciente.id_paciente}/vis.{$visita.id_visita}/r.{$receta.id_receta}><img src={$img_path_base}icover.ico alt={#ver#}></a>
+              <a href={$req_base}index.php/cod.borrareceta/id.{$paciente.id_paciente}/vis.{$visita.id_visita}/r.{$receta.id_receta}><img src={$img_path_base}icoborrar.ico alt={#borrar#} width="16"></a>
+            </td>
+            <td>&nbsp;</td>
+          </tr>
+          {/foreach}
+        {/if}
+        <tr>
+          <td colspan="5">&nbsp;</td>
+        </tr>  
+      {/foreach}
+      </table>
+    {include file=$tpl_path_base|cat:"gbdapp/common/pags_inverse.phtml"}
+    {else}
+      <p>{#texto3#}</p>
+    {/if}
+  </div>
+
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+  {if is_array($paciente)}
+    <li><a href={$req_base}index.php/cod.abrirvisita/id.{$paciente.id_paciente}>{#texto4#}</a></li>
+    <li><a href={$req_base}index.php/cod.imagenes/id.{$paciente.id_paciente}>{#texto62#}</a></li>
+    <li><a href={$req_base}index.php/cod.cons/id.{$paciente.id_paciente}>{#texto65#}</a></li>
+    <li><a href={$req_base}index.php/cod.verpac/id.{$paciente.id_paciente}>{#texto63#}</a></li>
+  {/if}
+    <li><a href={$req_base}index.php/cod.listapacientes>{#texto61#}</a></li>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

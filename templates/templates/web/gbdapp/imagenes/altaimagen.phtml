@@ -1,0 +1,21 @@
+{config_load file=$lang_file section="imagenes"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto13#}</span>
+    {if $codigo > 0}
+      <p>{#texto22#}</p>
+      <p>{#texto23#}<a href={$req_base}index.php/cod.verimagen/id.{$paciente.id_paciente}/img.{$codigo}>{#texto24#}</a>{#texto25#}</p>
+    {elseif $codigo == -2}
+      <p>{#texto26#}</p>
+    {elseif $codigo == -3}
+      <p>{#texto27#}</p>
+    {else}
+      <p>{#texto28#}</p>
+    {/if}
+  </div>
+</div>
+    
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

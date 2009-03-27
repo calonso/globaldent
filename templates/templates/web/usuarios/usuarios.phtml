@@ -1,0 +1,22 @@
+{config_load file=$lang_file section="usuarios"}
+
+{include file=$tpl_path_base|cat:"/common/header.phtml"}
+
+<div class="contenedor">
+  <div class="col_izq">
+    <span class="intro_cols">{#texto5#}</span>
+    <p>{#texto7#}</p>
+    <a href={$req_base}index.php/cod.registro><img src="{$img_path_base}btn_registro.jpg" alt="boton registro" /> </a>
+    <span class="intro_cols">{#texto6#}</span>
+    <a href={$req_base}index.php/cod.login><img src="{$img_path_base}btn_usuarios.jpg" alt="boton acceso" height="50" /> </a>
+  </div>
+  <div class="col_central">
+    <span class="intro">{#intro#}</span>
+    <p>{#texto1#}</p>
+    <p>{#texto2#}</p>
+    <p><a href={$req_base}index.php/cod.registro><img src="{$img_path_base}btn_registro.jpg" alt="boton registro" align="middle" /> </a> {#texto3#} </p>
+    <p><a href={$req_base}index.php/cod.login><img src="{$img_path_base}btn_usuarios.jpg" alt="boton acceso" height="50" align="middle" /> </a> {#texto4#} </p>
+  </div>
+</div>
+
+{include file=$tpl_path_base|cat:"/common/footer.phtml"}

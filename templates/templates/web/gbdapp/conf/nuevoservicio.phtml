@@ -1,0 +1,27 @@
+{config_load file=$lang_file section="conf"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_izq">
+    <span class="intro">{#texto9#}</span>
+    <p>{#texto10#}</p>
+  </div>
+  <div class="col_central">
+    <span class="intro">{#texto11#}</span>
+    <p>{#texto12#}</p>
+      <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.altaservicio">
+      <fieldset><legend>{#texto13#}</legend>
+        <p>{#texto5#}</p><input type="text" name="txtNombre" /><br />
+        <p>{#texto6#}</p><input type="text" name="txtPrecio" />€<br />
+        <p>{#texto14#}</p><textarea name="txtDescripcion"></textarea><br />
+      </fieldset>
+      <input type="submit" value={#aceptar#} />
+      <input type="reset" value={#borrar#} />
+      <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.servicios'" />
+    </form>
+  </div>
+
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

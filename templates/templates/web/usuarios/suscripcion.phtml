@@ -1,0 +1,38 @@
+{config_load file=$lang_file section="usuarios"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+<div class="contenidos">
+  {if $resultados >= 1}
+    <div class="col_central">
+      <span class="intro">{#datos#}</span>
+      <fieldset><legend>{#datosp#}</legend>
+      <p>{#nombre#} {$usuario.nombre}</p><br />
+      <p>{#apellidos#} {$usuario.apellido} {$usuario.apellido2}</p><br />
+      </fieldset>
+      <fieldset><legend>{#datosc#}</legend>
+      <p>{#telefono#} {$usuario.telefono}</p><br />
+      <p>{#email#} {$usuario.email}</p><br />
+      </fieldset>
+      <fieldset><legend>{#datossus#}</legend>
+      <p>{#fechafin#} {$usuario.fin_suscripcion}</p><br />
+      {foreach from=$pagos item=elemento}
+      <p>{#fecha#}{$elemento.fecha}</p>
+      <p>{#tarjeta#}{$elemento.numero_tarjeta}</p>
+      <p>{#caducidad#}{$elemento.caducidad}</p>
+      <p>{#importe#}{$elemento.importe} €.</p><br />
+      {/foreach}
+    </div>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+      <li><!--<a href={$req_base}index.php/cod.pago>{#nuevopago#}</a>-->{#nuevopago#}</li>
+      <li><a href={$req_base}index.php/cod.modificar>{#modificardatos#}</a></li>
+      <li><a href={$req_base}index.php/cod.modificarpass>{#modificarpass#}</a></li>
+      <li><a href={$req_base}index.php/cod.logout>{#salir#}</a></li>
+      <li><a href={$req_base}index.php/cod.home>{#volver#}</a></li>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+  {else}
+    <span class="intro">{#error#}</span>
+    <p>{#fichaerror#}</p>
+  {/if}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

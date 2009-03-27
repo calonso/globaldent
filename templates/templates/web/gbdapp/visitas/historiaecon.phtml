@@ -1,0 +1,101 @@
+{config_load file=$lang_file section="visitas"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto74#}</span>
+    {include file=$tpl_path_base|cat:"gbdapp/visitas/pac_info.phtml"}
+    <p>{#texto82#}</p>
+    <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.pagavisita">
+      <input type="hidden" name="idpaciente" value="{$paciente.id_paciente}" />
+      <label>{#texto84#}</label><input type="text" name="tarjeta" value="0" />
+      <label>{#texto83#}</label><input type="text" name="efectivo" value="0" />
+      <input type="submit" value="{#aceptar#}" >
+    </form>
+    
+    {if is_array($datos)}
+      <p>{#texto73#}</p>
+      <p>{#texto85#}{$fechas.primera}{#texto86#}{$fechas.ultima}</p>
+      {include file=$tpl_path_base|cat:"gbdapp/common/pags_fecha.phtml"}
+      {assign var=saldo value=$saldoAnt}
+      <table border="0" width="90%" cellspacing="4" cellpadding="0">
+        <tr>
+          <th>{#texto15#}</th>
+          <th colspan="2">{#texto27#}</th>
+          <th>{#texto68#}</th>
+          <th>{#texto75#}</th>
+          <th>{#texto76#}</th>
+        </tr>
+        <tr>
+          <td colspan="6" class="lineahor">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="6">&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="3">{#texto88#}{$fechas.primera}</td>
+          <td>&nbsp;</td>
+          <td>{$saldoAnt}</td>
+        </tr>
+        <tr>
+          <td colspan="6">&nbsp;</td>
+        </tr> 
+      {foreach from=$datos key=llave item=visita}
+        <tr>
+          <td>{$visita.fecha}</td>
+          {if $visita.id_visita > 0}
+            <td colspan="2">
+              {if is_array ($visita.tratamiento)}
+              {foreach from=$visita.tratamiento item=servicio}
+                {$servicio.cantidad} x {$servicio.servicio|default:#texto57#} ({$servicio.total} €)<br />
+              {/foreach}
+              {/if}
+            </td>
+            <td align="center">{$visita.precio}</td>
+            <td align="center">--</td>
+            {math equation="x - y" x=$saldo y=$visita.precio|default:"0" assign=saldo}
+          {else}
+            <td colspan="2" align="center">---</td>
+            <td align="center">--</td>
+            <td align="center">{$visita.tarj}/{$visita.ef}</td>
+            {math equation="x + y + z" x=$saldo y=$visita.tarj z=$visita.ef assign=saldo}
+          {/if}
+          <td>{$saldo}</td>
+        </tr>
+        <tr>
+          <td colspan="6">&nbsp;</td>
+        </tr>  
+      {/foreach}
+        <tr>
+          <td colspan="6" class="lineahor">&nbsp;</td>
+        </tr>
+        <tr>
+          <th colspan="4">{#texto76#}</th>
+          {if $saldo >= 0}
+          <th colspan="2">{$saldo} €</th>
+          {else}
+          <th colspan="2" class="pendiente">{$saldo} €</th>
+          {/if}
+        </tr>
+      </table>
+    {else}
+      <p>{#texto87#}{$fechas.curr}</p>
+    {/if}
+    {include file=$tpl_path_base|cat:"gbdapp/common/pags_fecha.phtml"}
+    
+  </div>
+
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+  {if is_array($paciente)}
+    <li><a href={$req_base}index.php/cod.presupuestos/id.{$paciente.id_paciente}>{#texto77#}</a></li>
+    <li><a href={$req_base}index.php/cod.facturas/id.{$paciente.id_paciente}>{#texto78#}</a></li>
+    <li><a href={$req_base}index.php/cod.verpac/id.{$paciente.id_paciente}>{#texto63#}</a></li>
+  {/if}
+    <li><a href={$req_base}index.php/cod.listapacientes>{#texto61#}</a></li>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

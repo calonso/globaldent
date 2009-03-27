@@ -1,0 +1,93 @@
+{config_load file=$lang_file section="recetas"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript" src="{$req_base}js/fckeditor/fckeditor.js"></script>
+<script type="text/javascript">
+{literal}
+function cargar ()
+{
+  var x = document.getElementById ("sel");
+  var id = x.options[x.selectedIndex].value;
+  var dir = location.href;
+  document.location= dir + "/tp." + id;
+}
+function FCKeditor_OnComplete( editorInstance )
+{
+	editorInstance.Events.AttachEvent( 'OnBlur'	, FCKeditor_OnBlur ) ;
+	editorInstance.Events.AttachEvent( 'OnFocus', FCKeditor_OnFocus ) ;
+}
+
+function FCKeditor_OnBlur( editorInstance )
+{
+	editorInstance.ToolbarSet.Collapse() ;
+}
+
+function FCKeditor_OnFocus( editorInstance )
+{
+	editorInstance.ToolbarSet.Expand() ;
+}
+{/literal}
+</script>
+
+<div class="contenidos">
+  <div class="col_izq">
+    <span class="intro">{#texto1#}</span>
+    <p>{#texto2#}</p>
+    <p>{#texto3#}</p>
+  </div>
+  <div class="col_central">
+    <span class="intro">{#texto4#}</span>
+    {include file=$tpl_path_base|cat:"gbdapp/recetas/pac_info.phtml"}
+    {include file=$tpl_path_base|cat:"gbdapp/recetas/vis_info.phtml"}
+    <p>{#texto22#}</p>
+    <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.nuevareceta/id.{$paciente.id_paciente}/vis.{$visita.id_visita}>
+    <p>{#texto18#}</p>
+    {if is_array($tiposrec)}
+      <select name="selReceta" id="sel" onchange="cargar()">
+        <option label="{#texto19#}" value="0">{#texto19#}</option>
+        {html_options options=$tiposrec selected=$idtipo|default:0}
+      </select>
+    {else}
+      <p>{#texto20#}</p>
+      <a href={$req_base}index.php/cod.tiporecetas>{#texto21#}</a>
+    {/if}
+    {if is_array ($datos)}
+    <fieldset><legend>{#texto24#}</legend>
+    <p>{#texto27#}</p>
+    <script type="text/javascript">
+      var oFCKeditor = new FCKeditor('txtResumen','100%','200','MyToolbar','{$datos.resumen|regex_replace:"/[\r\n]/":" "}');
+      oFCKeditor.BasePath = "{$req_base}js/fckeditor/";
+      oFCKeditor.Config['ToolbarStartExpanded'] = false ;
+      oFCKeditor.Create();
+    </script>
+    </fieldset>
+    <fieldset><legend>{#texto25#}</legend>
+    <p>{#texto28#}</p>
+    <script type="text/javascript">
+      var oFCKeditor = new FCKeditor('txtTexto','100%','300','MyToolbar','{$datos.texto|regex_replace:"/[\r\n]/":" "}');
+      oFCKeditor.BasePath = "{$req_base}js/fckeditor/";
+      oFCKeditor.Config['ToolbarStartExpanded'] = false ;
+      oFCKeditor.Create();
+    </script>
+    </fieldset>
+    <fieldset><legend>{#texto26#}</legend>
+    <p>{#texto29#}</p>
+    <script type="text/javascript">
+      var oFCKeditor = new FCKeditor('txtObservaciones','100%','200','MyToolbar','');
+      oFCKeditor.BasePath = "{$req_base}js/fckeditor/";
+      oFCKeditor.Config['ToolbarStartExpanded'] = false ;
+      oFCKeditor.Create();
+    </script>
+    </fieldset>
+    <input type="submit" value={#aceptar#} />
+    <input type="reset" value={#borrar#} />
+    <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.vervisita/id.{$paciente.id_paciente}/vis.{$visita.id_visita}'" />
+    {else}
+      <p>{#texto23#}</p>
+    {/if}
+    </form>
+  </div>
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

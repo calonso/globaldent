@@ -1,0 +1,40 @@
+{config_load file=$lang_file section="articulos"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  {if $codigo == 1}
+    <div class="col_izq">
+      <p>{#texto5#}</p>
+      <br /><br /><br /><br /><br /><br />
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto4#}</span>
+      <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.actualizararticulo/id.{$articulo.id_articulo}>
+        <fieldset><legend>{#datos#}</legend>
+        <p>
+          {#titulo#} <input type="text" name="txtTitulo" value="{$articulo.titulo}" ><br />
+          {#autor#} <input type="text" name="txtAutor" value="{$articulo.autor}" ><br />
+          {#numero#} <input type="text" name="txtNumero" value="{$articulo.numero}" ><br />
+          {#volumen#} <input type="text" name="txtVolumen" value="{$articulo.volumen}" ><br />
+          {#paginas#} <input type="text" name="txtPaginas" value="{$articulo.paginas}" ><br />
+          {#organizacion#} <input type="text" name="txtOrganizacion" value="{$articulo.organizacion}" ><br />
+          {#issn#} <input type="text" name="txtISSN" value="{$articulo.issn}" ><br />
+          {#mes#} <input type="text" name="txtMes" value="{$articulo.mes}" ><br />
+          {#annio#} <input type="text" name="txtAnnio" value="{$articulo.año}" ><br />
+          {#tirada#} <input type="text" name="txtTirada" value="{$articulo.tirada}" ><br />
+        </p><br />
+        </fieldset>
+        <input type="submit" value={#aceptar#} />
+        <input type="reset" value={#borrar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.publi'" />
+      </form>
+    </div>
+  {elseif $codigo == 0}
+    {#noarticulos#}
+  {else}
+    {#noautorizado#}
+  {/if}
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

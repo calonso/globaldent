@@ -1,0 +1,36 @@
+{config_load file=$lang_file section="conf"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_central">
+      <span class="intro">{#texto7#}</span>
+      <p>{#texto3#}</p>
+      {if is_array($datos)}
+        <table width="98%" border="0">
+          <tr>
+            <th colspan="3">{#texto5#}</th>
+            <th>{#texto6#} €</th>
+            <th>&nbsp;</th>
+          </tr>
+          <tr>
+            <th colspan="5" class="lineahor">&nbsp;</th>
+          </tr>
+        {foreach from=$datos item=servicio}
+          <tr>
+            <td colspan="3">{$servicio.nombre}</td>
+            <td>{$servicio.precio_unitario} €</td>
+            <td align="right"><a href={$req_base}index.php/cod.borraservicio/id.{$servicio.id_servicio}><img src={$img_path_base}icoborrar.ico alt="{#borrar#}" width="16" height="16" title="{#borrar#}" /></a></td>
+          </tr>
+        {/foreach}
+        </table>
+      {else}
+        <p>{#texto4#}</p>
+      {/if}
+    </div>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.nuevoservicio>{#texto8#}</a></li>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

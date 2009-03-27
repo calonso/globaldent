@@ -1,0 +1,52 @@
+{config_load file=$lang_file section="libros"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  <div class="col_central">
+    <span class="intro">{#introlista#}</span>
+    <p>{#texto3#}</p>
+    <p>{#mostrando#} {$numero.inicio} {#hasta#} {$numero.final} {#de#} {$numero.total}</p>
+    <fieldset><legend>{#libros#}</legend>
+      {if $numero.total > 0}
+        <div class="tablapubli">
+        {foreach from=$libros item=elemento}
+          <div class="lineapubli">
+            <p class="publicacion">
+              <span><a href={$req_base}index.php/cod.verlibro/id.{$elemento.id_libro}>{$elemento.titulo}</a></span>
+              {#escrito#}{$elemento.autor}
+            </p>
+            <p class="publiusu">
+              {#publicado#}{$elemento.usuario}<br />
+              {#cuando#}{$elemento.fecha}
+            </p>
+          </div>
+        {/foreach}
+          <div class="lineapubli">
+            <form name="paginar" enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.listalibros>
+              <input type="hidden" name="pg" value="{$numero.pagina}">
+              <input type="hidden" name="total" value="{$numero.total}">
+              <input type="submit" name="btPrev" value="<<" onclick="document.paginar.pg.value --" disabled="true" />
+              <input type="submit" name="btSig" value=">>" onclick="document.paginar.pg.value ++" disabled="true" />
+            </form>
+            {if $numero.final < $numero.total}
+              <script type="text/javascript">
+                document.paginar.btSig.disabled = false;
+              </script>
+            {/if} 
+            {if $numero.inicio > 0}
+              <script type="text/javascript">
+                document.paginar.btPrev.disabled = false;
+              </script>
+            {/if}
+          </div>
+        </div>
+      {else}
+        <p>{#nolibros#}</p>
+      {/if}
+    </fieldset>
+  </div>
+  
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

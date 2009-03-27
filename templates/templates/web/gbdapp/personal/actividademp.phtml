@@ -1,0 +1,73 @@
+{config_load file=$lang_file section="personal"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto59#}</span>
+    <p>{#texto60#}</p>
+      {if is_array($visitas)}
+        {assign var=mes value=$visitas[0].mes}
+        {counter assign=total_vis start=0 skip=1}
+        {assign var=total_pre value=0}
+        <fieldset><legend>{$mes}</legend>
+        <table border="0" width="90%">
+        {foreach from=$visitas key=llave item=vis}
+          {if $mes != $vis.mes}
+          <tr>
+            <th class="lineahor" colspan="4">&nbsp;</th>
+          </tr>
+          <tr>
+            <th colspan="2">{#texto62#}</th>
+            <th colspan="2">{#texto63#}</th>
+          </tr>
+          <tr>
+            <td colspan="2" align="center">{$total_vis}</td>
+            <td colspan="2" align="center">{$total_pre} €.</td>
+          </tr>
+          {counter assign=total_vis start=0 skip=1}
+          {assign var=total_pre value=0}
+            </table>
+            </fieldset>
+            {assign var=mes value=$vis.mes}
+            <fieldset><legend>{$mes}</legend>
+            <table border="0" width="90%">
+          {/if}
+          <tr>
+            <td>{$vis.fecha}</td>
+            <td colspan="2">
+              {if is_array($vis.tratamiento)}
+                {foreach from=$vis.tratamiento item=linea}
+                  <p>{$linea.cantidad} x {$linea.servicio} ({$linea.total}) €</p><br />
+                {/foreach}
+              {/if}
+            </td>
+            <td>{$vis.precio} €.</td>
+          </tr>
+          {math equation="x + y" x=$total_pre y=$vis.precio assign=total_pre }
+          {counter}     
+        {/foreach}
+          <tr>
+            <th class="lineahor" colspan="4">&nbsp;</th>
+          </tr>
+          <tr>
+            <th colspan="2">{#texto62#}</th>
+            <th colspan="2">{#texto63#}</th>
+          </tr>
+          <tr>
+            <td colspan="2" align="center">{$total_vis}</td>
+            <td colspan="2" align="center">{$total_pre} €.</td>
+          </tr>
+         </table>    
+        </fieldset>  
+      {else}
+        <p>{#texto61#}</p>
+      {/if}
+    </div>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+      <li><a href={$req_base}index.php/cod.verpers/id.{$id}>{#texto64#}</a></li>
+      <li><a href={$req_base}index.php/cod.listaempleados>{#texto65#}</a></li>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

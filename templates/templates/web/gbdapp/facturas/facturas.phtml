@@ -1,0 +1,50 @@
+{config_load file=$lang_file section="facturas"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto1#}</span>
+    {if is_array($datos)}
+      <p>{#texto2#}</p>
+      <div class="tablabusqueda">
+        <div class="lineainicial">
+          <div class="primera">{#texto11#}</div>
+          <div class="tratamiento">{#texto12#}</div>
+          <div class="indentar">{#texto32#}</div>
+        </div>
+      {foreach from=$datos item=fact}
+        <div class="lineabusqueda">
+          <div class="lineaopts">
+            <a href={$req_base}index.php/cod.verfact/id.{$paciente.id_paciente}/fact.{$fact.id_factura}>
+              <img src={$img_path_base}icover.ico alt="{#ver#}" />
+             </a>
+            <a href={$req_base}index.php/cod.borrafact/id.{$paciente.id_paciente}/fact.{$fact.id_factura}>
+              <img src={$img_path_base}icoborrar.ico alt="{#borrar#}" width="16" height="16"/>
+             </a> 
+          </div>
+          <div class="primera">{$fact.fecha}</div>
+          <div class="indentar">&nbsp;</div>
+          <div class="indentar">&nbsp;</div>
+          <div class="indentar">&nbsp;</div>
+          <div class="tratamiento">{$fact.numero}</div>
+          <div class="indentar">&nbsp;</div>
+          <div class="indentar">{$fact.total} €.</div>
+        </div>
+      {/foreach}
+      </div>
+    {else}
+      <p>{#texto3#}</p>
+      {if isset($paciente.id_paciente)}
+      <a href={$req_base}index.php/cod.nuevafact/id.{$paciente.id_paciente}>{#texto4#}</a>
+      {/if}
+    {/if}
+  </div>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.nuevafact/id.{$paciente.id_paciente}>{#texto52#}</a></li> 
+    <li><a href={$req_base}index.php/cod.verpac/id.{$paciente.id_paciente}>{#texto49#}</a></li>
+    <li><a href={$req_base}index.php/cod.listapacientes>{#texto51#}</a></li>   
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

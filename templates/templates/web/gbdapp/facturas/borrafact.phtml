@@ -1,0 +1,14 @@
+{config_load file=$lang_file section="facturas"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <span class="intro">{#texto47#}</span>
+  {if $codigo > 0}
+    <p>{#texto48#}</p>
+  {else}
+    <p>{#texto50#}</p>
+  {/if}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

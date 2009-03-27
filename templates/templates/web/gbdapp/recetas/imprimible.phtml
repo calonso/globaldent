@@ -1,0 +1,29 @@
+{config_load file=$lang_file section="recetas"}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>{#tituloapp#}</title>
+	<link href="{$req_base}css/estilos_aplicacion.css" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="{$img_path_base}favicon.ico">
+</head>
+<body class="imprimible">
+
+    <span class="intro">{#texto40#}</span>
+    {if is_array($datos)}
+    {include file=$tpl_path_base|cat:"gbdapp/recetas/cabeceraver.phtml"}
+      <fieldset><legend>{#texto24#}</legend>
+        {$datos.resumen}
+      </fieldset>
+      <fieldset><legend>{#texto25#}</legend>
+        {$datos.texto}
+      </fieldset>
+      <fieldset><legend>{#texto26#}</legend>
+        {$datos.observaciones}
+      </fieldset>
+    {else}
+      <p>{#texto23#}</p>
+    {/if}
+
+</body>
+</html>

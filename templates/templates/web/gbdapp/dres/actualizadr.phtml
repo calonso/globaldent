@@ -1,0 +1,14 @@
+{config_load file=$lang_file section="dres"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    {if $codigo == 0}
+      <p>{#texto36#}</p>
+    {else}
+      <p>{#texto37#}</p>
+      <p>{#texto15#}<a href={$req_base}index.php/cod.verdr/id.{$codigo}>{#texto16#}</a>{#texto17#}</p>
+    {/if}
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

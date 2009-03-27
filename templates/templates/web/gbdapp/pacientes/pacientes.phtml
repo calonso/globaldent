@@ -1,0 +1,16 @@
+{config_load file=$lang_file section="pacientes"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="inicio">
+      <span class="intro">{#texto1#}</span>
+      <ul>
+        <li><a href={$req_base}index.php/cod.nuevopaciente>{#texto2#}</a></li>
+        <li><a href={$req_base}index.php/cod.buscapacientes>{#texto3#}</a></li>
+        <li><a href={$req_base}index.php/cod.listapacientes>{#texto4#}</a></li>
+      </ul>
+    </div>
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

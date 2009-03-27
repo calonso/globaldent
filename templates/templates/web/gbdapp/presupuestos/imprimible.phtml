@@ -1,0 +1,82 @@
+{config_load file=$lang_file section="presupuestos"}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>{#tituloapp#}</title>
+	<link href="{$req_base}css/estilos_aplicacion.css" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="{$img_path_base}favicon.ico">
+</head>
+<body class="imprimible">
+
+    <span class="intro">{#texto45#}</span>
+    {if is_array($datos)}
+    {include file=$tpl_path_base|cat:"gbdapp/presupuestos/cabeceraver.phtml"}
+    <table border="0" width="90%">
+      <tr>
+        <td colspan="5">&nbsp;</td>
+      </tr>
+      <tr>
+        <th colspan="2">{#texto13#}</th>
+        <th colspan="3">&nbsp;</th>
+      </tr>
+      <tr>
+        <td colspan="5">&nbsp;</td>
+      </tr>
+      <tr>
+        <th colspan="2">{#texto14#}</th>
+        <th>{#texto15#}</th>
+        <th>{#texto16#}</th>
+        <th>&nbsp;</th>
+      </tr>
+      <tr>
+        <td colspan="5" class="lineahor">&nbsp;</td>
+      </tr>
+      {counter assign=numlinea start=1 skip=1}
+        {if is_array($lineas)}
+          {foreach from=$lineas key=llave item=linea}
+            <tr>
+              <td colspan="2">{$numlinea}.&nbsp;{$linea.servicio|default:#texto20#}</td>
+              <td align="center">{$linea.cantidad}</td>
+              <td align="right">{$linea.total} €.</td>
+            </tr>
+          {counter}
+          {/foreach}
+        {/if}
+      <tr>
+        <td colspan="5" class="lineahor">&nbsp;</td>
+      </tr>
+      <tr>
+        <th colspan="3">{#texto16#}</th>
+        <th>{$datos.total} €.</th>
+        <th>&nbsp;</th>
+      </tr>
+    </table>
+    <b>{#texto21#}</b><p>{#texto22#} {$datos.validez} {#texto36#}</p>
+    <ol>
+      <li>{#texto23#}</li>
+      <li>{#texto24#}</li>
+    </ol>
+    <b>{#texto25#}</b><p>{#texto26#}</p>
+    <ol>
+      <li>{#texto27#}</li>
+      <li>{#texto28#}</li>
+    </ol>
+    <b>{#texto29#}</b><p>{#texto30#}</p>
+    <p><b>{#texto31#}</b>{$datos.duracion} {#texto37#}</p>
+    <p>{#texto33#}</p>
+    <blockquote class="firmas">
+      <img class="obj" src="{$req_base}file.php/fd" width="100" height="100" />
+      {if isset($datos.extension)}
+      <object data={$req_base}file.php/fpres/{$paciente.id_paciente}/{$datos.id_presupuesto}/{$datos.extension} type="image/{$datos.extension}" width="100" height="100"></object>
+      {/if}
+      <br />
+      <p>{#texto34#}</p>
+      <p>{#texto35#}</p>
+    </blockquote>
+  {else}
+    <p>{#texto46#}</p>
+  {/if}
+
+</body>
+</html>

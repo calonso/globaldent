@@ -1,0 +1,21 @@
+{config_load file=$lang_file section="conf"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="inicio">
+      <span class="intro">{#texto1#}</span>
+      <ul>
+        <li><a href={$req_base}index.php/cod.servicios>{#texto2#}</a></li>
+        <li><a href={$req_base}index.php/cod.tipoimgs>{#texto21#}</a></li>
+        {if $privilegios == 4}
+          <li><a href={$req_base}index.php/cod.datosclinica>{#texto37#}</a></li>
+        {/if}
+        <li><a href={$req_base}index.php/cod.tipocons>{#texto57#}</a></li>
+        <li><a href={$req_base}index.php/cod.tiporecetas>{#texto84#}</a></li>
+        <li><a href={$req_base}index.php/cod.grupoimgs>{#texto102#}</a></li>
+      </ul>
+    </div>
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

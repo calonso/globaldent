@@ -1,0 +1,46 @@
+{config_load file=$lang_file section="imagenes"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto1#}</span>
+    {include file=$tpl_path_base|cat:"gbdapp/imagenes/pac_info.phtml"}
+    <p>{#texto2#}</p>
+    <p>{#texto30#}</p>
+    {if is_array($datos)}
+      {assign var=tipo value=$datos[0].tipoimg}
+      <fieldset><legend>{$tipo}</legend>
+      {foreach from=$datos item=imag}
+        {if $tipo != $imag.tipoimg}
+          </fieldset>
+          {assign var=tipo value=$imag.tipoimg}
+          <fieldset><legend>{$tipo}</legend>
+        {/if}
+        {if isset($imag.extension)}
+        <div class="imagen">
+          <a href={$req_base}index.php/cod.verimagen/id.{$paciente.id_paciente}/img.{$imag.id_imagen}>
+          <object data={$req_base}file.php/fotopac/{$paciente.id_paciente}/{$imag.id_imagen}/{$imag.extension} type="image/{$imag.extension}" height="80" width="80"></object>
+          </a>
+          <p>{$imag.fecha}</p>
+        </div>
+        {else}
+          <p>{#texto29#}</p>
+        {/if}
+      {/foreach}
+      </fieldset>
+    {else}
+      <p>{#texto3#}</p>
+    {/if}
+  </div>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+  {if is_array($paciente)}
+    <li><a href={$req_base}index.php/cod.nuevaimagen/id.{$paciente.id_paciente}>{#texto4#}</a></li>
+    <li><a href={$req_base}index.php/cod.verpac/id.{$paciente.id_paciente}>{#texto31#}</a></li>
+    <li><a href={$req_base}index.php/cod.historia/id.{$paciente.id_paciente}>{#texto32#}</a></li>
+  {/if}
+    <li><a href={$req_base}index.php/cod.listapacientes>{#texto10#}</a></li>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+</div>
+    
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

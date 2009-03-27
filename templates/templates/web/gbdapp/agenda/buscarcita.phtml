@@ -1,0 +1,93 @@
+{config_load file=$lang_file section="agenda"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<style type="text/css">@import url({$req_base}js/calendario/estilos/calendar-system.css);</style>
+<script type="text/javascript" src="{$req_base}js/calendario/calendar.js"></script>
+<script type="text/javascript" src="{$req_base}js/calendario/calendar-es.js"></script>
+<script type="text/javascript" src="{$req_base}js/calendario/calendar-setup.js"></script>
+<script type="text/javascript">
+<!--
+{literal}
+function confirmar(id)
+{
+  {/literal}
+  var enlace = "{$req_base}index.php/cod.borrarcita/id." + id;
+  var x = confirm ("{#texto24#}");
+  {literal}
+  if (x == true)
+  {
+    location.href = enlace;
+  }
+}
+{/literal}
+-->
+</script>
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto13#}</span>
+    {if $codigo == 0}
+      {#texto12#}
+    {else}
+      {#texto14#}
+      <div class="tablabusqueda">
+      {assign var=leg value=$datos[0].paciente}
+      <fieldset><legend>{$leg}</legend>
+      {foreach from=$datos item=cita}
+        {if $leg != $cita.paciente}
+          </fieldset>
+          {assign var=leg value=$cita.paciente}
+          <fieldset><legend>{$leg}</legend>
+        {/if}
+        <div class="lineabusqueda">
+          <div class="lineaopts">
+            <img src={$img_path_base}icoborrar.ico alt="{#borrar#}" title="{#borrar#}" width="20" height="20" align="middle" onclick="confirmar({$cita.id_cita})"/>
+          </div>
+          <p>{$cita.paciente}{#texto15#}{$cita.fecha}{#texto16#}{$cita.hora}{#texto17#}{$cita.gabinete}</p>
+        </div>
+      {/foreach}
+      </div>
+    {/if}
+  </div>
+  
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.agenda>{#texto18#}</a></li>
+    <div id="calendar-container" class="calendario"></div>
+    <script type="text/javascript">
+    {literal}
+    function dateChanged(calendar) {
+    // Beware that this function is called even if the end-user only
+    // changed the month/year. In order to determine if a date was
+    // clicked you can use the dateClicked property of the calendar:
+    if (calendar.dateClicked) {
+    // OK, a date was clicked, redirect to /yyyy/mm/dd/index.php
+    var y = calendar.date.getFullYear();
+    var m = calendar.date.getMonth(); // integer, 0..11
+    m = m+1;
+    var d = calendar.date.getDate(); // integer, 1..31
+    // redirect...
+    {/literal}
+    document.location = "{$req_base}index.php/cod.agenda/dia." + d + "-" + m + "-" + y;
+    {literal}
+    }
+    };
+    Calendar.setup(
+    {
+    flat : "calendar-container", // ID of the parent element
+    flatCallback : dateChanged // our callback function
+    }
+    );
+    {/literal}
+    </script>
+    <li>
+      <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.buscarcita>
+        <input type="text" name="txtBusqueda" >
+        <input type="submit" value={#buscar#} />
+      </form>
+    </li>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}  
+  
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

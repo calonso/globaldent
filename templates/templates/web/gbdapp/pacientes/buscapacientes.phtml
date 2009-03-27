@@ -1,0 +1,81 @@
+{config_load file=$lang_file section="pacientes"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_izq">
+      <span class="intro">{#texto61#}</span>
+      <p>{#texto62#}</p>
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto63#}</span>
+      <p>{#texto64#}</p>
+      <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.busquedapacientes">
+        <fieldset><legend>{#texto9#}</legend>
+          <p>{#texto10#}</p><input type="text" name="txtNombre" ><br />
+          <p>{#texto11#}</p><input type="text" name="txtApe" ><br />
+          <p>{#texto12#}</p><input type="text" name="txtApe2" ><br />
+          <p>{#texto13#}</p><input type="text" name="txtDNI" ><br />
+          <p>{#texto14#}</p><input type="text" name="txtFechanac" ><br />
+          <p>{#texto15#}</p><input type="text" name="txtProf" ><br />  
+        </fieldset>
+        <fieldset><legend>{#texto16#}</legend>
+          <p>{#texto17#}</p><input type="text" name="txtDir" ><br />
+          <p>{#texto18#}</p><input type="text" name="txtCP" ><br />
+          <p>{#texto19#}</p><input type="text" name="txtCiudad" ><br />
+          <p>{#texto20#}</p>
+            {if isset($provincias)}
+              <select name="selProv">
+                <option label={#texto21#} value=0>{#texto21#}</option>
+                {html_options options=$provincias selected=0}
+              </select>
+            {else}
+              <p>{#texto22#}</p>
+            {/if}<br />
+          <p>{#texto23#}</p><input type="text" name="txtTelfijo" ><br />
+          <p>{#texto24#}</p><input type="text" name="txtMovil" ><br />
+          <p>{#texto25#}</p><input type="text" name="txtTeltrab" ><br />
+          <p>{#texto26#}</p><input type="text" name="txtEmail" ><br />
+        </fieldset>
+        <fieldset><legend>{#texto27#}</legend>
+          <p>{#texto28#}</p>
+            {if isset($dres)}
+              <select name="selDr">
+                <option label={#texto29#} value=0>{#texto29#}</option>
+                {html_options options=$dres selected=0}
+              </select>
+              <p>{#texto76#}</p><input type="checkbox" name="referido">
+            {else}
+              <p>{#texto30#}</p>
+            {/if}<br />
+          <p>{#texto31#}</p>
+            {if isset($pacs)}
+              <select name="selPac">
+                <option label={#texto32#} value=0>{#texto32#}</option>
+                {html_options options=$pacs selected=0}
+              </select>
+            {else}
+              <p>{#texto33#}</p>
+            {/if}<br />
+          <p>{#texto80#}</p>
+            {if is_array($grupoImagenes)}
+              <select name="selGrupo">
+                <option label={#texto81#} value=0>{#texto81#}</option>
+                {html_options options=$grupoImagenes selected=0}
+              </select>
+            {else}
+              <p>{#texto82#}</p>
+            {/if}<br />
+          <p>{#texto34#}</p><textarea name="txtAlertas"></textarea><br />
+          <p>{#texto35#}</p><textarea name="txtObservaciones"></textarea><br />
+          <p>{#texto48#}</p><input type="text" name="txtFechaAlta"> dd-mm-yyyy
+        </fieldset>
+        <input type="submit" value={#aceptar#} />
+        <input type="reset" value={#borrar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.pacientes'" />
+      </form>
+  </div>
+  
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

@@ -1,0 +1,25 @@
+{config_load file=$lang_file section="usuarios"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+		<div class="col_izq">
+			<p>{#texto11#}</p>
+			<br /><br /><br /><br /><br /><br />
+		</div>
+		<div class="col_central">
+			<span class="intro">{#texto15#}</span>
+			<p>{#texto28#}</p>
+			<form enctype="multipart/form-data" method="post" action="{$req_base}index.php/cod.actualizarpass/id.{$id}">
+				<fieldset><legend>{#datosa#}</legend>
+				{#nuevapass#} <input type="password"  name="txtPass" ><br />
+				{#nuevapass2#} <input type="password"  name="txtPass2" ><br />
+				</fieldset>
+				<input type="submit" value={#aceptar#} />
+				<input type="reset" value={#borrar#} />
+				<input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.usuarios'"/>
+			</form>
+		</div>
+	</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

@@ -1,0 +1,31 @@
+{config_load file=$lang_file section="casos"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  <div class="col_izq">
+			<p>{#texto2#}</p>
+			<br /><br /><br /><br /><br /><br />
+		</div>
+  <div class="col_central">
+    <span class="intro">{#intronuevo#}</span>
+    <p>{#texto1#}</p>
+    <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.nuevocaso">
+    <fieldset><legend>{#datos#}</legend>
+    {#titulo#} <input type="text" name="txtTitulo" /><br />
+    {#autor#} <input type="text" name="txtAutor" /><br />
+    {#descripcion#} <input type="text" name="txtDescripcion" /><br />
+    {#tratamiento#} <input type="text" name="txtTratamiento" /><br />
+    {#duracion#} <input type="text" name="txtDuracion" /><br />
+    {#observaciones#} <input type="text" name="txtObservaciones" /><br />
+    <input type="hidden" name="MAX_FILE_SIZE" value="20000000" />
+    {#archivo#} <input type="file" name="fileCaso"/><br />
+    </fieldset>
+    <input type="submit" value={#aceptar#} />
+    <input type="reset" value={#borrar#} />
+    <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.publi'"/>
+    </form>
+  </div>
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

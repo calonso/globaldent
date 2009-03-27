@@ -1,0 +1,54 @@
+{config_load file=$lang_file section="foros"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  <div class="col_central">
+    <span class="intro">{#intro#}</span>
+    <p>{#texto6#}{$tipo.nombre}</p>
+    <p>{#mostrando#} {$numero.inicio} {#hasta#} {$numero.final} {#de#} {$numero.total}</p>
+      <fieldset><legend>{$tipo.nombre}</legend>
+      {if $numero.total > 0}
+        <div class="tablapubli">
+        {foreach from=$foros key=llave item=elemento}
+          <div class="lineapubli">
+            <p class="publicacion">
+              <span><a href={$req_base}index.php/cod.verforo/id.{$elemento.id_foro}>{$elemento.nombre}</a></span>
+              {#mensajes#}{$elemento.numero}
+            </p>
+            {if $elemento.numero > 0}
+              <p class="publiusu">
+                {#abierto#}{$elemento.fecha} {#hora#} {$elemento.hora}<br />
+                {#por#} {$elemento.usuario}
+              </p>
+            {/if}
+          </div>
+        {/foreach}
+          <div class="lineapubli">
+            <form name="paginar" enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.listaforos/id.{$tipo.id_tipo_foro}>
+              <input type="hidden" name="pg" value="{$numero.pagina}">
+              <input type="hidden" name="total" value="{$numero.total}">
+              <input type="submit" name="btPrev" value="<<" onclick="document.paginar.pg.value --" disabled="true" />
+              <input type="submit" name="btSig" value=">>" onclick="document.paginar.pg.value ++" disabled="true"/>
+            </form>
+            {if $numero.final < $numero.total}
+              <script type="text/javascript">
+                document.paginar.btSig.disabled = false;
+              </script>
+            {/if} 
+            {if $numero.inicio > 0}
+              <script type="text/javascript">
+                document.paginar.btPrev.disabled = false;
+              </script>
+            {/if}
+          </div>
+        </div>
+      {else}
+        {#noforo#}
+      {/if}
+      </fieldset>
+  </div>
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}
+      

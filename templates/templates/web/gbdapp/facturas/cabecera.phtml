@@ -1,0 +1,25 @@
+<div class="clin_info">
+  <div class="logoclinica">
+    <object data={$req_base}file.php/logo type="image/jpeg" width="100" height="110" ></object>
+  </div>
+  <div class="numpres">
+  <p>{#texto12#}</p>
+  <input type="text" name="txtNumero" value="{$fact.numero}"/>
+  <p>{#texto11#}{$fecha}</p>
+  </div>
+  {if is_array($clinica)}
+  <p>{$clinica.nombre}</p>
+  <p>{$clinica.especialidad}</p>
+  <p>{#texto13#}{$clinica.nif}</p>
+  <p>{$clinica.direccion}&nbsp;{$clinica.cp}&nbsp;{$clinica.ciudad}</p>
+  <p>{#texto23#}{$clinica.telefono}</p>
+  {/if}
+</div>
+{if is_array($paciente)}
+  <div class="pac_info">
+    <p>{#texto8#}<input type="text" name="txtNombre" value="{$paciente.apellido} {$paciente.apellido2}, {$paciente.nombre}" /></p>
+    <p>{#texto9#}{$paciente.direccion} {$paciente.ciudad}</p>
+    <p>{#texto10#}{$paciente.telefono_fijo}/{$paciente.telefono_movil}</p>
+    <p>{#texto25#}<input type="text" name="txtDNI" value="{$paciente.dni}" /></p>
+  </div>
+{/if}

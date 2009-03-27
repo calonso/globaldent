@@ -1,0 +1,21 @@
+<div class="pac_info">
+  <span class="intro">{#texto17#}</span>
+  {if is_array($visita)}
+    <p>{#texto11#} {$visita.fecha}</p>
+    <br />
+    <fieldset><legend>{#texto12#}</legend>
+    {if is_array($visita.lineas)}
+      {foreach from=$visita.lineas item=servicio}
+        <p>{$servicio.servicio|default:#texto13#}({$servicio.cantidad})</p><br />
+      {/foreach}
+    {else}
+      <p>{#texto14#}</p>
+    {/if}
+    </fieldset>
+    <fieldset><legend>{#texto15#}</legend>
+    <p>{$visita.observaciones}</p>
+    </fieldset>
+  {else}
+    <p>{#texto16#}</p>
+  {/if}
+</div>

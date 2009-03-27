@@ -1,0 +1,14 @@
+{config_load file=$lang_file section="gestion"}
+
+{include file=$tpl_path_base|cat:"/common/header.phtml"}
+
+<div class="contenedor">
+  <span class="intro">{#intro#}</span>
+  <p>{#texto1#}</p>
+  <p><a href={$req_base}index.php/cod.registroapp><img src="{$img_path_base}btn_registroapp.jpg" alt="Contratar" width="200" height="50" align="middle"/></a>
+  {#texto2#}</p>
+  <p><a href={$req_base}index.php/cod.loginapp><img src="{$img_path_base}btn_clinicas.jpg" alt="Acceder a la aplicacion" width="200" height="50" align="middle"/></a>
+  {#texto3#}</p>
+</div>
+
+{include file=$tpl_path_base|cat:"/common/footer.phtml"}

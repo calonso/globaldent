@@ -1,0 +1,17 @@
+<div class="pac_info">
+  <div class="logoclinica">
+    <object data={$req_base}file.php/logo type="image/jpeg" width="140" height="120" ></object>
+  </div>
+  {if is_array($paciente)}
+  <p>{#texto41#}{$paciente.apellido}&nbsp;{$paciente.apellido2},&nbsp;{$paciente.nombre}</p>
+  {/if}
+  {if is_array($clinica)}
+  <p>{#texto42#}{$clinica.direccion}</p>
+  <p>{$clinica.cp} {$clinica.ciudad}</p>
+  <p>{#texto43#}{$clinica.telefono}</p>
+  <p>{#texto47#}{$clinica.reg_sanidad}</p>
+  {/if}
+  {if is_array($visita)}
+  <p>{#texto44#}{$visita.fecha}</p>
+  {/if}
+</div>

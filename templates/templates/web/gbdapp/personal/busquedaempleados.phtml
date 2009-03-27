@@ -1,0 +1,44 @@
+{config_load file=$lang_file section="personal"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_central">
+      <span class="intro">{#texto51#}</span>
+    {if isset($datos)}
+      <p>{#texto52#}</p>
+      <div class="tablabusqueda">
+        {foreach from=$datos item=empleado}
+          <div class="lineabusqueda">
+            <div class="lineaopts">
+              <a href={$req_base}index.php/cod.verpers/id.{$empleado.id_personal}><img src={$img_path_base}icover.ico alt="{#ver#}" title="{#ver#}" /></a>
+              <a href={$req_base}index.php/cod.modemp/id.{$empleado.id_personal}><img src={$img_path_base}icoedit.png alt="{#modificar#}" title="{#modificar#}" /></a>
+              <a href={$req_base}index.php/cod.borraemp/id.{$empleado.id_personal}><img src={$img_path_base}icoborrar.ico alt="{#borrar#}" title="{#borrar#}" height="16" width="16"/></a>
+            </div>
+            {if isset($empleado.extension)}
+            <div class="fotopers">
+            <object data="{$req_base}file.php/fotoemp/{$empleado.id_personal}/{$empleado.extension}" type="image/{$empleado.extension}" width="60px" height="60px">para abrir click aqui:
+              <a href="{$req_base}file.php/fotoemp/{$empleado.id_personal}/{$empleado.extension}">foto</a>
+            </object>
+          </div>
+          {/if}
+            <a href={$req_base}index.php/cod.verpers/id.{$empleado.id_personal}>{$empleado.apellido} {$empleado.apellido2}, {$empleado.nombre}</a>
+          </div>
+        {/foreach}
+      </div>
+    {else}
+      <p>{#texto53#}</p>
+    {/if}
+    </div>
+    
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+      {if $privilegios == 4}
+        <li><a href={$req_base}index.php/cod.nuevoempleado>{#texto2#}</a></li>
+      {/if}
+      <li><a href={$req_base}index.php/cod.buscaempleados>{#texto54#}</a></li>
+      <li><a href={$req_base}index.php/cod.listaempleados>{#texto4#}</a></li>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+    
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

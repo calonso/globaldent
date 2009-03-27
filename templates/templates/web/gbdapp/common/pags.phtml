@@ -1,0 +1,32 @@
+<script type="text/javascript">
+<!--
+{literal}
+  function siguiente(pag){
+    pag = pag + 1;
+    arreglar(pag);
+  }
+  function anterior(pag){
+    pag = pag - 1;
+    arreglar(pag);
+  }
+  function arreglar(pag){
+    var str = document.URL;
+    document.location = str.replace(/\/pag\.\d/g, "") + "/pag." + pag;
+  }
+{/literal}
+-->
+</script>
+{if isset($pag) && isset($numero)}
+<div class="pags">
+  {if $pag > 0}
+    <input type="button" value="<" onclick="anterior({$pag})" />
+  {else}
+    <input type="button" value="<" disabled="disabled" />
+  {/if}
+  {if $numero > $max_lineas}
+    <input class="der" type="button" value=">" onclick="siguiente({$pag})" />
+  {else}
+    <input class="der" type="button" value=">" disabled="disabled" />
+  {/if}
+</div>
+{/if}

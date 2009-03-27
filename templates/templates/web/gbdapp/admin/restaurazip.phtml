@@ -1,0 +1,32 @@
+{config_load file=$lang_file section="personal"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+    <span class="intro">{#texto70#}</span>
+    <div class="col_central">
+      <p>{#texto78#}</p>
+    
+    {if $codigo == 1}
+      <p>{#texto79#}</p>
+    {elseif $codigo == 0}
+      <p>{#texto80#}</p>
+      <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.restaurazip">
+        <input type="hidden" name="MAX_FILE_SIZE" value="20000000" />
+        <p>{#texto77#}<input type="file" name="fileZip" /></p>
+        <input type="submit" value={#aceptar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.admin'" />
+      </form>
+    {else}
+      <p>{#texto81#}</p>
+      <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.restaurazip">
+        <input type="hidden" name="MAX_FILE_SIZE" value="20000000" />
+        <p>{#texto77#}<input type="file" name="fileZip" /></p>
+        <input type="submit" value={#aceptar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.admin'" />
+      </form>
+    {/if}
+    </div>
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

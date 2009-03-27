@@ -1,0 +1,36 @@
+{config_load file=$lang_file section="casos"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  {if $codigo == 1}
+    <div class="col_izq">
+      <p>{#texto5#}</p>
+      <br /><br /><br /><br /><br /><br />
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto4#}</span>
+      <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.actualizarcaso/id.{$caso.id_caso}>
+        <fieldset><legend>{#datos#}</legend>
+        <p>
+          {#titulo#} <input type="text" name="txtTitulo" value="{$caso.titulo}" ><br />
+          {#autor#} <input type="text" name="txtAutor" value="{$caso.autor}" ><br />
+          {#descripcion#} <input type="text" name="txtDescripcion" value="{$caso.descripcion}" ><br />
+          {#tratamiento#} <input type="text" name="txtTratamiento" value="{$caso.tratamiento}" ><br />
+          {#duracion#} <input type="text" name="txtDuracion" value="{$caso.duracion}" ><br />
+          {#observaciones#} <input type="text" name="txtObservaciones" value="{$caso.observaciones}" ><br />
+        </p><br />
+        </fieldset>
+        <input type="submit" value={#aceptar#} />
+        <input type="reset" value={#borrar#} />
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.publi'" />
+      </form>
+    </div>
+  {elseif $codigo == 0}
+    {#nocasos#}
+  {else}
+    {#noautorizado#}
+  {/if}
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

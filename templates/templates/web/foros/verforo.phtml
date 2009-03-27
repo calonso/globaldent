@@ -1,0 +1,53 @@
+{config_load file=$lang_file section="foros"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  {if $codigo == 1}
+    
+      <span class="intro">{#foros#}</span>
+        {foreach from=$datos key=llave item=elemento}
+          {if $elemento != 0}
+          <script type=text/javascript>
+          <!--    var i=0;
+              for (i=0;i<{$elemento.profundidad};i++)
+              {literal}
+              {
+                document.write ("<div class=\"indentar\">");
+              }
+              {/literal}//-->
+            </script>
+            <div class="mensaje">
+              <div class="titulomens">
+                  <p class="titulo"><span>{$elemento.titulo}</span><br />
+                  {#por#}{$elemento.usuario}</p>
+                  <p class="fechahora">{#abierto#}{$elemento.fecha}<br />{#hora#}{$elemento.hora}</p>
+              </div>
+              <div class="cuerpomens">
+                  <p class="textomens">{$elemento.texto}</p>
+                  soy {$elemento.id_mensaje}<br />
+                  mi padre es {$elemento.id_padre}<br />
+                  en profundidad {$elemento.profundidad}
+                  <div class="opcionesforo">
+                    <a href={$req_base}index.php/cod.responder/id.{$elemento.id_mensaje}>{#responder#}</a>
+                  </div>
+              </div>
+            </div>
+            <script type=text/javascript>
+            <!--  var i=0;
+              for (i=0;i<{$elemento.profundidad};i++)
+              {literal}
+              {
+                document.write ("</div>");
+              }
+              {/literal}//-->
+            </script>
+          {/if}
+        {/foreach}
+    
+  {else}
+    {#nomens#}
+  {/if}
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

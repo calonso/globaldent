@@ -1,0 +1,34 @@
+{config_load file=$lang_file section="usuarios"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+{if $codigo == 1}
+  <div class="contenedor">
+		<div class="col_izq">
+			<p>{#texto11#}</p>
+			<br /><br /><br /><br /><br /><br />
+		</div>
+		<div class="col_central">
+			<span class="intro">{#actualizar#}</span>
+			<form enctype="multipart/form-data" method="post" action="{$req_base}index.php/cod.actualizar">
+				<fieldset><legend>{#datosp#}</legend>
+				{#nombre#} <input type="text" name="txtNombre" value={$datos.nombre}><br />
+				{#apellido#} <input type="text"  name="txtApe" value={$datos.apellido}><br />
+				{#apellido2#} <input type="text"  name="txtApe2" value={$datos.apellido2}><br />
+				</fieldset>
+				<fieldset><legend>{#datosc#}</legend>
+				{#email#} <input type="text" name="txtEmail" value={$datos.email}><br />
+				{#telefono#} <input type="text" name="txtTelefono" value={$datos.telefono}><br />
+				</fieldset>
+				<input type="submit" value={#aceptar#} />
+				<input type="reset" value={#borrar#} />
+				<input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.usuarios'"/>
+			</form>
+		</div>
+	</div>
+{else}
+  <span class="intro">{#error#}</span>
+    <p>{#fichaerror#}</p>
+{/if}
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

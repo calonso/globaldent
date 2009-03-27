@@ -1,0 +1,348 @@
+{config_load file=$lang_file section="agenda"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<style type="text/css">@import url({$req_base}js/calendario/estilos/calendar-system.css);</style>
+<script type="text/javascript" src="{$req_base}js/calendario/calendar.js"></script>
+<script type="text/javascript" src="{$req_base}js/calendario/calendar-es.js"></script>
+<script type="text/javascript" src="{$req_base}js/calendario/calendar-setup.js"></script>
+<script type="text/javascript">
+<!--
+var patron = new RegExp("bloqagenda");
+var patron2 = new RegExp ("desbloqagenda");
+if (patron.test(location.href) || patron2.test(location.href))
+  location.href= "{$req_base}index.php/cod.agenda";
+{if isset($bloqueado) && $bloqueado == false}
+  alert("Elimine primero las citas dadas para bloquear.");
+{/if}
+{literal}
+function confirmar(id)
+{
+  {/literal}
+  var enlace = "{$req_base}index.php/cod.borrarcita/id." + id;
+  var x = confirm ("{#texto24#}");
+  {literal}
+  if (x == true)
+  {
+    location.href = enlace;
+  }
+}
+function abrir()
+{
+  window.open(location.href + "/imp.1");
+}
+
+function cerrar(e)
+{
+      	element = document.getElementById(e).style;
+      	if(element.visibility == ''){
+      		element.visibility = 'visible';
+      	} else {
+			element.visibility == 'hidden' ? element.visibility = 'visible' : 
+				element.visibility='hidden';
+		}    
+}
+var calendario = Calendar(1, "{/literal}{$dias.cal}{literal}", dateChanged, onClose);
+
+function onClose(){
+	calendar.hide();
+}
+
+function calendar(){
+	calendario = calendar.create();
+}
+
+function dateChanged(calendar) {
+    // Beware that this function is called even if the end-user only
+    // changed the month/year. In order to determine if a date was
+    // clicked you can use the dateClicked property of the calendar:
+    if (calendar.dateClicked) {
+    // OK, a date was clicked, redirect to /yyyy/mm/dd/index.php
+    	var y = calendar.date.getFullYear();
+    	var m = calendar.date.getMonth(); // integer, 0..11
+    	m = m+1;
+    	var d = calendar.date.getDate(); // integer, 1..31
+    	// redirect...
+    	{/literal}
+    	document.location = "{$req_base}index.php/cod.agenda/dia." + d + "-" + m + "-" + y;
+    	{literal}
+    	//window.location = "/" + y + "/" + m + "/" + d + "/index.php";
+    }
+};
+
+
+//-->
+</script>
+{/literal}
+
+<div class="contenidos">
+    <span class="intro">{#texto1#} {$dias.hoy}</span>
+    <br /><br />
+    {if $gabinetes > 0}
+    <div class="pasar">	
+    	<ul>
+    		<li><a href={$req_base}index.php/cod.agenda/dia.{$dias.ayer}>&lt;&lt;{#texto3#}</a></li>
+    		<li><a id="show_d" href="javascript:calendar()">Calendario</a></li>
+    		<li><a href="javascript:abrir();">Imprimir</a></li>
+    		<li><a href={$req_base}index.php/cod.agenda/dia.{$dias.mannana}>{#texto2#}&gt;&gt;</a></li>
+    	</ul>
+    </div>
+    <table border="3" cellspacing="3" cellpadding="1" width="1000px">
+      <tr>
+        <td>&nbsp;</td>
+        {section name=numerogab loop=$gabinetes start=1}
+        <td>
+          {assign var=ind value=$smarty.section.numerogab.index}
+          <a href="javascript:cerrar('{$ind|cat:"gab"}');">{#gabinete#}{$ind}</a>
+          
+          <div class="menu" id="{$ind|cat:"gab"}">
+          	<ul>
+          		<li><p>Gabinete {$ind}</p></li>
+            	<li>
+            	  {if $bloqueos[$ind].AM >= 1}
+		            <a href={$req_base}index.php/cod.desbloqagenda/f.{$dias.hoy}/p.1/a.{$smarty.section.numerogab.index}/id.{$bloqueos[$ind].AM}><img src={$img_path_base}clock_am.jpg title="{#texto35#}"></a> 
+		          {else}
+		            <a href={$req_base}index.php/cod.bloqagenda/f.{$dias.hoy}/p.1/a.{$smarty.section.numerogab.index}><img src={$img_path_base}clock_no_am.jpg title="{#texto34#}"></a>
+		          {/if}
+		          {if $bloqueos[$ind].PM >= 1}
+		            <a href={$req_base}index.php/cod.desbloqagenda/f.{$dias.hoy}/p.2/a.{$smarty.section.numerogab.index}/id.{$bloqueos[$ind].PM}><img src={$img_path_base}clock_pm.jpg title="{#texto37#}"></a> 
+		          {else}
+		            <a href={$req_base}index.php/cod.bloqagenda/f.{$dias.hoy}/p.2/a.{$smarty.section.numerogab.index}><img src={$img_path_base}clock_no_pm.jpg title="{#texto36#}"></a>
+		          {/if}
+            	</li>
+            	<li><a href="javascript:cerrar('{$ind|cat:"gab"}');">Cerrar</a></li>
+            </ul>
+         </div>
+        </td>
+        {/section}
+      </tr>
+    {foreach from=$horas key=i item=hora}
+      <tr>
+        <td>
+          {$hora}
+        </td>
+        {section name=asiento loop=$gabinetes start=1}
+        {assign var=num value=$smarty.section.asiento.index}
+        {assign var=puesto value=0}
+        {foreach from=$citas[$i] item=cita}
+          {if $cita.gabinete == $num}
+            {if $cita.bloqueado == true}
+              {assign var=puesto value=1}
+              <td class="bloqueada" align="center" rowspan="{$cita.duracion}">
+                <a href={$req_base}index.php/cod.borranolog/id.{$cita.id_cita}><img src={$img_path_base}icoborrar.ico title="Borrar" width="16" height="16" /></a>
+              </td>
+            {else}
+              <td rowspan="{$cita.duracion}" style="background-color: {$cita.color}">
+              	<table border="0" width="100%">
+              		<tr>
+              			<td>
+              			<a href="javascript:cerrar('{$cita.id_cita}');">{$cita.paciente}</a>
+			                {assign var=puesto value=1}
+			                {if $cita.duracion > 1}
+			                  {assign var=gab$num value=$cita.duracion}
+			                {/if}
+			                <div class="menu" id="{$cita.id_cita}">
+			                	<ul>
+			                		<li><p>{$cita.paciente}</p></li>
+			                		<li><a href={$req_base}index.php/cod.historia/id.{$cita.id_paciente}>Ir a la historia</a></li>
+			                		<li><p>Tipo de cita: {$cita.tipo|regex_replace:"/\+/":" "}</p></li>
+			                		<li><p>{#observaciones#}{$cita.observaciones}</p></li>
+			                		<li>
+			                			<a href="{$req_base}index.php/cod.colorcita/id.{$cita.id_cita}/c.DA251D/dia.{$dias.hoy}"><img src={$img_path_base}red.png /></a>
+			                			<a href="{$req_base}index.php/cod.colorcita/id.{$cita.id_cita}/c.96FF96/dia.{$dias.hoy}"><img src={$img_path_base}green.png /></a>
+			                			<a href="{$req_base}index.php/cod.colorcita/id.{$cita.id_cita}/c.FFFFFF/dia.{$dias.hoy}"><img src={$img_path_base}white.png /></a>
+			                			<a href="{$req_base}index.php/cod.colorcita/id.{$cita.id_cita}/c.0093DD/dia.{$dias.hoy}"><img src={$img_path_base}blue.png /></a>
+			                		</li>
+			                		<li><a href="javascript:confirmar({$cita.id_cita});"><img src={$img_path_base}icoborrar.ico alt="Borrar" width="16" height="16" onclick="confirmar({$cita.id_cita})"/>  Borrar</a></li>
+			                		<li><a href="javascript:cerrar('{$cita.id_cita}');">Cerrar</a></li>
+			                	</ul>
+			                </div>
+              			</td>
+              			<td align="right">
+              				<p style="font-size: 70%">{$cita.tipo|regex_replace:"/\+/":" "}</p>
+              			</td>
+              		</tr>
+              	</table>
+                
+              </td>
+            {/if}
+          {/if}
+        {/foreach}
+        {if $puesto == 0}
+          {if $num == 1}
+            {if $gab1 > 1}
+              {assign var=gab1 value=$gab1-1}
+            {else}
+              <td>
+                <a href={$req_base}index.php/cod.abrircita/f.{$dias.hoy}/h.{$hora}/a.{$smarty.section.asiento.index}>
+                	<div class="citaLibre">
+                		<img src={$img_path_base}pix_trans.png />
+                	</div>
+                </a>
+              </td>
+            {/if}
+          {/if}
+          {if $num == 2}
+            {if $gab2 > 1}
+              {assign var=gab2 value=$gab2-1}
+            {else}
+              <td>
+                <a href={$req_base}index.php/cod.abrircita/f.{$dias.hoy}/h.{$hora}/a.{$smarty.section.asiento.index}>
+                	<div class="citaLibre">
+                		<img src={$img_path_base}pix_trans.png />
+                	</div>
+                </a>
+              </td>
+            {/if}
+          {/if}
+          {if $num == 3}
+            {if $gab3 > 1}
+              {assign var=gab3 value=$gab3-1}
+            {else}
+              <td>
+                <a href={$req_base}index.php/cod.abrircita/f.{$dias.hoy}/h.{$hora}/a.{$smarty.section.asiento.index}>
+                	<div class="citaLibre">
+                		<img src={$img_path_base}pix_trans.png />
+                	</div>
+                </a>
+              </td>
+            {/if}
+          {/if}
+          {if $num == 4}
+            {if $gab4 > 1}
+              {assign var=gab4 value=$gab4-1}
+            {else}
+              <td>
+                <a href={$req_base}index.php/cod.abrircita/f.{$dias.hoy}/h.{$hora}/a.{$smarty.section.asiento.index}>
+                	<div class="citaLibre">
+                		<img src={$img_path_base}pix_trans.png />
+                	</div>
+                </a>
+              </td>
+            {/if}
+          {/if}
+          {if $num == 5}
+            {if $gab5 > 1}
+              {assign var=gab5 value=$gab5-1}
+            {else}
+              <td>
+                <a href={$req_base}index.php/cod.abrircita/f.{$dias.hoy}/h.{$hora}/a.{$smarty.section.asiento.index}>
+                	<div class="citaLibre">
+                		<img src={$img_path_base}pix_trans.png />
+                	</div>
+                </a>
+              </td>
+            {/if}
+          {/if}
+          {if $num == 6}
+            {if $gab6 > 1}
+              {assign var=gab6 value=$gab6-1}
+            {else}
+              <td>
+                <a href={$req_base}index.php/cod.abrircita/f.{$dias.hoy}/h.{$hora}/a.{$smarty.section.asiento.index}>
+                	<div class="citaLibre">
+                		<img src={$img_path_base}pix_trans.png />
+                	</div>
+                </a>
+              </td>
+            {/if}
+          {/if}
+          {if $num == 7}
+            {if $gab7 > 1}
+              {assign var=gab7 value=$gab7-1}
+            {else}
+              <td>
+                <a href={$req_base}index.php/cod.abrircita/f.{$dias.hoy}/h.{$hora}/a.{$smarty.section.asiento.index}>
+                	<div class="citaLibre">
+                		<img src={$img_path_base}pix_trans.png />
+                	</div>
+                </a>
+              </td>
+            {/if}
+          {/if}
+          {if $num == 8}
+            {if $gab8 > 1}
+              {assign var=gab8 value=$gab8-1}
+            {else}
+              <td>
+                <a href={$req_base}index.php/cod.abrircita/f.{$dias.hoy}/h.{$hora}/a.{$smarty.section.asiento.index}>
+                	<div class="citaLibre">
+                		<img src={$img_path_base}pix_trans.png />
+                	</div>
+                </a>
+              </td>
+            {/if}
+          {/if}
+          {if $num == 9}
+            {if $gab9 > 1}
+              {assign var=gab9 value=$gab9-1}
+            {else}
+              <td>
+                <a href={$req_base}index.php/cod.abrircita/f.{$dias.hoy}/h.{$hora}/a.{$smarty.section.asiento.index}>
+                	<div class="citaLibre">
+                		<img src={$img_path_base}pix_trans.png />
+                	</div>
+                </a>
+              </td>
+            {/if}
+          {/if}
+          {if $num == 10}
+            {if $gab10 > 1}
+              {assign var=gab10 value=$gab10-1}
+            {else}
+              <td>
+                <a href={$req_base}index.php/cod.abrircita/f.{$dias.hoy}/h.{$hora}/a.{$smarty.section.asiento.index}>
+                	<div class="citaLibre">
+                		<img src={$img_path_base}pix_trans.png />
+                	</div>
+                </a>
+              </td>
+            {/if}
+          {/if}
+          
+        {/if}
+        {/section}
+      </tr>
+    {/foreach}
+    </table>
+    <div class="pasar">	
+    	<ul>
+    		<li><a href={$req_base}index.php/cod.agenda/dia.{$dias.ayer}>&lt;&lt;{#texto3#}</a></li>
+    		<li><a id="show_d2" href="javascript:calendar()">Calendario</a></li>
+    		<li><a href="javascript:abrir();">Imprimir</a></li>
+    		<li><a href={$req_base}index.php/cod.agenda/dia.{$dias.mannana}>{#texto2#}&gt;&gt;</a></li>
+    	</ul>
+    </div>
+    {else}
+      <p>{#texto27#}</p>
+      <a href={$req_base}index.php/cod.datosclinica>{#texto28#}</a>
+    {/if}
+    
+{literal}
+<script type="text/javascript">
+<!--
+    Calendar.setup({
+        align          :    "Tl",           // alignment (defaults to "Bl")
+        singleClick    :    true,
+    	date           :    "{/literal}{$dias.cal}{literal}",
+    	button		   :    "show_d",
+    	onSelect       :    dateChanged,
+    	showOthers     :    true,
+    	onClose        :    onClose
+    });
+    
+    Calendar.setup({
+        align          :    "Tl",           // alignment (defaults to "Bl")
+        singleClick    :    true,
+    	date           :    "{/literal}{$dias.cal}{literal}",
+    	button		   :    "show_d2",
+    	onSelect       :    dateChanged,
+    	showOthers     :    true,
+    	onClose        :    onClose
+    });
+//-->	
+</script>
+{/literal}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

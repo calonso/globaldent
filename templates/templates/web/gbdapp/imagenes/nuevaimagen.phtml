@@ -1,0 +1,47 @@
+{config_load file=$lang_file section="imagenes"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_izq">
+    <span class="intro">{#texto11#}</span>
+    <p>{#texto12#}</p>
+  </div>
+  <div class="col_central">
+    <span class="intro">{#texto13#}</span>
+    {include file=$tpl_path_base|cat:"gbdapp/imagenes/pac_info.phtml"}
+    <p>{#texto14#}</p>
+    <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.altaimagen/id.{$paciente.id_paciente}">
+      <fieldset><legend>{#texto15#}</legend>
+        <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
+        <p>{#texto16#}</p><input type="file" name="fileFoto" />
+        <p>{#texto17#}</p>
+          {if is_array($tipos)}
+            <select name="selTipo">
+              <option label={#texto18#} value=0>{#texto18#}</option>
+              {html_options options=$tipos selected=0}
+            </select>
+          {else}
+            <p>{#texto19#}</p>
+            <a href={$req_base}index.php/cod.tipoimgs>{#texto20#}</a>
+          {/if}<br />
+        <p>{#texto45#}</p>
+          {if is_array($grupos)}
+            <select name="selGrupo">
+              <option label={#texto42#} value=0>{#texto42#}</option>
+              {html_options options=$grupos selected=0}
+            </select>
+          {else}
+            <p>{#texto43#}</p>
+            <a href={$req_base}index.php/cod.grupoimgs>{#texto44#}</a>
+          {/if}<br />
+        <p>{#texto21#}</p><textarea name="txtComentarios"></textarea><br />
+      </fieldset>
+      <input type="submit" value={#aceptar#} />
+      <input type="reset" value={#borrar#} />
+      <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.imagenes/id.{$paciente.id_paciente}'">
+    </form>
+  </div>
+</div>
+    
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

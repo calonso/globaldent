@@ -1,0 +1,79 @@
+{config_load file=$lang_file section="pacientes"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript">
+<!--
+{literal}
+function confirmar(id)
+{
+  {/literal}
+  var enlace = "{$req_base}index.php/cod.borrapac/id." + id;
+  var x = confirm ("{#texto75#}");
+  {literal}
+  if (x == true)
+  {
+    location.href = enlace;
+  }
+}
+{/literal}
+-->
+</script>
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto58#}</span>
+    <p>{#texto59#}</p>
+    <div class="letras">
+      <ul>
+        {foreach from=$todas item=letra}
+          {assign var=encontrada value=0}
+          {foreach from=$letras item=valida}
+            {if $valida|upper == $letra}
+              <li><a href={$req_base}index.php/cod.listapacientes/let.{$letra}>{$letra}</a></li>
+              {assign var=encontrada value=1}
+            {/if}
+          {/foreach}
+          {if $encontrada == 0}
+            <li>{$letra}</li>
+          {/if}
+        {/foreach}
+      </ul>
+    </div>
+    {if $codigo != 0}
+    {include file=$tpl_path_base|cat:"gbdapp/common/pags.phtml"}
+    <div class="tablabusqueda">
+      {foreach from=$datos item=paciente}
+        <div class="lineabusqueda">
+          <div class="lineaopts">
+            <a href={$req_base}index.php/cod.verpac/id.{$paciente.id_paciente}><img src={$img_path_base}icover.ico alt="{#ver#}" title="{#ver#}" /></a>
+            <a href={$req_base}index.php/cod.modpac/id.{$paciente.id_paciente}><img src={$img_path_base}icoedit.png alt="{#modificar#}" title="{#modificar#}" /></a>
+            <img src={$img_path_base}icoborrar.ico alt="{#borrar#}" title="{#borrar#}" height="16" width="16" onclick="confirmar({$paciente.id_paciente})"/>
+          </div>
+          {if $paciente.extension|count_characters > 0}
+          <div class="fotopers">
+            <object data="{$req_base}file.php/fotopers/{$paciente.id_paciente}/{$paciente.extension}" type="image/{$paciente.extension}" width="60px" height="60px">para abrir click aqui:
+              <a href="{$req_base}file.php/fotopers/{$paciente.id_paciente}/{$paciente.extension}">foto</a>
+            </object>
+          </div>
+          {else}
+          <div class="fotopers">
+            <img src={$img_path_base}foto.jpg width="60" height="60">
+          </div>
+          {/if}
+          <a href={$req_base}index.php/cod.verpac/id.{$paciente.id_paciente}>{$paciente.apellido} {$paciente.apellido2}, {$paciente.nombre}</a>
+        </div> 
+      {/foreach}
+    </div>
+    {include file=$tpl_path_base|cat:"gbdapp/common/pags.phtml"}
+    {else}
+      <p>{#texto60#}</p>
+    {/if}
+  </div>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.nuevopaciente>{#texto2#}</a></li>
+    <li><a href={$req_base}index.php/cod.buscapacientes>{#texto3#}</a></li>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

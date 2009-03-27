@@ -1,0 +1,35 @@
+{config_load file=$lang_file section="conf"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_central">
+      <span class="intro">{#texto85#}</span>
+      <p>{#texto86#}</p>
+      {if is_array($datos)}
+        <table width="98%" border="0">
+          <tr>
+            <th colspan="3">{#texto68#}</th>
+            <th>&nbsp;</th>
+          </tr>
+          {foreach from=$datos item=receta}
+          <tr>
+            <td colspan="3">{$receta.nombre}</td>
+            <td>
+              <a href={$req_base}index.php/cod.modtiporec/id.{$receta.id_tipo_receta}><img src={$img_path_base}icover.ico alt={#ver#} title={#ver#} /></a>
+              <a href={$req_base}index.php/cod.borratiporec/id.{$receta.id_tipo_receta}><img src={$img_path_base}icoborrar.ico alt={#borrar#} title={#borrar#} width="16px" height="16px" /></a>
+            </td>
+          </tr>
+          {/foreach}
+        </table>
+      {else}
+        <p>{#texto87#}</p>
+        <a href={$req_base}index.php/cod.nuevotiporec>{#texto88#}</a>
+      {/if}
+    </div>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+      <li><a href={$req_base}index.php/cod.nuevotiporec>{#texto88#}</a></li>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

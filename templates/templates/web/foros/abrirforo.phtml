@@ -1,0 +1,40 @@
+{config_load file=$lang_file section="foros"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+  <div class="col_izq">
+    <span class="intro">{#atencion#}</span>
+    <p>{#texto1#}</p>
+    <p>{#texto2#}</p>
+    <p>{#texto3#}</p>
+    <a href={$req_base}index.php/foros>{#volverforos#}</a>
+  </div>
+  <div class="col_central">
+    <span class="intro">{#intronuevo#}</span>
+      <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.nuevoforo>
+        <fieldset><legend>{#datosf#}</legend>
+          <p>
+            {#nombre#}<input type="text" name="txtNombre">
+            {#tipo#}<select name="selTipo">
+                      <option label="Seleccione tipo..." value="0">Seleccione tipo...</option>
+                      {html_options options=$tipos selected=0}
+                    </select>
+          </p>
+        </fieldset>
+        <fieldset><legend>{#datosm#}</legend>
+          <p>
+          {#titulo#}<input type="text" name="txtTitulo"><br />
+          </p>
+          <div class="areatexto">
+            <label>{#texto#}</label><textarea name="txtTexto" rows="2" cols="40"></textarea>
+          </div>
+        </fieldset>
+        <input type="submit" value={#aceptar#}>
+        <input type="reset" value={#borrar#}>
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.foros'">
+      </form>
+  </div>
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

@@ -1,0 +1,29 @@
+{config_load file=$lang_file section="consentimientos"}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>{#tituloapp#}</title>
+	<link href="{$req_base}css/estilos_aplicacion.css" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="{$img_path_base}favicon.ico">
+</head>
+<body class="imprimible">
+    <span class="intro">{#texto17#}</span>
+    {if is_array($datos)}
+    {include file=$tpl_path_base|cat:"gbdapp/consentimientos/cabeceraver.phtml"}
+    <p>{$datos.texto_incluido}</p>
+    <blockquote class="firmas">
+      <object data={$req_base}file.php/fd type="image/jpg" width="100" height="100"></object>
+      {if isset($datos.extension)}
+      <object data={$req_base}file.php/fcons/{$paciente.id_paciente}/{$datos.id_consentimiento}/{$datos.extension} type="image/{$datos.extension}" width="100" height="100"></object>
+      {/if}
+      <br />
+      <p>{#texto18#}</p>
+      <p>{#texto19#}</p>
+    </blockquote>
+  {else}
+    <p>{#texto8#}</p>
+  {/if}
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+{config_load file=$lang_file section="facturas"}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>{#tituloapp#}</title>
+	<link href="{$req_base}css/estilos_aplicacion.css" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="{$img_path_base}favicon.ico">
+</head>
+<body class="imprimible">
+    <span class="intro">{#texto33#}</span>
+    {if is_array($datos)}
+    {include file=$tpl_path_base|cat:"gbdapp/facturas/cabeceraver.phtml"}
+    <table border="0" width="100%">
+      <tr>
+        <th colspan="5">&nbsp;</th>
+      </tr>
+      <tr>
+        <td colspan="5">&nbsp;</td>
+      </tr>
+      <tr>
+        <th colspan="2">{#texto15#}</th>
+        <th>{#texto14#}</th>
+        <th>{#texto16#}</th>
+        <th>&nbsp;</th>
+      </tr>
+      <tr>
+        <td colspan="5" class="lineahor">&nbsp;</td>
+      </tr>
+      {counter assign=numlinea start=1 skip=1}
+        {if is_array($lineas)}
+          {foreach from=$lineas key=llave item=linea}
+            <tr>
+              <td colspan="2">{$numlinea}.&nbsp;{$linea.servicio|default:#texto20#}</td>
+              <td align="center">{$linea.cantidad}</td>
+              <td align="right">{$linea.total} €.</td>
+            </tr>
+          {counter}
+          {/foreach}
+        {/if}
+      <tr>
+        <td colspan="5" class="lineahor">&nbsp;</td>
+      </tr>
+      <tr>
+        <th colspan="3">{#texto20#}</th>
+        <th>{$datos.total} €.</th>
+        <th>&nbsp;</th>
+      </tr>
+    </table>
+    <blockquote class="firmas">
+      <object data={$req_base}file.php/fd type="image/jpg" width="100" height="100"></object>
+      <br />
+      <p>{#texto21#}</p>
+    </blockquote>
+  {else}
+    <p>{#texto34#}</p>
+  {/if}
+
+</body>
+</html>

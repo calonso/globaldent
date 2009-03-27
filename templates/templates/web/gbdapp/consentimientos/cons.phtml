@@ -1,0 +1,123 @@
+{config_load file=$lang_file section="consentimientos"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript">
+{literal}
+<!--
+  function abrir(dir)
+  {
+    window.open(dir);
+  }
+-->
+{/literal}
+</script>
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto1#}</span>
+    <p>{#texto2#}</p>
+    {if is_array($firmados)}
+    <table border="0" cellspacing="2" width="90%">
+      <tr>
+        <th colspan="6">{#texto12#}</th>
+      </tr>
+      <tr>
+        <th>{#texto5#}</th>
+        <th colspan="2">{#texto4#}</th>
+        <th colspan="3">&nbsp;</th>
+      </tr>
+      <tr>
+        <th colspan="6" class="lineahor">&nbsp;</th>
+      </tr>
+      {foreach from=$firmados item=cons}
+        <tr>
+          <td align="center">{$cons.fecha}</td>
+          <td colspan="2" align="center">{$cons.nombre|default:#texto14#}</td>
+          <td align="center">
+            <input type="button" value="{#texto16#}" onclick="abrir('{$req_base}index.php/cod.vercons/id.{$paciente.id_paciente}/cons.{$cons.id_consentimiento}')" />
+          </td>
+          <td colspan="2" align="right">  
+            <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.revocar/id.{$paciente.id_paciente}/cons.{$cons.id_consentimiento}>
+              <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
+              <input type="file" name="fileFirma" />
+              <input type="submit" value={#texto20#} />
+            </form>
+          </td>
+        </tr>
+      {/foreach}
+    </table>  
+    {else}
+      <p>{#texto3#}</p>
+    {/if}
+    <br />
+    {if is_array($resto)}
+    <table border="0" cellspacing="5" width="90%">
+    <tr>
+        <th colspan="4">{#texto13#}</th>
+      </tr>
+      <tr>
+        <th colspan="2">{#texto4#}</th>
+        <th colspan="2">&nbsp;</th>
+      </tr>
+      <tr>
+        <th colspan="4" class="lineahor">&nbsp;</th>
+      </tr>
+      {foreach from=$resto item=cons}
+        <tr>
+          <td colspan="3">{$cons.nombre}</td>
+          <td align="right">
+            <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.firmacons/id.{$paciente.id_paciente}/cons.{$cons.id_tipo_consentimiento}>
+              <input type="hidden" name="MAX_FILE_SIZE" value="200000" />
+              <input type="file" name="fileFirma" />
+              <input type="submit" value={#texto7#} />
+            </form>
+          </td>
+        </tr>
+      {/foreach}
+    </table>  
+    {else}
+      {if is_array($firmados)}
+        <p>{#texto15#}</p>
+      {else}
+        <p>{#texto8#}</p>
+        <a href={$req_base}index.php/cod.tipocons>{#texto6#}</a>
+      {/if}
+    {/if}
+    {if is_array($revocados)}
+      <table border="0" cellspacing="2" width="98%">
+        <tr>
+          <th colspan="5">{#texto21#}</th>
+        </tr>
+        <tr>
+          <td colspan="5" class="lineahor">&nbsp;</td>
+        </tr>
+        <tr>
+          <td>{#texto5#}</td>
+          <td>{#texto22#}</td>
+          <td colspan="2">{#texto4#}</td>
+          <td>&nbsp;</td>
+        </tr>
+        {foreach from=$revocados item=cons}
+          <tr>
+            <td>{$cons.fecha_r}</td>
+            <td>{$cons.fecha}</td>
+            <td colspan="2">{$cons.nombre}</td>
+            <td align="right">
+              <input type="button" value="{#texto16#}" onclick="abrir('{$req_base}index.php/cod.verconsr/id.{$paciente.id_paciente}/cons.{$cons.id_consentimiento}')" />
+            </td>
+          </tr>
+        {/foreach}
+      </table>
+    {else}
+      <p>{#texto23#}</p>
+    {/if}
+  </div>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.historia/id.{$paciente.id_paciente}>{#texto9#}</a></li> 
+    <li><a href={$req_base}index.php/cod.verpac/id.{$paciente.id_paciente}>{#texto10#}</a></li>
+    <li><a href={$req_base}index.php/cod.listapacientes>{#texto11#}</a></li>   
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

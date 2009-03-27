@@ -1,0 +1,56 @@
+{config_load file=$lang_file section="log"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<style type="text/css">@import url({$req_base}js/calendario/estilos/calendar-system.css);</style>
+<script type="text/javascript" src="{$req_base}js/calendario/calendar.js"></script>
+<script type="text/javascript" src="{$req_base}js/calendario/calendar-es.js"></script>
+<script type="text/javascript" src="{$req_base}js/calendario/calendar-setup.js"></script>
+
+<div class="contenidos">
+    <div class="col_izq">
+      <p>{#texto2#}</p>
+      <p>{#texto10#}</p>
+    </div>
+    <div class="col_central">
+      {if isset($logs)}
+        <form enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.verlog">
+        
+          <p>{#texto3#}</p>
+        {if isset($pers)}
+          <select name="selPers[]" multiple="multiple">
+            <option label={#texto3#} value=0>{#texto3#}</option>
+            {html_options options=$pers selected=0}
+          </select>
+        {else}
+          <p>{#texto4#}</p>
+        {/if}<br />
+        
+        
+          <p>{#texto5#}</p>
+          <select name="selTipos[]" multiple="multiple">
+            <option label={#texto5#} value=0>{#texto5#}</option>
+            {html_options options=$logs selected=0}
+          </select>
+        
+         <p>{#texto7#}
+         <input type="text" name="fechaIni" />
+         </p>
+         
+         <p>{#texto8#}
+         <input type="text" name="fechaFin" />
+         </p>
+         
+          <input type="submit" value={#aceptar#} />
+          <input type="reset" value={#borrar#} />
+          <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.admin'" />
+          
+        </form>
+      </div>
+      
+    {else}
+      <p>{#texto6#}</p>
+    {/if}<br />
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

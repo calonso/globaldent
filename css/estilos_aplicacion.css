@@ -1,0 +1,488 @@
+/* CSS Document */
+
+/* Estructura de la pagina */
+.citaLibre{
+	width: 100%;
+	height: 100%;
+	max-height: 1em;
+}
+.pasar ul{
+	list-style: none;
+}
+.pasar li{
+	float: left;
+	margin : 2% 0 2% 5%;
+}
+body{
+  min-width: 1100px;
+	font-size: 18px;;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+a img{
+  border: 0;
+}
+.cabecera{
+	background-image: url(../img/logo.jpg);
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
+	padding: 20px 30px 0 170px;
+	min-height: 110px;
+	max-width: 1200px;
+	min-width: 920px;
+}
+.cabecera .obj{
+  margin-right: 50px;
+	float: right;
+}
+.salir {
+  position: relative;
+  left: 50%;
+  max-width: 100px;
+}
+.pestanas{
+	padding: 0;
+	float: left;
+	width: 100%;
+	margin: 90px 0 0 0;
+	background-image: url(../img/linea.jpg);
+	background-repeat: repeat-x;
+	clear: none;
+}
+.pestanas ul{
+	list-style: none;
+	position: relative;
+	bottom: 61px;
+	left: 100px;
+	background: none;
+}
+.pestanas li{
+	float: left;
+	padding-left: 3px;
+}
+.contenidos{
+  margin-left: 60px;
+	display: table;
+	clear: both;
+	width: 90%;
+	padding: 0;
+}
+.col_izq{
+	display: table-cell;
+	float: left;
+	width: 19%;
+	min-height: 200px;
+	padding-right: 10px;
+	background-image:url(../img/separador.gif);
+	background-repeat:no-repeat;
+	background-position: top right;
+	}
+.col_central{
+	display: table-cell;
+	float: left;
+	margin: 0;
+	padding: 0;
+	width: 69%;
+	clear: right;
+}	
+.col_der{
+	display: table-cell;
+	float: left;
+	margin: 0;
+	padding: 40px 0 0 0;
+	width: 19%;
+	
+}
+
+/* Recuadros en columnas laterales */
+
+.recuadro{
+	display: table;
+	padding: 0;
+	margin: 0;
+}
+.top_recuadro{
+	display: table-row;
+}
+.top_recuadro img{
+	position: relative;
+	top: 1px;
+}
+.fila_central{
+	display: table-row;
+	}
+.cuerpo_recuadro{
+	display: table-cell;
+	background-color: #F0F0F0;
+	border-left: 2px solid #656565;
+	border-right: 2px solid #656565;
+	padding-left: 15px;
+}
+.borde_recuadro{
+	display: table-cell;
+	background-image:url(../img/borde_recuadro.jpg);
+	background-repeat:repeat-y;
+}
+.bottom_recuadro{
+	display: table-row;
+}
+.intro_cols{
+	font-size: 20px;
+	color: #006600;
+}
+.cuerpo_recuadro ul{
+	list-style: none;
+	padding-left: 10px;
+}
+.cuerpo_recuadro li{
+	margin: 10px 0 10px 0;
+	font-size: 15px;
+}
+.cuerpo_recuadro form{
+  margin: 0;
+}
+.calendario{
+  /*position: relative;
+  right: 40px;
+  margin: 20px 0 20px 0;*/
+}	
+/* Estilos Generales */
+body{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 100%;
+	margin: 0;
+	padding: 0;
+}
+p{
+	direction: ltr;
+}
+/* Estilos contenidos */
+
+/* Estilos recuadro de sugerencias de inicio */
+
+.inicio{
+	background-image: url(../img/fondo_inicio.gif);
+	background-repeat: no-repeat;
+	background-position: top;
+	margin-top: 20px;
+	padding: 20px 0 0 20px;
+	max-width: 919px;
+	height: 150px;
+	clear: both;
+}
+.inicio ul{
+	list-style: none;
+	display: inline;
+	margin-right: 300px;
+}
+.inicio li{
+	background-image: url(../img/punto.jpg);
+	background-repeat: no-repeat;
+	padding: 0 40px 10px 20px;
+	font-size: large;
+	color: #454545;
+	float: left;
+}
+.inicio li a{
+  color: #656565;
+}
+.inicio .intro{
+	font-size: 20px;
+	color: #006600;
+	margin-left: 50px;
+}
+
+/* Resto de contenidos */
+
+.intro{
+	font-size: 28px;
+	color: #006600;
+	margin: 0 0 20px 50px;
+	display: block;
+}
+.tabla_agenda{
+	padding: 50px 0 0 200px;
+}
+.botones{
+	margin: 30px 0 0 0;
+}
+.botones input{
+	margin-left: 220px;
+}
+legend{
+	font-weight: bold;
+	color: #656565;
+	border: 1px solid #656565;
+	background: #F0F0F0;
+	margin-top: 10px;
+}
+fieldset{
+	text-align: justify;
+}
+fieldset p{
+	text-indent: 10px;
+	display: inline;
+	line-height: 30px;
+}
+.texto p{
+  display: block;
+}
+form{
+	margin: 0 30px 0 30px;
+}
+.letras{
+  display: table-cell;
+	margin: 0 0 30px 50px;
+}
+.letras ul{
+	list-style: none;
+}
+.letras li{
+	float: left;
+	margin-left: 5px;
+}	
+.tablabusqueda{
+  display: table;
+  margin: 20px 0 0 40px;
+  width: 650px;
+}
+.lineabusqueda{
+	display:block;
+	float:none;
+	margin-top:60px;
+}
+.lineaopts{
+  display: table-cell;
+  /*margin-top: 20px;*/
+  float: right;
+}
+.bloqueada{
+  background-color: #F0F0F0;
+}
+.citaopts{
+  text-align: center;
+}
+.citaopts p{
+  font-size: 14px;
+  text-align: left;
+}
+.menu{
+	font-size: 14px;
+  position: absolute;
+	background-color:#DDDDDD;
+	border:2px solid #666666;
+  width: 200px;
+  height: 250px;
+  margin: 0 0 270px 150px;
+  visibility: hidden;	
+  overflow: scroll;
+}
+.menu ul{
+	padding: 0;
+	margin: 0;
+	list-style: none;	
+}
+.menu li{
+	margin: 0;
+	padding: 2px;
+	border: 2px solid white;	
+}
+.fotopers{
+  float: right;
+  padding: 2px;
+  border: 1px solid #656565;
+}
+.lineabusqueda .fotopers{
+  position: relative;
+  bottom: 30px;
+  right: 100px;
+}
+.pac_info{
+  display: table-cell;
+  padding: 10px 0 10px 0;
+  border-bottom: 1px solid #757575;
+  border-top: 1px solid #757575;
+  width: 650px;
+}
+.pac_info .intro{
+  font-size: 20px;
+}
+.pac_info fieldset{
+  display: inline;
+}
+.clin_info{
+  display: block;
+  padding: 10px 0 10px 0;
+  border-bottom: 1px solid #757575;
+  border-top: 1px solid #757575;
+  width: 650px;
+  font-weight: bold;
+}
+.clin_info .intro{
+  font-size: 20px;
+}
+.clin_info fieldset{
+  display: inline;
+}
+.indentar{
+  display: inline;
+  margin-left: 20px;
+}
+.tratamiento{
+  display: inline;
+  margin: 0 80px 0 80px;
+  text-align: center;
+}
+.primera{
+  display: inline;
+}
+.lineainicial{
+  margin-left: 40px;
+  font-weight: bold;
+}
+.imagen{
+  display: table-cell;
+  padding-left: 5px;
+}
+.imagen object {
+  padding: 2px;
+  border:1px solid #656565;
+}
+.imagen p{
+  display: block;
+  text-indent: 0;
+  line-height: 0;
+}
+.foto {
+  text-align: center;
+}
+.foto object {
+  padding: 4px;
+  border: 1px solid #656565;
+}
+.tablacaja{
+  text-align: center;
+  width: 98%;
+}
+.pendiente{
+  color: red;
+}
+.logoclinica .obj{
+  margin: 15px 15px 42px 0;
+  float: left;
+  padding: 2px;
+  border: 1px solid #656565;
+}
+.clin_info .logoclinica .obj{
+  margin: 0 0 30px 15px;
+  float: right;
+  padding: 2px;
+  border: 1px solid #656565;
+}
+.numpres{
+  float: right;
+}
+.lineahor{
+  border-bottom: 1px solid black;
+}
+.firmas{
+  margin-top: 150px;
+}
+.firmas p{
+  display: inline;
+  margin-left: 18%;
+}
+.firmas object{
+  margin-left: 22%;
+}
+
+.firmas input{
+  margin-left: 22%;
+}
+.inputfirma{
+  margin-left: 44%;
+}
+
+.divlog{
+  float: left;
+}
+
+.log_line{
+  font-size: small;
+  text-indent: 10px;
+}
+
+.modpagopac{
+  margin-top: 10px;
+  margin-left: 100px;
+}
+
+.modpagopac a{
+  float: right;
+}
+
+/*  Estilos para botones de paginacion */
+.pags .der {
+  margin-left: 70%;
+}
+
+/*  Estilos para páginas imprimibles */
+
+.imprimible{
+  font-size: 22px;
+  margin: 0 40px 0 40px;
+}
+.imprimible .paciente{
+  font-size: 15px;
+}
+.imprimible .pac_info{
+  display: table;
+  width: 90%;
+}
+.imprimible .pac_info object{
+  margin-right: 20px;
+  width: 200px;
+  height: 200px;
+}
+.imprimible .pac_info .logoclinica object{
+  margin: 40px 80px 20px 0;
+  width: 250px;
+  height: 200px;
+}
+.imprimible .clin_info{
+  display: table;
+  width: 90%;
+}
+.imprimible .clin_info object{
+  margin-right: 20px;
+  width: 200px;
+  height: 200px;
+}
+.imprimible .firmas p{
+  margin-left: 22%;
+}
+.imprimible .firmas object{
+  margin-left: 30%;
+}
+.imprimible .gab{
+  font-size: 15px;
+  line-height: 0px;
+}
+/* Estilos pie de pagina */
+.pie{
+	width: 100%;
+	background-color: #F0F0F0;
+	margin-top: 80px;
+	clear: both;
+}
+.pie img{
+	display: inline;
+	margin: 5px 0 10px 100px;
+}
+.pie p{
+	display: inline;
+	color:#656565;
+	font-weight:300;
+}
+

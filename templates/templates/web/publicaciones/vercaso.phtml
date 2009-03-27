@@ -1,0 +1,34 @@
+{config_load file=$lang_file section="casos"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+{if $codigo == 1}
+  <div class="col_central">
+    <span class="intro">{$caso.titulo}</span>
+    <fieldset><legend>{#datos#}</legend>
+    <p>
+      {#titulo#}{$caso.titulo}<br />
+      {#autor#}{$caso.autor}<br />
+      {#descripcion#}{$caso.descripcion}<br />
+      {#tratamiento#}{$caso.tratamiento}<br />
+      {#duracion#}{$caso.duracion}<br />
+      {#observaciones#}{$caso.observaciones}<br />
+      {#publicado#}{$libro.usuario} {#cuando#}{$libro.fecha}
+    </p><br /><br /><br />
+    </fieldset>
+    <object data={$req_base}file.php/casos/{$caso.id_caso}.pdf type="application/pdf" width="100%" height="1000px">para abrir click aqui:
+      <a href={$req_base}file.php/casos/{$caso.id_caso}.pdf>Tesis</a>
+    </object>
+  </div>
+  {include file=$tpl_path_base|cat:"common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.publi>{#volverpubli#}</a></li>
+    <li><a href={$req_base}index.php/cod.listacasos>{#volvercasos#}</a></li>
+    <li><a href={$req_base}index.php/cod.colgarcaso>{#colgarcaso#}</a></li>
+  {include file=$tpl_path_base|cat:"common/recuadro_footer.phtml"}
+{else}
+  {#nocasos#}
+{/if}
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

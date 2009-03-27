@@ -1,0 +1,54 @@
+<script type="text/javascript">
+<!--
+{literal}
+  function siguiente(fecha){
+    var myDate = new Date();
+    var partes = new Array();
+    partes = fecha.split("-",3);
+    partes[1] --;
+    myDate.setFullYear(partes[2],partes[1],partes[0]);
+    myDate.setDate(myDate.getDate() + 1);
+    paginar (myDate, "a");
+  }
+  
+  function anterior(fecha){
+    var myDate = new Date();
+    var partes = new Array();
+    partes = fecha.split("-",3);
+    partes[1] --;
+    myDate.setFullYear(partes[2],partes[1],partes[0]);
+    myDate.setDate(myDate.getDate() - 1);
+    paginar (myDate, "d");
+  }
+  function paginar(myDate, order){
+    var str = document.URL;
+    var fecha = myDate.getDate() + "-" + (myDate.getMonth() + 1) + "-" + myDate.getFullYear(); 
+    document.location = str.replace(/\/fecha\.\d{1,2}-\d{1,2}-\d{4}\/order.[a|d]/g, "") + "/fecha." + fecha + "/order." + order;
+  }
+{/literal}
+-->
+</script>
+
+{if isset($fechas) && isset($numero)}
+<div class="pags">
+  {if $fechas.curr == "ultimo"}
+    {if $numero != 0}
+      <input type="button" value="<" onclick="anterior('{$fechas.primera}')" />
+      <input class="der" type="button" value=">" disabled="disabled" /> 
+    {/if}
+  {else}
+    {if $numero != 0}
+      <input type="button" value="<" onclick="anterior('{$fechas.primera}')" />
+      <input class="der" type="button" value=">" onclick="siguiente('{$fechas.ultima}')" />  
+    {else}
+      {if $order == "a"}
+        <input type="button" value="<" onclick="anterior('{$fechas.curr}')" />
+        <input class="der" type="button" value=">" disabled="disabled" />    
+      {else}
+        <input type="button" value="<" disabled="disabled" />
+        <input class="der" type="button" value=">" onclick="siguiente('{$fechas.curr}')" />
+      {/if}
+    {/if}
+  {/if}
+</div>
+{/if}

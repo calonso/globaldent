@@ -1,0 +1,273 @@
+/* CSS Document */
+
+/* Estilos generales */
+body{
+	font-size: 100%;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+a img{
+  border: 0;
+}
+/* Estilos cabecera y pesañas */
+
+.cabecera{
+	margin: 30px 0 0 60px;
+	max-width: 1200px;
+	min-width: 920px;
+}
+.pestanas{
+	width: 100%;
+	float: left;
+	margin: 90px 0 0 0;
+	padding: 0;
+	background-image: url(../img/linea.jpg);
+	background-repeat: repeat-x;
+	clear: none;
+}
+.pestanas ul{
+	list-style: none;
+	position: relative;
+	bottom: 61px;
+	left: 60px;
+	background: none;
+}
+.pestanas li{
+	float: left;
+	padding-left: 3px;
+}
+
+/* Estilos para la tabla. Contenidos de la pagina*/
+
+.contenedor{
+	margin-left: 60px;
+	clear: both;
+	display: table;
+	width: 90%;
+	padding: 0;
+	}
+.col_izq{
+	display: table-cell;
+	float: left;
+	width: 20%;
+	min-height: 200px;
+	padding-right: 10px;
+	background-image:url(../img/separador.gif);
+	background-repeat:no-repeat;
+	background-position: top right;
+	}
+.col_central{
+	display: table-cell;
+	float: left;
+	width: 75%;
+	text-align: justify;
+	}
+.col_der{
+	display: table-cell;
+	float: left;
+	width: 20%;
+	padding: 40px 0 0 20px;
+	}
+.pie{
+	display: table-row;
+}
+
+/* Estilos recuadro de sugerencias de inicio */
+.inicio{
+	background-image: url(../img/fondo_inicio.gif);
+	background-repeat: no-repeat;
+	background-position: top;
+	margin-top: 20px;
+	padding: 20px 0 0 70px;
+	height: 150px;
+	clear: both;
+}
+.inicio ul{
+	list-style: none;
+	float: right;
+	display: inline;
+	margin-right: 300px;
+}
+.inicio li{
+	background-image: url(../img/punto.jpg);
+	background-repeat: no-repeat;
+	padding: 0 40px 10px 20px;
+	font-size: large;
+	color: #454545;
+	float: left;
+}
+.inicio li a{
+  color: #656565;
+}
+.inicio .intro{
+	font-size: 20px;
+	color: #006600;
+	margin-left: 50px;
+}
+
+/* Recuadros en columnas laterales */
+
+.recuadro{
+	display: table;
+	padding: 0;
+	margin: 0;
+}
+.top_recuadro{
+	display: table-row;
+}
+.top_recuadro img{
+	position: relative;
+	top: 1px;
+}
+.fila_central{
+	display: table-row;
+	}
+.cuerpo_recuadro{
+	display: table-cell;
+	background-color: #F0F0F0;
+	border-left: 2px solid #656565;
+	border-right: 2px solid #656565;
+	padding-left: 20px;
+}
+.borde_recuadro{
+	display: table-cell;
+	background-image:url(../img/borde_recuadro.jpg);
+	background-repeat:repeat-y;
+}
+.bottom_recuadro{
+	display: table-row;
+}
+.intro_cols{
+	font-size: 20px;
+	margin-top: 20px;
+	color: #006600;
+}
+.cuerpo_recuadro ul{
+	list-style: none;
+	padding-left: 0;
+	}
+.cuerpo_recuadro ul li{
+  padding-top: 5px;
+}
+.cuerpo_recuadro ul li a{
+  color: #656565;
+}
+/* Contenidos de la pagina */
+
+.intro{
+	font-size: 28px;
+	color: #006600;
+	margin-left: 50px;
+}
+legend{
+	font-weight: bold;
+	color: #656565;
+	border: 1px solid #656565;
+	background: #F0F0F0;
+	margin-top: 10px;
+}
+.indentado{
+	text-indent: 10px;
+}
+fieldset p{
+	text-indent: 10px;
+	display: inline;
+}
+.tablapubli{
+  display: table;
+  width: 100%;
+  clear: both;
+}
+.lineapubli{
+  display: table-row;
+}
+.publicacion{
+  font-size: 12px;
+  float: left;
+}
+.publicacion span{
+  font-size: 15px;
+  margin-right: 20px;
+}
+.publiusu{
+  text-indent: 0;
+  font-size: 12px;
+  float: right;
+  list-style: none;
+}
+.publiusu a img{
+  float: none;
+}
+.publiusu li{
+  float: left;
+  padding-left: 10px;
+}
+.opcionespubli{
+  font-size: 12px;
+  float: none;
+}
+/* Contenidos Foros */
+
+.areatexto {
+  margin-top: 10px;
+}
+.areatexto label{
+  position: relative;
+  bottom: 20px;
+}
+.mensaje{
+  border: 1px solid #939291; 
+  display: table;
+  
+  margin-top: 10px;
+}
+.titulomens{
+  display: table-row;
+  background-color: #9FC7D4;
+}
+.titulo span{
+  font-weight: bold;
+}
+.titulo{
+  margin-left: 20px;
+  float: left;
+}
+.fechahora{
+  margin-right: 20px;
+  float: right;
+}
+.cuerpomens{
+  display: table-row;
+  background-color: #E8E8E8;
+}
+.textomens{
+  min-width: 600px;
+  margin-left: 20px;
+}
+.opcionesforo{
+  text-align: right;
+  margin:  0 30px 15px 0;
+  font-size: 12px;
+}
+.indentar{
+  margin-left: 30px;  
+}
+/* Estilos fin de pagina */
+
+.bottom{
+	width: 100%;
+	background-color: #F0F0F0;
+	/*clear: both;*/
+	margin-top: 80px;
+	}
+.bottom img{
+	display: inline;
+	margin: 5px 0 10px 100px;
+}
+.bottom p{
+	display: inline;
+	color:#656565;
+	font-weight:300;
+}

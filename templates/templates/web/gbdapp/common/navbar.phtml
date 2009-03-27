@@ -1,0 +1,71 @@
+<div class="pestanas">
+		<ul>
+		  <li><a href={$req_base}index.php/cod.home>
+        {if $on == 1}
+			   <img src="{$img_path_base}tab_inicio_on.jpg"  height="49"/>
+			 {else}
+			   <img src="{$img_path_base}tab_inicio.jpg"  height="45"/>
+			{/if}
+			</a></li>
+			{if $privilegios == 4}
+			<li><a href={$req_base}index.php/cod.admin>
+        {if $on == 9}
+			   <img src="{$img_path_base}tab_admin_on.jpg"  height="49"/>
+			 {else}
+			   <img src="{$img_path_base}tab_admin.jpg"  height="45"/>
+			{/if}
+			</a></li>
+			{/if}
+			<li><a href={$req_base}index.php/cod.agenda>
+        {if $on == 2}
+			   <img src="{$img_path_base}tab_agenda_on.jpg"  height="49"/>
+			 {else}
+			   <img src="{$img_path_base}tab_agenda.jpg"  height="45"/>
+			{/if}
+			</a></li>
+			<li><a href={$req_base}index.php/cod.pacientes>
+        {if $on == 3}
+			   <img src="{$img_path_base}tab_pacientes_on.jpg"  height="49"/>
+			 {else}
+			   <img src="{$img_path_base}tab_pacientes.jpg"  height="45"/>
+			{/if}
+			</a></li>
+			<li><a href={$req_base}index.php/cod.dres>
+        {if $on == 4}
+			   <img src="{$img_path_base}tab_dres_on.jpg"  height="49"/>
+			 {else}
+			   <img src="{$img_path_base}tab_dres.jpg"  height="45"/>
+			{/if}
+			</a></li>
+			<li><a href={$req_base}index.php/cod.personal>
+        {if $on == 5}
+			   <img src="{$img_path_base}tab_personal_on.jpg"  height="49"/>
+			 {else}
+			   <img src="{$img_path_base}tab_personal.jpg"  height="45"/>
+			{/if}
+			</a></li>
+			<li><a href={$req_base}index.php/cod.pedidos>
+        {if $on == 6}
+			   <img src="{$img_path_base}tab_pedidos_on.jpg"  height="49"/>
+			 {else}
+			   <img src="{$img_path_base}tab_pedidos.jpg"  height="45"/>
+			{/if}
+			</a></li>
+			<li><a href={$req_base}index.php/cod.conta>
+        {if $on == 7}
+			   <img src="{$img_path_base}tab_conta_on.jpg"  height="49"/>
+			 {else}
+			   <img src="{$img_path_base}tab_conta.jpg"  height="45"/>
+			{/if}
+			</a></li>
+			{if $privilegios == 5 || $privilegios == 4}
+  			<li><a href={$req_base}index.php/cod.conf>
+          {if $on == 8}
+  			   <img src="{$img_path_base}tab_conf_on.jpg"  height="49"/>
+  			 {else}
+  			   <img src="{$img_path_base}tab_conf.jpg"  height="45"/>
+  			{/if}
+			 </a></li>
+			{/if}
+		</ul>
+	</div>

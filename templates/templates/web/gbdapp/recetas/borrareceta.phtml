@@ -1,0 +1,16 @@
+{config_load file=$lang_file section="recetas"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_central">
+    {if $codigo > 0}
+      <p>{#texto45#}</p>
+    {else}
+      <p>{#texto46#}</p>
+    {/if}
+      <p><a href={$req_base}index.php/cod.historia/id.{$paciente.id_paciente}>{#volver#}</a></p>
+  </div>
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

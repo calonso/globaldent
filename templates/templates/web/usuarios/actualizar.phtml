@@ -1,0 +1,15 @@
+{config_load file=$lang_file section="usuarios"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+{if $codigo > 0}
+  <span class="intro">{#areausu#}</span>
+  <p>{#modificarok#}</p>
+{else}
+  <span class="intro">{#error#}</span>
+  <p>{#modificarerror#}</p>
+{/if}
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

@@ -1,0 +1,108 @@
+{config_load file=$lang_file section="pacientes"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_izq">
+      <span class="intro">{#texto49#}</span>
+      <p>{#texto50#}</p>
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto51#}</span>
+      {if isset($datos)}
+        <p>{#texto52#}</p>
+        <div id='paciente_errorloc' class='error_strings'></div>  
+        <form name="paciente" enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.actualizapaciente/id.{$datos.id_paciente}">
+          <fieldset><legend>{#texto9#}</legend>
+            <p>{#texto10#}</p><input type="text" name="txtNombre" value="{$datos.nombre}" ><br />
+            <p>{#texto11#}</p><input type="text" name="txtApe" value="{$datos.apellido}" ><br />
+            <p>{#texto12#}</p><input type="text" name="txtApe2" value="{$datos.apellido2}" ><br />
+            <p>{#texto13#}</p><input type="text" name="txtDNI" value="{$datos.dni}" ><br />
+            <p>{#texto14#}</p><input type="text" name="txtFechanac" value="{$datos.fecha_nacimiento}" ><br />
+            <p>{#texto15#}</p><input type="text" name="txtProf" value="{$datos.profesion}" ><br /> 
+            <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
+            <p>{#texto69#}</p><input type="file" name="fileFoto"><br />  
+          </fieldset>
+          <fieldset><legend>{#texto16#}</legend>
+            <p>{#texto17#}</p><input type="text" name="txtDir" value="{$datos.direccion}" ><br />
+            <p>{#texto18#}</p><input type="text" name="txtCP" value="{$datos.cp}" ><br />
+            <p>{#texto19#}</p><input type="text" name="txtCiudad" value="{$datos.ciudad}" ><br />
+            <p>{#texto20#}</p>
+              {if isset($provincias)}
+                <select name="selProv">
+                  <option label={#texto21#} value=0>{#texto21#}</option>
+                  {html_options options=$provincias selected=$datos.id_provincia}
+                </select>
+              {else}
+                <p>{#texto22#}</p>
+              {/if}<br />
+            <p>{#texto23#}</p><input type="text" name="txtTelfijo" value="{$datos.telefono_fijo}" ><br />
+            <p>{#texto24#}</p><input type="text" name="txtMovil" value="{$datos.telefono_movil}" ><br />
+            <p>{#texto25#}</p><input type="text" name="txtTeltrab" value="{$datos.telefono_trabajo}" ><br />
+            <p>{#texto26#}</p><input type="text" name="txtEmail" value="{$datos.email}" ><br />
+          </fieldset>
+          <fieldset><legend>{#texto27#}</legend>
+            <p>{#texto28#}</p>
+              {if isset($dres)}
+                <select name="selDr">
+                  <option label={#texto29#} value=0>{#texto29#}</option>
+                  {html_options options=$dres selected=$datos.id_dr_referidor|default:0}
+                </select>
+              {else}
+                <p>{#texto30#}</p>
+              {/if}<br />
+            <p>{#texto31#}</p>
+              {if isset($pacs)}
+                <select name="selPac">
+                  <option label={#texto32#} value=0>{#texto32#}</option>
+                  {html_options options=$pacs selected=$datos.id_paciente_referidor|default:0}
+                </select>
+              {else}
+                <p>{#texto33#}</p>
+              {/if}<br />
+            <p>{#texto34#}</p><textarea name="txtAlertas">{$datos.alertas_medicas}</textarea><br />
+            <p>{#texto35#}</p><textarea name="txtObservaciones">{$datos.observaciones}</textarea><br />
+          </fieldset>
+          <input type="submit" value={#aceptar#} />
+          <input type="reset" value={#borrar#} />
+          <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.pacientes'" />
+        </form>
+      {else}
+        {#texto47#}
+      {/if}
+  </div>
+</div>
+
+<script type="text/javascript">
+<!--
+	var validator = new Validator("paciente");
+	validator.addValidation("txtNombre", "req", "{#error0#}");
+	validator.addValidation("txtNombre", "alpha_s", "{#error1#}");
+	validator.addValidation("txtNombre", "maxlen=40", "{#error2#}");
+	validator.addValidation("txtApe", "req", "{#error3#}");
+	validator.addValidation("txtApe", "alpha_s", "{#error4#}");
+	validator.addValidation("txtApe", "maxlen=45", "{#error5#}");
+	validator.addValidation("txtApe2", "alpha_s", "{#error6#}");
+	validator.addValidation("txtApe2", "maxlen=45", "{#error7#}");
+	validator.addValidation("txtDNI", "alnum", "{#error8#}");
+	validator.addValidation("txtDNI", "maxlen=9", "{#error8#}");
+	validator.addValidation("txtFechanac", "{literal}regexp=^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}${/literal}", "{#error9#}");
+	validator.addValidation("selProv", "dontselect=0", "{#error22#}");
+	validator.addValidation("txtProf", "maxlen=250", "{#error10#}");
+	validator.addValidation("txtDir", "maxlen=150", "{#error11#}");
+	validator.addValidation("txtCP", "maxlen=5", "{#error12#}");
+	validator.addValidation("txtCP", "num", "{#error13#}");
+	validator.addValidation("txtCiudad", "maxlen=200", "{#error14#}");
+	validator.addValidation("txtTelfijo", "maxlen=13", "{#error15#}");
+	validator.addValidation("txtTelfijo", "num", "{#error16#}");
+	validator.addValidation("txtMovil", "maxlen=13", "{#error17#}");
+	validator.addValidation("txtMovil", "num", "{#error18#}");
+	validator.addValidation("txtTeltrab", "maxlen=13", "{#error19#}");
+	validator.addValidation("txtTeltrab", "num", "{#error20#}");
+	validator.addValidation("txtEmail", "email", "{#error21#}");
+	validator.EnableOnPageErrorDisplaySingleBox();
+	validator.EnableMsgsTogether();
+//-->
+</script>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

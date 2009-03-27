@@ -1,0 +1,18 @@
+{config_load file=$lang_file section="personal"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <div class="contenidos">
+    <div class="col_central">
+      <span class="intro">{#texto84#}</span>
+      {if $codigo == -2}
+        <p>{#texto89#}</p>
+      {elseif $codigo == -1}
+        <p>{#texto90#}</p>
+      {elseif $codigo > 0}
+        <p>{#texto91#}</p>
+      {/if} 
+    </div>
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

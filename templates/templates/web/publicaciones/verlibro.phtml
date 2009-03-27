@@ -1,0 +1,33 @@
+{config_load file=$lang_file section="libros"}
+
+{include file=$tpl_path_base|cat:"common/header.phtml"}
+
+<div class="contenedor">
+{if $codigo == 1}
+  <div class="col_central">
+    <span class="intro">{$libro.titulo}</span>
+    <fieldset><legend>{#datos#}</legend>
+    <p>
+      {#titulo#}{$libro.titulo}<br />
+      {#autor#}{$libro.autor}<br />
+      {#editorial#}{$libro.editorial}<br />
+      {#isbn#}{$libro.isbn}<br />
+      {#annio#}{$libro.año}<br />
+      {#publicado#}{$libro.usuario} {#cuando#}{$libro.fecha}
+    </p><br /><br /><br />
+    </fieldset>
+    <object data={$req_base}file.php/libros/{$libro.id_libro}.pdf type="application/pdf" width="100%" height="1000px">para abrir click aqui:
+      <a href={$req_base}file.php/libros/{$libro.id_libro}.pdf>Tesis</a>
+    </object>
+  </div>
+  {include file=$tpl_path_base|cat:"common/recuadro_header.phtml"}
+    <li><a href={$req_base}index.php/cod.publi>{#volverpubli#}</a></li>
+    <li><a href={$req_base}index.php/cod.listalibros>{#volverlibros#}</a></li>
+    <li><a href={$req_base}index.php/cod.colgarlibro>{#colgarlibro#}</a></li>
+  {include file=$tpl_path_base|cat:"common/recuadro_footer.phtml"}
+{else}
+  {#nolibros#}
+{/if}
+</div>
+
+{include file=$tpl_path_base|cat:"common/footer.phtml"}

@@ -1,0 +1,160 @@
+{config_load file=$lang_file section="agenda"}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>{#tituloapp#}</title>
+	<link href="{$req_base}css/estilos_aplicacion.css" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="{$img_path_base}favicon.ico">
+</head>
+<body class="imprimible" onload="window.print();window.close()">
+    <span class="intro">{#texto1#} {$dias.hoy}</span>
+    {if $gabinetes > 0}
+    <table border="1" cellspacing="0" cellpadding="0" width="98%">
+      <tr>
+        <td>&nbsp;</td>
+        {section name=numerogab loop=$gabinetes start=1}
+        <td>
+          {assign var=ind value=$smarty.section.numerogab.index}
+          <p class="gab">{#gabinete#}{$ind}</p>
+        </td>
+        {/section}
+      </tr>
+    {foreach from=$horas key=i item=hora}
+      <tr>
+        <td>
+          <p class="gab">{$hora}</p>
+        </td>
+        {section name=asiento loop=$gabinetes start=1}
+        {assign var=num value=$smarty.section.asiento.index}
+        {assign var=puesto value=0}
+        {foreach from=$citas[$i] item=cita}
+          {if $cita.gabinete == $num}
+            {if $cita.bloqueado == true}
+              {assign var=puesto value=1}
+              <td class="bloqueada" align="center" rowspan="{$cita.duracion}">
+                <img src={$img_path_base}icoborrar.ico title="Borrar" width="16" height="16" />
+              </td>
+            {else}
+              <td rowspan="{$cita.duracion}">
+                <p class="paciente">{$cita.paciente}</p>
+                {assign var=puesto value=1}
+                {if $cita.duracion > 1}
+                  {assign var=gab$num value=$cita.duracion}
+                {/if}
+                <div class="citaopts">
+                  {if $cita.AR == 1}
+                    <img src={$img_path_base}icoatencion.png alt="Atencion" title="{#observaciones#}{$cita.observaciones}" width="20" height="20" />
+                  {/if}
+                  <p>{$cita.tipo}</p>
+                </div>
+              </td>
+            {/if}
+          {/if}
+        {/foreach}
+        {if $puesto == 0}
+          {if $num == 1}
+            {if $gab1 > 1}
+              {assign var=gab1 value=$gab1-1}
+            {else}
+              <td>
+                &nbsp;
+              </td>
+            {/if}
+          {/if}
+          {if $num == 2}
+            {if $gab2 > 1}
+              {assign var=gab2 value=$gab2-1}
+            {else}
+              <td>
+                &nbsp;
+              </td>
+            {/if}
+          {/if}
+          {if $num == 3}
+            {if $gab3 > 1}
+              {assign var=gab3 value=$gab3-1}
+            {else}
+              <td>
+                &nbsp;
+              </td>
+            {/if}
+          {/if}
+          {if $num == 4}
+            {if $gab4 > 1}
+              {assign var=gab4 value=$gab4-1}
+            {else}
+              <td>
+                &nbsp;
+              </td>
+            {/if}
+          {/if}
+          {if $num == 5}
+            {if $gab5 > 1}
+              {assign var=gab5 value=$gab5-1}
+            {else}
+              <td>
+                &nbsp;
+              </td>
+            {/if}
+          {/if}
+          {if $num == 6}
+            {if $gab6 > 1}
+              {assign var=gab6 value=$gab6-1}
+            {else}
+              <td>
+                &nbsp;
+              </td>
+            {/if}
+          {/if}
+          {if $num == 7}
+            {if $gab7 > 1}
+              {assign var=gab7 value=$gab7-1}
+            {else}
+              <td>
+                &nbsp;
+              </td>
+            {/if}
+          {/if}
+          {if $num == 8}
+            {if $gab8 > 1}
+              {assign var=gab8 value=$gab8-1}
+            {else}
+              <td>
+                &nbsp;
+              </td>
+            {/if}
+          {/if}
+          {if $num == 9}
+            {if $gab9 > 1}
+              {assign var=gab9 value=$gab9-1}
+            {else}
+              <td>
+                &nbsp;
+              </td>
+            {/if}
+          {/if}
+          {if $num == 10}
+            {if $gab10 > 1}
+              {assign var=gab10 value=$gab10-1}
+            {else}
+              <td>
+                &nbsp;
+              </td>
+            {/if}
+          {/if}
+          
+        {/if}
+        {/section}
+      </tr>
+    {/foreach}
+    </table>
+    {else}
+      <p>{#texto27#}</p>
+      <a href={$req_base}index.php/cod.datosclinica>{#texto28#}</a>
+    {/if}
+        <br /><br />
+
+</body>
+</html>

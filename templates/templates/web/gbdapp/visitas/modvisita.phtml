@@ -1,0 +1,178 @@
+{config_load file=$lang_file section="visitas"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript" src="{$req_base}js/fckeditor/fckeditor.js"></script>
+<script type="text/javascript">
+{literal}
+<!--
+function FCKeditor_OnComplete( editorInstance )
+{
+	editorInstance.Events.AttachEvent( 'OnBlur'	, FCKeditor_OnBlur ) ;
+	editorInstance.Events.AttachEvent( 'OnFocus', FCKeditor_OnFocus ) ;
+}
+
+function FCKeditor_OnBlur( editorInstance )
+{
+	editorInstance.ToolbarSet.Collapse() ;
+}
+
+function FCKeditor_OnFocus( editorInstance )
+{
+	editorInstance.ToolbarSet.Expand() ;
+}
+function borrar(llave)
+{
+{/literal}
+  var x = document.getElementById ("formulario");
+  x.action = "{$req_base}index.php/cod.borralineamv/id.{$paciente.id_paciente}/vis.{$datos.id_visita}/num." + llave;
+  x.submit();
+{literal}
+}
+function linea()
+{
+  var x = document.getElementById ("formulario");
+  {/literal}
+    x.action = "{$req_base}index.php/cod.nuevalineamv/id.{$paciente.id_paciente}/vis.{$datos.id_visita}";
+  {literal}
+  x.submit();
+}
+function servicio()
+{
+  var x = document.getElementsByName ("txtUnitario");
+  var y = document.getElementsByName ("selServicio");
+  var txt = y[0].options[y[0].selectedIndex].text;
+  var primero = txt.lastIndexOf ("-");
+  primero += 2;
+  var ultimo = txt.lastIndexOf ("€");
+  var cadena = txt.slice (primero, ultimo);
+  x[0].value= cadena ;  
+}
+-->
+{/literal}
+</script>
+
+<div class="contenidos">
+  <div class="col_izq">
+    <span class="intro">{#texto38#}</span>
+    <p>{#texto39#}</p>
+  </div>
+  <div class="col_central">
+    <span class="intro">{#texto38#}</span>
+    {include file=$tpl_path_base|cat:"gbdapp/visitas/pac_info.phtml"}
+    <p>{#texto39#}</p>
+    {if is_array($datos)}
+    <form id="formulario" enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.actualizavisita/id.{$paciente.id_paciente}/vis.{$datos.id_visita}">
+      <fieldset><legend>{#texto14#}</legend>
+        <p>{#texto16#}</p><input type="text" name="txtAsiento" value="{$datos.asiento}"/><br />
+        <p>{#texto17#}</p>
+          <script type="text/javascript">
+            var oFCKeditor = new FCKeditor('txtMotivo','100%','200','MyToolbar','{$datos.motivo|regex_replace:"/[\r\n]/":""}');
+            oFCKeditor.BasePath = "{$req_base}js/fckeditor/";
+            oFCKeditor.Config['ToolbarStartExpanded'] = false ;
+            oFCKeditor.Create();
+          </script><br />
+        <p>{#texto18#}</p>
+          <script type="text/javascript">
+            var oFCKeditor = new FCKeditor('txtDiag','100%','200','MyToolbar','{$datos.diagnostico|regex_replace:"/[\r\n]/":""}');
+            oFCKeditor.BasePath = "{$req_base}js/fckeditor/";
+            oFCKeditor.Config['ToolbarStartExpanded'] = false ;
+            oFCKeditor.Create();
+          </script><br />
+        <p>{#texto19#}</p>
+            <table border="0" width="98%">
+              <tr>
+                <th colspan="2">{#texto66#}</th>
+                <th>{#texto72#}</th>
+                <th>{#texto67#}</th>
+                <th>{#texto68#}</th>
+                <th>&nbsp;</th>
+              </tr>
+              <tr>
+                <th colspan="5" class="lineahor">&nbsp;</th>
+              </tr>
+              {counter assign=numlinea start=1 skip=1}
+              {assign var=total value=0}
+                {if is_array($lineas)}
+                  {foreach from=$lineas key=llave item=linea}
+                    <tr>
+                      <td colspan="2">{$numlinea}.&nbsp;{$linea.servicio|default:#texto57#}</td>
+                      <td align="center">{$linea.unitario}</td>
+                      <td align="center">{$linea.cantidad}</td>
+                      <td align="right">{$linea.total} €.</td>
+                      <td><input type="button" value="{#borrar#}" onclick="borrar({$llave})">
+                    </tr>
+                  {counter}
+                  {math equation="x + y" x=$total y=$linea.total assign=total}
+                  {/foreach}
+                {/if}
+              <tr>
+                <td colspan="2">{$numlinea}.&nbsp;
+                  {if is_array($servicios)}
+                    <select name="selServicio" onchange="servicio()">
+                      <option label="{#texto45#}" value=0>{#texto45#}</option>
+                      {html_options options=$servicios selected=0}
+                    </select>
+                  {else}
+                    {#texto43#}
+                    <a href={$req_base}index.php/cod.servicios>{#texto44#}</a>
+                  {/if}
+                </td>
+                <td><input type="text" name="txtUnitario"></td>
+                <td><input type="text" name="txtCuantos" value="1"></td>
+                <td><input type="button" value="{#aceptar#}" onclick="linea()"/></td>
+              </tr>
+              <tr>
+                <td colspan="5" class="lineahor">&nbsp;</td>
+              </tr>
+              <tr>
+                <th colspan="3" align="center">{#texto68#}</th>
+                <th>{$total} €.</th>
+                <th>&nbsp;</th>
+              </tr>
+            </table>
+        <br />
+        <p>{#texto20#}</p>
+        <script type="text/javascript">
+          var oFCKeditor = new FCKeditor('txtObservaciones','100%','200','MyToolbar','{$datos.observaciones|regex_replace:"/[\r\n]/":""}');
+          oFCKeditor.BasePath = "{$req_base}js/fckeditor/";
+          oFCKeditor.Config['ToolbarStartExpanded'] = false ;
+          oFCKeditor.Create();
+        </script><br /><br />
+      </fieldset>
+      <fieldset><legend>{#texto46#}</legend>
+        <p>{#texto47#}</p>
+          {if is_array($pers)}
+            <select name="selPers[]" multiple="multiple">
+              <option label="{#texto48#}" value=0>{#texto48#}</option>
+              {html_options options=$pers selected=$datos.pers|default:0}
+            </select>
+          {else}
+            <p>{#texto49#} <a href={$req_base}index.php/cod.nuevoempleado>{#texto50#}</a></p>
+          {/if}
+        <br />
+        <p>{#texto51#}</p>
+          {if is_array($dres)}
+            <select name="selDres[]" multiple="multiple">
+              <option label="{#texto52#}" value=0>{#texto52#}</option>
+              {html_options options=$dres selected=$datos.col|default:0}
+            </select>
+          {else}
+            <p>{#texto53#} <a href={$req_base}index.php/cod.nuevodr>{#texto54#}</a></p>
+          {/if}
+        <br />
+        <p>{#texto55#}</p>
+      </fieldset>
+      <input type="hidden" name="txtPrecio" value={$total} />
+      <input type="submit" value={#aceptar#} />
+      <input type="reset" value={#borrar#} />
+      <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.pacientes'" />
+    </form>
+    {else}
+      <p>{#texto34#}</p>
+    {/if}
+  </div>
+
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

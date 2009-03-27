@@ -1,0 +1,41 @@
+{config_load file=$lang_file section="imagenes"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+  <div class="col_central">
+    <span class="intro">{#texto1#}</span>
+    {include file=$tpl_path_base|cat:"gbdapp/imagenes/pac_info.phtml"}
+    <p>{#texto33#}</p>
+    {if is_array($datos)}
+        <fieldset><legend>{#texto15#}</legend>
+          <p>{#texto35#}{$datos.fecha}</p><br />
+          <p>{#texto17#}{$datos.tipoimg}</p><br />
+          <p>{#texto45#}{$datos.grupoimg}</p><br />
+          <p>{#texto21#}{$datos.comentarios}</p><br />
+        </fieldset>
+        {if isset($datos.extension)}
+        <div class="foto">
+          <object data={$req_base}file.php/fotopac/{$paciente.id_paciente}/{$datos.id_imagen}/{$datos.extension} type="image/{$datos.extension}" width="400" height="400">
+          </object>
+        </div>
+      {else}
+        <p>{#texto34#}</p>
+      {/if}
+    {else}
+      <p>{#texto34#}</p>
+    {/if}
+  </div>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+  {if is_array($paciente)}
+    <li><a href={$req_base}index.php/cod.borraimagen/id.{$paciente.id_paciente}/img.{$datos.id_imagen}>{#texto36#}</a></li>
+    <li><a href={$req_base}index.php/cod.nuevaimagen/id.{$paciente.id_paciente}>{#texto4#}</a></li>
+    <li><a href={$req_base}index.php/cod.imagenes/id.{$paciente.id_paciente}>{#texto38#}</a></li>
+    <li><a href={$req_base}index.php/cod.verpac/id.{$paciente.id_paciente}>{#texto31#}</a></li>
+    <li><a href={$req_base}index.php/cod.historia/id.{$paciente.id_paciente}>{#texto32#}</a></li>
+  {/if}
+    <li><a href={$req_base}index.php/cod.listapacientes>{#texto10#}</a></li>
+  {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+</div>
+    
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

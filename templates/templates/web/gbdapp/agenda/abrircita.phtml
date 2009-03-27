@@ -1,0 +1,68 @@
+{config_load file=$lang_file section="agenda"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript">
+{literal}
+<!--
+function enviar()
+{
+  document.formulario.txtFecha.disabled = false;
+  document.formulario.txtHora.disabled = false;
+  document.formulario.txtAsiento.disabled = false;
+}
+-->
+{/literal}
+</script>
+
+<div class="contenidos">
+  <div class="col_izq">
+    {#texto5#}
+  </div>
+  <div class="col_central">
+    <span class="intro">{#texto6#}</span>
+    <div id='formulario_errorloc' class='error_strings'></div>
+    <form name="formulario" enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.nuevacita>
+      <fieldset><legend>{#texto7#}</legend>
+        <p>{#paciente#}</p>
+        {if is_array($pacs)}
+          <select name="selPac">
+            <option label="{#texto23#}" value="0">{#texto23#}</option>
+            {html_options options=$pacs selected=0}
+          </select>
+          {else}
+            <p>{#texto21#}</p>
+            <a href={$req_base}index.php/cod.nuevopaciente>{#texto22#}</a>
+          {/if}<br />
+        <p>{#fecha#}<input type="text" name="txtFecha" value="{$datos.fecha}" disabled="true"></p><br />
+        <p>{#asiento#}<input type="text" name="txtAsiento" value="{$datos.asiento}" disabled="true"></p><br />
+        <p>{#hora#}<input type="text" name="txtHora" value="{$datos.hora}" disabled="true"></p><br />
+        <p>{#duracion#}<input type="text" name="txtDuracion" value="1">{#texto26#}</p><br />
+        <div class="areatexto">
+            <label>{#observaciones#}</label><textarea name="txtObservaciones" rows="2" cols="40"></textarea>
+        </div>
+        <p>{#texto19#}<input type="text" name="txtTipo" />{#texto20#}</p><br />
+        </fieldset>
+        <input type="submit" value={#aceptar#}>
+        <input type="reset" value={#borrar#}>
+        <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.agenda'">
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+<!--
+	var validator = new Validator("formulario");
+	validator.addValidation("selPac", "dontselect=0", "{#error6#}");
+	validator.addValidation("txtDuracion", "num", "{#error0#}");
+	validator.addValidation("txtDuracion", "lt=29", "{#error1#}");
+	validator.addValidation("txtObservaciones", "alnum_s", "{#error2#}");
+	validator.addValidation("txtObservaciones", "maxlen=200", "{#error3#}");
+	validator.addValidation("txtTipo", "maxlen=20", "{#error5#}");
+	validator.EnableOnPageErrorDisplaySingleBox();
+	validator.EnableMsgsTogether();
+	validator.setAddnlValidationFunction("enviar"); 
+//-->
+</script>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

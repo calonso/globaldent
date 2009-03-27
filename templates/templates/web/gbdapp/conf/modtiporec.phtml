@@ -1,0 +1,65 @@
+{config_load file=$lang_file section="conf"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript" src="{$req_base}js/fckeditor/fckeditor.js"></script>
+<script type="text/javascript">
+{literal}
+function FCKeditor_OnComplete( editorInstance )
+{
+	editorInstance.Events.AttachEvent( 'OnBlur'	, FCKeditor_OnBlur ) ;
+	editorInstance.Events.AttachEvent( 'OnFocus', FCKeditor_OnFocus ) ;
+}
+
+function FCKeditor_OnBlur( editorInstance )
+{
+	editorInstance.ToolbarSet.Collapse() ;
+}
+
+function FCKeditor_OnFocus( editorInstance )
+{
+	editorInstance.ToolbarSet.Expand() ;
+}
+{/literal}
+	</script>
+	
+  <div class="contenidos">
+    <div class="col_central">
+      <span class="intro">{#texto94#}</span>
+      <p>{#texto95#}</p>
+      {if is_array($datos)}
+      <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.edittiporec/id.{$datos.id_tipo_receta}>
+      <fieldset><legend>{#texto93#}</legend>
+        <p>{#texto68#}</p><input type="text" name="txtNombre" value={$datos.nombre} ><br />
+        <fieldset><legend>{#texto99#}</legend>
+          <script type="text/javascript">
+            var oFCKeditor = new FCKeditor('txtResumen','100%','200','MyToolbar','{$datos.resumen|regex_replace:"/[\r\n]/":""}');
+            oFCKeditor.BasePath = "{$req_base}js/fckeditor/";
+            oFCKeditor.Config['ToolbarStartExpanded'] = false ;
+            oFCKeditor.Create();
+          </script>
+        </fieldset>
+        <fieldset><legend>{#texto100#}</legend>
+          <script type="text/javascript">
+            var oFCKeditor = new FCKeditor('txtTexto','100%','400','MyToolbar','{$datos.texto|regex_replace:"/[\r\n]/":""}');
+            oFCKeditor.BasePath = "{$req_base}js/fckeditor/";
+            oFCKeditor.Config['ToolbarStartExpanded'] = false ;
+            oFCKeditor.Create();
+          </script>
+        </fieldset>
+      </fieldset>
+      <input type="submit" value={#aceptar#} />
+      <input type="reset" value={#borrar#} />
+      <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.tiporecetas'">
+      </form>
+      {else}
+      <p>{#texto96#}</p>
+      {/if}
+    </div>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+      <li><a href={$req_base}index.php/cod.tiporecetas>{#texto97#}</a></li>
+      <li><a href={$req_base}index.php/cod.conf>{#texto98#}</a></li>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

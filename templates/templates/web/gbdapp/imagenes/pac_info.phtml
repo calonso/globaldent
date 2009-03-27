@@ -1,0 +1,25 @@
+<div class="pac_info">
+  <span class="intro">{#texto5#}</span>
+  {if is_array($paciente)}
+    {if $paciente.extension|count_characters > 0}
+      <div class="fotopers">
+        <object data={$req_base}file.php/fotopers/{$paciente.id_paciente}/{$paciente.extension} type="image/{$paciente.extension}" height="80" width="80"></object>
+      </div>
+    {else}
+      <div class="fotopers">
+        <img src={$img_path_base}foto.jpg width="60" height="60">
+      </div>
+    {/if}
+    <p>{$paciente.nombre} {$paciente.apellido} {$paciente.apellido2}</p>
+    <p>{#texto9#} {$paciente.telefono_fijo} / {$paciente.telefono_movil} / {$paciente.telefono_trabajo}</p>
+    <br />
+    <fieldset><legend>{#texto7#}</legend>
+    <p>{$paciente.alertas_medicas}</p>
+    </fieldset>
+    <fieldset><legend>{#texto8#}</legend>
+    <p>{$paciente.observaciones}</p>
+    </fieldset>
+  {else}
+    <p>{#texto6#}</p>
+  {/if}
+</div>

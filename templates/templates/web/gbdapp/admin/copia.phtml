@@ -1,0 +1,16 @@
+{config_load file=$lang_file section="personal"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<div class="contenidos">
+    <span class="intro">{#texto70#}</span>
+    <div class="inicio">
+      <span class="intro">{#texto1#}</span>
+      <ul>
+        <li><a href={$req_base}index.php/cod.crearcopia>{#texto75#}</a></li>
+        <li><a href={$req_base}index.php/cod.restaurar>{#texto76#}</a></li>
+      </ul>
+    </div>
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

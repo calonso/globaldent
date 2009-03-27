@@ -1,0 +1,32 @@
+{config_load file=$lang_file section="usuarios"}
+
+{include file=$tpl_path_base|cat:"/common/header.phtml"}
+
+  <div class="contenedor">
+		  {if $autenticado == 1}
+		  <span class="intro">{#areausu#}</span>
+		    <div class="inicio">
+			    <span class="intro">{#introinicio#}</span>
+			    <ul>
+			     <li><a href={$req_base}index.php/cod.verficha>{#verficha#}</a></li>
+			     <li><a href={$req_base}index.php/cod.verpubli>{#verpubli#}</a></li>
+			     <li><a href={$req_base}index.php/cod.logout>{#salir#}</a></li>
+			     <li><a href={$req_base}index.php/cod.baja>{#baja#}</a></li>
+			    </ul>
+			  </div>
+			{else}
+			 <span class="intro">{#error#}</span>
+			 <p>{#textoerror#}</p>
+			 <form enctype="multipart/form-data" method="post" action="{$req_base}index.php/cod.accesoapp">
+				<fieldset><legend>{#datosa#}</legend>
+				{#login#} <input type="text"  name="txtLogin"/><br />
+				{#pass#} <input type="password" name="txtPass"/><br />
+				</fieldset>
+				<input type="submit" value={#aceptar#} />
+				<input type="reset" value={#borrar#} />
+				<input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.usuarios'"/>
+			 </form>
+			{/if}
+	</div>
+
+{include file=$tpl_path_base|cat:"/common/footer.phtml"}
