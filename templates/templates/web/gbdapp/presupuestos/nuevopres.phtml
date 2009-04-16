@@ -3,22 +3,22 @@
 {include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
 
 <script type="text/javascript">
-{literal}
-<!--
+//{literal}
+//<!--
 function borrar(num)
 {
   var x = document.getElementById ("formulario");
-  {/literal}
+  //{/literal}
     x.action = "{$req_base}index.php/cod.borralineap/id.{$paciente.id_paciente}/num." + num;
-  {literal}
+  //{literal}
   x.submit();
 }
 function linea()
 {
   var x = document.getElementById ("formulario");
-  {/literal}
+  //{/literal}
     x.action = "{$req_base}index.php/cod.nuevalineap/id.{$paciente.id_paciente}";
-  {literal}
+  //{literal}
   x.submit();
 }
 function servicio()
@@ -34,18 +34,84 @@ function servicio()
 }
 function firmar()
 {
+	if(document.Sign.isSigned()){
+		document.Sign.clear();
+	}
     document.Sign.setSignThickness(2);
-    {/literal}
+    //{/literal}
     var nombre = "{$paciente.apellido}" + " " + "{$paciente.apellido2}" + ", " + "{$paciente.nombre}";
 	document.Sign.signNowEx({$paciente.id_paciente},nombre,"none","none","{$paciente.direccion}","{$paciente.dni}",true);
-	{literal}
+	//{literal}
 	if(document.Sign.isSigned()){
+		var x = document.Sign.getString();
 		var info = document.getElementsByName ("txtSignData");
-		info[0].value = document.Sign.getString();
+		info[0].value = x;
+	}
+}
+function getHashData()
+{
+	var hashstr = "";
+	var line = document.getElementById("line");
+	if (line != null){
+		while(line.nodeName == "TR"
+				&& line.attributes != null 
+				&& line.attributes.getNamedItem("id") != null 
+				&& line.attributes.getNamedItem("id").nodeValue == "line"){
+			var cells = line.childNodes;
+			var num = cells.length;
+			for (var i = 0 ; i < num ; ++i){
+				var aux = cells.item(i);
+				if(aux.nodeName == "TD"){
+					var cellNode = aux.childNodes[0];
+					if(cellNode.nodeType == 3){
+						//If is a text node
+  						hashstr += cellNode.data;
+					}
+				}
+			}
+			do {
+				//While we find a text node, get next sibling looking for a row
+				line = line.nextSibling;
+			} while (line.nodeType == 3);
+		}
+		alert(hashstr);
+	}
+  	return hashstr;	
+}
+function checkIntegrityAndSubmit()
+{
+	var canSend = false;
+	var err = null;
+	if(document.Sign.isSigned()){
+		switch(document.Sign.verifyDocument()){
+		//{/literal}
+		case 0:
+			canSend = true;
+			break;
+		case 1:
+			err = "{#texto64#}";
+			break;
+		case 2: 
+			err = "{#texto65#}";
+			break;
+		case 4:
+			err = "{#texto66#}";
+			break;
+		case 3:
+		default:
+			err = "{#texto67#}";
+			break;
+		//{literal}
+		}
+	}
+	if(canSend){
+		document.getElementById ("formulario").submit();
+	} else {
+		alert(err);
 	}
 }
 -->
-{/literal}
+//{/literal}
 </script>
 
 <div class="contenidos">
@@ -55,7 +121,7 @@ function firmar()
   </div>
   <div class="col_central">
     <span class="intro">{#texto7#}</span>
-    <form id="formulario" enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.guardapres/id.{$paciente.id_paciente}>
+    <form id="formulario" name="formulario" enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.guardapres/id.{$paciente.id_paciente}>
     {include file=$tpl_path_base|cat:"gbdapp/presupuestos/cabecera.phtml"}
     <table border="0" width="100%">
       <tr>
@@ -80,7 +146,7 @@ function firmar()
       {assign var=total value=0}
         {if is_array($datos)}
           {foreach from=$datos key=llave item=linea}
-            <tr>
+            <tr id="line">
               <td colspan="2">{$numlinea}.&nbsp;{$linea.servicio|default:#texto20#}</td>
               <td>{$linea.unitario}</p>
               <td align="center">{$linea.cantidad}</td>
@@ -130,25 +196,42 @@ function firmar()
     <p><b>{#texto31#}</b><input type="text" name="txtDuracion" value="{$presup.duracion|default:30}" />{#texto37#}</p>
     <p>{#texto33#}</p>
     <div class="firmas">
-    <APPLET code="integrisign.webclient.WebSign" width=125 height=65 name="Sign" codebase="{$req_base}lib/" archive="websignsunjvm.jar" MAYSCRIPT>
+    <APPLET classid=clsid:8AD9C840-044E-11D1-B3E9-00805F499D93 code="integrisign.webclient.WebSign" width=125 height=65 name="Sign" codebase="{$req_base}lib/" archive="websignsunjvm.jar" MAYSCRIPT>
 	  <PARAM NAME="borderstyle" VALUE="1" >
 	  <PARAM NAME="scriptable" VALUE="true" >
 	  <PARAM NAME="cache_option" VALUE="Plugin" >
 	  <PARAM NAME="cache_archive" VALUE="websignsunjvm.jar" >
 	  <PARAM NAME="cache_version" VALUE="7.5.0.3" >
 	  No va
-	</APPLET>
+	</APPLET> 
+	
       <input type="button" value="{#texto63#}" onclick="firmar()"/>
       <br />
-      <p>{#texto34#}</p>
       <p>{#texto35#}</p>
     </div>   
-    	<input type="hidden" name="txtSignData" />
+      <input type="hidden" name="txtSignData" value="{$presup.firma}"/>
       <input type="hidden" name="txtTotal" value="{$total}" />
-      <input type="submit" value="{#texto38#}" />
+      <input type="button" value="{#texto38#}" onclick="checkIntegrityAndSubmit()"/>
       <input type="button" value="{#cancelar#}" onclick="document.location='{$req_base}index.php/cod.presupuestos/id.{$paciente.id_paciente}'">
     </form>
   </div>
 </div>
+
+<script type="text/javascript">
+//<!--
+//{literal}
+var s = document.Sign;
+if (s != null){
+	//{/literal}
+	var str = "{$presup.firma}";
+	//{literal}
+	if(str.length > 0){
+		s.openSign1(str);
+	}
+}
+//{/literal}
+-->
+</script>
+
 
 {include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

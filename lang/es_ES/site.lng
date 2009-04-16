@@ -1031,6 +1031,10 @@ texto60 = "A continuaci&oacute;n puede ver los detalles de su presupuesto, modif
 texto61 = "Modificar el presupuesto."
 texto62 = "Reg. Sanidad: "
 texto63 = "Firmar."
+texto64 = "Los datos del presupuesto han sido modificados desde que el cliente firmó. Vuelva a tomar la firma."
+texto65 = "Ocurri&oacute; un error interno en el proceso de verificaci&oacute;n de la firma. Por favor, vuelva a tomar la firma."
+texto66 = "El presupuesto no ha sido firmado. Por favor, firme el documento."
+texto67 = "Error desconocido. Informe de esta situaci&oacute;n a su proveedor."
 
 [facturas]
 texto1 = "Facturas."
