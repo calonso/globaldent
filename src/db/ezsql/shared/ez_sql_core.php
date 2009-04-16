@@ -28,24 +28,24 @@
 	class ezSQLcore
 	{
 
-		var $trace            = false;  // same as $debug_all
-		var $debug_all        = false;  // same as $trace
-		var $debug_called     = false;
-		var $vardump_called   = false;
-		var $show_errors      = true;
-		var $num_queries      = 0;
-		var $last_query       = null;
-		var $last_error       = null;
-		var $col_info         = null;
-		var $captured_errors  = array();
-		var $cache_dir        = false;
-		var $cache_queries    = false;
-		var $cache_inserts    = false;
-		var $use_disk_cache   = false;
-		var $cache_timeout    = 24; // hours
+		protected $trace            = false;  // same as $debug_all
+		protected $debug_all        = false;  // same as $trace
+		protected $debug_called     = false;
+		protected $vardump_called   = false;
+		protected $show_errors      = true;
+		protected $num_queries      = 0;
+		protected $last_query       = null;
+		protected $last_error       = null;
+		protected $col_info         = null;
+		protected $captured_errors  = array();
+		protected $cache_dir        = false;
+		protected $cache_queries    = false;
+		protected $cache_inserts    = false;
+		protected $use_disk_cache   = false;
+		protected $cache_timeout    = 24; // hours
 
 		// == TJH == default now needed for echo of debug function
-		var $debug_echo_is_on = true;
+		protected $debug_echo_is_on = true;
 
 		/**********************************************************************
 		*  Constructor

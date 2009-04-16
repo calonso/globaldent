@@ -8,7 +8,7 @@
 */
 class Params {
 		
-	var $HTTP_GET_PARSED_VARS;
+	private $HTTP_GET_PARSED_VARS;
 	
 	/**
 	* Método constructor de la clase. Simplemente recoje todos los parámetros

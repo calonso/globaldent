@@ -38,10 +38,10 @@
 				$datos[duracion].COMA.
 				$datos[total].COMA.
 				COMILLA.$datos[objetivo].COMILLA.COMA.
-				COMILLA.$datos[extension].COMILLA.COMA.
+				COMILLA.$datos[firma].COMILLA.COMA.
 				$datos[id_usuario];
             
-            $sentencia = "insert into presupuesto (id_paciente, numero, fecha, validez, duracion, total, objetivo, extension, id_usuario
+            $sentencia = "insert into presupuesto (id_paciente, numero, fecha, validez, duracion, total, objetivo, firma, id_usuario
             	) values ($valores)";
             $this->datos = $this->DBManager->hacer_peticion ($sentencia);
             return $this->datos;   

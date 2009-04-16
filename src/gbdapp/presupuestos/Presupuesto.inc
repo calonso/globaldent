@@ -249,13 +249,6 @@
         {
             $ldao = new LineaPresDAO();
             $this->datos = $this->recibirFormulario ($params);
-            
-            if(is_uploaded_file($_FILES[fileFirma][tmp_name]))
-            {
-                $temp = $_FILES[fileFirma][type];
-                $aux = explode ("/", $temp);
-                $this->datos[extension] = $aux[1];   
-            }
              
             $this->datos = $this->dao->nuevo ($this->datos);
             if($this->datos > 0)
@@ -275,12 +268,6 @@
                         return; 
                     }
                 }
-                if(is_uploaded_file($_FILES[fileFirma][tmp_name]))
-                {
-                    $num = $this->datos;   
-                    move_uploaded_file($_FILES[fileFirma][tmp_name], $this->carpeta."/fpres$num");
-                }
-                
                 $this->logger->save(LOG_ALTA, $this->nombre);
                 $this->dao->commit ();
             }
@@ -303,6 +290,7 @@
             $datos[validez] = $params->getParam('txtValidez');
             $datos[duracion] = $params->getParam('txtDuracion');
             $datos[total] = $params->getParam('txtTotal');
+            $datos[firma] = $params->getParam('txtSignData');
             $fecha = strftime("%d-%m-%Y");
             $aux = explode ("-", $fecha);
             $aux[0] = (int)$aux[0];
@@ -412,15 +400,6 @@
             $id = $params->getParam ('pres');
         
             $this->datos = $this->recibirFormulario ($params);
-            
-            if(is_uploaded_file($_FILES[fileFirma][tmp_name]))
-            {
-                $temp = $_FILES[fileFirma][type];
-                $aux = explode ("/", $temp);
-                $this->datos[extension] = $aux[1]; 
-                @unlink ($this->carpeta."/fpres$id");
-                move_uploaded_file($_FILES[fileFirma][tmp_name], $this->carpeta."/fpres$id");  
-            }
             
             $this->datos[id_presupuesto] = $id;
             $this->dao->start ();
