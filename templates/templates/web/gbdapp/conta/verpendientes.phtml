@@ -7,12 +7,45 @@
 <!--
 function pagar (idp)
 {
-  document.fpago.idpaciente.value = idp;
-  var x = document.getElementById (idp + "Tarj");
-  document.fpago.tarjeta.value = x.value;
-  x = document.getElementById (idp + "Met");
-  document.fpago.efectivo.value = x.value;
-  document.fpago.submit();
+	//{/literal}
+	var err1 = "{#error3#}<br />";
+	var err2 = "{#error4#}<br />";
+	var err3 = "{#error1#}<br />";
+	var err4 = "{#error2#}<br />";
+	//{literal}
+	var err = "";
+	var canSend = true;
+	var x = document.getElementById (idp + "Tarj").value;
+	var y = document.getElementById (idp + "Met").value;
+
+	var charPos = x.search("[^0-9]");
+	if(x.length > 0){
+		if(charPos >= 0){
+			err += err1;
+			canSend = false;	
+		}
+	} else {
+		err += err2;
+		canSend = false;
+	}
+	charPos = y.search("[^0-9]");
+	if(y.length > 0){
+		if(charPos >= 0){
+			err += err3;
+			canSend = false;	
+		}
+	} else {
+		err += err4;
+		canSend = false;
+	}
+	if(canSend){
+		document.fpago.idpaciente.value = idp;
+		document.fpago.tarjeta.value = x;
+		document.fpago.efectivo.value = y;
+		document.fpago.submit();
+	} else {
+		show_errs("formulario_errorloc", err);
+	}
 }
 -->
 {/literal}
@@ -20,6 +53,7 @@ function pagar (idp)
   <div class="contenidos">
     <div class="col_central">
       <span class="intro">{#texto15#}</span>
+       <div id='formulario_errorloc' class='error_strings'></div>
       {if is_array($datos)}
         <p>{#texto16#}</p>
         {assign var=total_pend value=0}
@@ -42,8 +76,8 @@ function pagar (idp)
             <td class="pendiente" align="center">{$paciente.saldo} €.</td>
             {math equation="x + y" x=$paciente.saldo y=$total_pend assign=total_pend}
             <td align="center"> 
-              <input type="text" id="{$paciente.id_paciente}Tarj" size="5" />
-              <input type="text" id="{$paciente.id_paciente}Met" size="5" /> 
+              <input type="text" id="{$paciente.id_paciente}Tarj" size="5" value="0"/>
+              <input type="text" id="{$paciente.id_paciente}Met" size="5" value="0"/> 
               <input type="button" value={#texto25#} onclick="pagar({$paciente.id_paciente})"/>
             </td>
           </tr>

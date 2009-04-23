@@ -967,6 +967,11 @@ texto35 = "Tarjeta: "
 texto36 = "Efectivo: "
 texto37 = "Versi&oacute;n imprimible."
 
+error1 = "Efectivo: Valor num&eacute;rico requerido"
+error2 = "Efectivo: Campo requerido"
+error3 = "Tarjeta: Valor num&eacute;rico requerido"
+error4 = "Tarjeta: Campo requerido"
+
 [presupuestos]
 texto1 = "Presupuestos."
 texto2 = "A continuaci&oacute;n puede ver un listado con todos los presupuestos de su paciente."
@@ -1035,6 +1040,19 @@ texto64 = "Los datos del presupuesto han sido modificados desde que el cliente f
 texto65 = "Ocurri&oacute; un error interno en el proceso de verificaci&oacute;n de la firma. Por favor, vuelva a tomar la firma."
 texto66 = "El presupuesto no ha sido firmado. Por favor, firme el documento."
 texto67 = "Error desconocido. Informe de esta situaci&oacute;n a su proveedor."
+
+error1 = "Precio Unitario: Campo requerido"
+error2 = "N&deg; de Actos: Campo requerido"
+error3 = "Precio Unitario: Valor num&eacute;rico requerido"
+error4 = "N&deg; de Actos: Valor num&eacute;rico requerido"
+error5 = "Seleccione un servicio"
+error6 = "Plugin no habilitado, no se podr&aacute; firmar"
+error7 = "N&uacute;mero de presupuesto: Valor num&eacute;rico requerido"
+error8 = "N&uacute;mero de presupuesto: Campo requerido"
+error9 = "Duraci&oacute;n: Valor num&eacute;rico requerido"
+error10 = "Duraci&oacute;n: Campo requerido"
+error11 = "Validez: Valor num&eacute;rico requerido"
+error12 = "Validez: Campo requerido"
 
 [facturas]
 texto1 = "Facturas."

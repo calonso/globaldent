@@ -3,14 +3,18 @@
 {include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
 
 <script type="text/javascript">
-{literal}
-<!--
-  function abrir(dir)
-  {
-    window.open(dir);
-  }
+//{literal}
+//<!--
+function abrir(dir)
+{
+  window.open(dir);
+}
+function getHashData()
+{
+	return null;
+}
 -->
-{/literal}
+//{/literal}
 </script>
 
 <div class="contenidos">
@@ -68,19 +72,21 @@
     <b>{#texto29#}</b><p>{#texto30#}</p>
     <p><b>{#texto31#}</b>{$datos.duracion} {#texto37#}</p>
     <p>{#texto33#}</p>
-    <blockquote class="firmas">
-      <img class="obj" src="{$req_base}file.php/fd" width="100" height="100" />
-      {if isset($datos.extension)}
-      <object data={$req_base}file.php/fpres/{$paciente.id_paciente}/{$datos.id_presupuesto}/{$datos.extension} type="image/{$datos.extension}" width="100" height="100"></object>
-      {/if}
-      <br />
-      <p>{#texto34#}</p>
+    <div class="firmas">
+    <APPLET classid=clsid:8AD9C840-044E-11D1-B3E9-00805F499D93 code="integrisign.webclient.WebSign" width=300 height=225 name="Sign" codebase="{$req_base}lib/" archive="websignsunjvm.jar" MAYSCRIPT>
+	  <PARAM NAME="scriptable" VALUE="true" >
+	  <PARAM NAME="cache_option" VALUE="Plugin" >
+	  <PARAM NAME="cache_archive" VALUE="websignsunjvm.jar" >
+	  <PARAM NAME="cache_version" VALUE="7.5.0.3" >
+	  {#error6#}
+	</APPLET>
       <p>{#texto35#}</p>
-    </blockquote>
+    </div>
   {else}
     <p>{#texto46#}</p>
   {/if}
   </div>
+  
   {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
     {if is_array($datos)}
       <li><input type="button" value="{#texto48#}" onclick="abrir('{$req_base}index.php/cod.verpres/id.{$paciente.id_paciente}/pres.{$datos.id_presupuesto}/imp.1')" /></li>
@@ -90,5 +96,21 @@
     {/if}
   {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
 </div>
+
+<script type="text/javascript">
+//<!--
+//{literal}
+var s = document.Sign;
+if (s != null){
+	//{/literal}
+	var str = "{$datos.firma}";
+	//{literal}
+	if(str.length > 0){
+		s.openSign1(str);
+	}
+}
+//{/literal}
+-->
+</script>
 
 {include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

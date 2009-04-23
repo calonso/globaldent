@@ -101,12 +101,7 @@ function servicio()
         <th>{$total} €.</th>
         <th>&nbsp;</th>
       </tr>
-    </table>
-    <div class="firmas">
-      <object data={$req_base}file.php/fd type="image/jpg" width="100" height="100"></object>
-      <br />
-      <p>{#texto21#}</p>
-    </div>   
+    </table>   
       <input type="hidden" name="txtTotal" value="{$total}" />
       <input type="submit" value="{#texto22#}" />
       <input type="button" value="{#cancelar#}" onclick="document.location='{$req_base}index.php/cod.facturas/id.{$paciente.id_paciente}'">

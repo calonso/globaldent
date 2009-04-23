@@ -38,23 +38,8 @@
           case "fotopac":
             $file = "./imagenes/".$_SESSION[id_usr]."/id".$aux[2]."/im".$aux[3];
             break; 
-          case "fd":
-            $file = "./imagenes/".$_SESSION[id_usr]."/firma.jpg";
-            break;
-          case "fpres":
-            $file = "./imagenes/".$_SESSION[id_usr]."/id".$aux[2]."/fpres".$aux[3];
-            break;
           case "logo":
             $file = "./imagenes/".$_SESSION[id_usr]."/logoclinica.jpg";
-            break;
-          case "fcons":
-            $file = "./imagenes/".$_SESSION[id_usr]."/id".$aux[2]."/fcons".$aux[3];
-            break;
-          case "fconsr":
-            $file = "./imagenes/".$_SESSION[id_usr]."/id".$aux[2]."/fconsr".$aux[3];
-            break;
-          case "fconsrb":
-            $file = "./imagenes/".$_SESSION[id_usr]."/id".$aux[2]."/fconsr".$aux[3]."b";
             break;
         }
         readfile ($file);   

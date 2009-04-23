@@ -286,7 +286,7 @@ function show_div_msg(divname,msgstring)
 	if(document.layers)
 	{
 		divlayer = document.layers[divname];
-        if(!divlayer){return;}
+        if(!divlayer){return true;}
 		divlayer.document.open();
 		divlayer.document.write(msgstring);
 		divlayer.document.close();
@@ -295,14 +295,14 @@ function show_div_msg(divname,msgstring)
 	if(document.all)
 	{
 		divlayer = document.all[divname];
-        if(!divlayer){return;}
+        if(!divlayer){return true;}
 		divlayer.innerHTML=msgstring;
 	}
 	else
 	if(document.getElementById)
 	{
 		divlayer = document.getElementById(divname);
-        if(!divlayer){return;}
+        if(!divlayer){return true;}
 		divlayer.innerHTML =msgstring;
 	}
 	divlayer.style.visibility="visible";	
@@ -638,19 +638,19 @@ function validateInput(strValidateStr,objValue,strError)
         case "req": 
         case "required": 
          { 
-		   ret = TestRequiredInput(objValue,strError)
+		   ret = TestRequiredInput(objValue,strError);
            break;             
          }//case required 
         case "maxlength": 
         case "maxlen": 
           { 
-			 ret = TestMaxLen(objValue,cmdvalue,strError)
+			 ret = TestMaxLen(objValue,cmdvalue,strError);
              break; 
           }//case maxlen 
         case "minlength": 
         case "minlen": 
            { 
-			 ret = TestMinLen(objValue,cmdvalue,strError)
+			 ret = TestMinLen(objValue,cmdvalue,strError);
              break; 
             }//case minlen 
         case "alnum": 
@@ -719,17 +719,17 @@ function validateInput(strValidateStr,objValue,strError)
          }
         case "dontselect": 
          { 
-			 ret = TestDontSelect(objValue,cmdvalue,strError)
+			 ret = TestDontSelect(objValue,cmdvalue,strError);
              break; 
          }
 		case "dontselectchk":
 		{
-			ret = TestDontSelectChk(objValue,cmdvalue,strError)
+			ret = TestDontSelectChk(objValue,cmdvalue,strError);
 			break;
 		}
 		case "shouldselchk":
 		{
-			ret = TestShouldSelectChk(objValue,cmdvalue,strError)
+			ret = TestShouldSelectChk(objValue,cmdvalue,strError);
 			break;
 		}
 		case "selone_radio":
