@@ -388,20 +388,7 @@ form{
 }
 .firmas{
   margin-top: 150px;
-}
-.firmas p{
-  display: inline;
   margin-left: 18%;
-}
-.firmas object{
-  margin-left: 22%;
-}
-
-.firmas input{
-  margin-left: 22%;
-}
-.inputfirma{
-  margin-left: 44%;
 }
 
 .divlog{
@@ -458,12 +445,6 @@ form{
   margin-right: 20px;
   width: 200px;
   height: 200px;
-}
-.imprimible .firmas p{
-  margin-left: 22%;
-}
-.imprimible .firmas object{
-  margin-left: 30%;
 }
 .imprimible .gab{
   font-size: 15px;

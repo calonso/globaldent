@@ -89,19 +89,7 @@
         }
         function buscar ($datos)
         {
-            foreach ($datos as $idtipo)
-            {
-                $cadena .= "'".$idtipo."', ";   
-            }
-            $cadena = substr ($cadena, 0, strlen($cadena) -2);
-            $idusr = $_SESSION[id_usr];
-            $sentencia = "select id_tipo_consentimiento, nombre from tipo_consentimiento where id_usuario = '$idusr' and id_tipo_consentimiento not in ($cadena)";       
-            $devuelto = $this->DBManager->recoger_datos ($sentencia);
-            if(is_array($devuelto))
-            {
-                return $devuelto[1];
-            }else
-                return 0;
+        	
         }
         function bloquear ($datos)
         {

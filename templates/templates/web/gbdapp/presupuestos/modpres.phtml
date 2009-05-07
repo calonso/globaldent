@@ -3,37 +3,234 @@
 {include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
 
 <script type="text/javascript">
-{literal}
-<!--
+//{literal}
+//<!--
 function borrar(num)
 {
   var x = document.getElementById ("formulario");
-  {/literal}
-    x.action = "{$req_base}index.php/cod.borralineamp/id.{$paciente.id_paciente}/pres.{$presup.id_presupuesto}/num." + num;
-  {literal}
+  //{/literal}
+  x.action = "{$req_base}index.php/cod.borralineamp/id.{$paciente.id_paciente}/pres.{$presup.id_presupuesto}/num." + num;
+  //{literal}
   x.submit();
+}
+function loaded()
+{
+	var s = document.Sign;
+	if (s != null){
+		//{/literal}
+		var str = "{$presup.firma}";
+		//{literal}
+		if(str.length > 0){
+			s.openSign1(str);
+		}
+	}
 }
 function linea()
 {
-  var x = document.getElementById ("formulario");
-  {/literal}
-    x.action = "{$req_base}index.php/cod.nuevalineamp/id.{$paciente.id_paciente}/pres.{$presup.id_presupuesto}";
-  {literal}
-  x.submit();
+	//{/literal}
+	var err1 = "{#error1#}<br />";
+	var err2 = "{#error2#}<br />";
+	var err3 = "{#error3#}<br />";
+	var err4 = "{#error4#}<br />";
+	var err5 = "{#error5#}<br />";
+	var action = "{$req_base}index.php/cod.nuevalineamp/id.{$paciente.id_paciente}/pres.{$presup.id_presupuesto}";
+	//{literal}
+	var canSend = true;
+	var err = "";
+	var z = document.getElementsByName ("txtUnitario");
+	var k = document.getElementsByName ("txtCuantos");
+	var y = document.getElementsByName ("selServicio");
+	z = z[0].value;
+	k = k[0].value;
+	y = y[0].selectedIndex;
+
+	if(y == 0){
+		err += err5;
+		canSend = false;
+	}
+	var charPos = z.search("[^0-9]");
+	if(z.length > 0){
+		if(charPos >= 0){
+			err += err3;
+			canSend = false;	
+		}
+	} else {
+		err += err1;
+		canSend = false;
+	}
+	charPos = k.search("[^0-9]");
+	if(k.length > 0){
+		if(charPos >= 0){
+			err += err4;
+			canSend = false;	
+		}
+	} else {
+		err += err2;
+		canSend = false;
+	}
+	if(canSend){
+	  var x = document.getElementById ("formulario");
+	  x.action = action;
+	  x.submit();
+	} else {
+		show_errs("formulario_errorloc", err);
+	}
 }
+
 function servicio()
 {
   var x = document.getElementsByName ("txtUnitario");
   var y = document.getElementsByName ("selServicio");
-  var txt = y[0].options[y[0].selectedIndex].text;
-  var primero = txt.lastIndexOf ("-");
-  primero += 2;
-  var ultimo = txt.lastIndexOf ("€");
-  var cadena = txt.slice (primero, ultimo);
-  x[0].value= cadena ;  
+  if (y[0].selectedIndex != 0) {
+	  var txt = y[0].options[y[0].selectedIndex].text;
+	  var primero = txt.lastIndexOf ("-");
+	  primero += 2;
+	  var ultimo = txt.lastIndexOf ("€");
+	  var cadena = txt.slice (primero, ultimo);
+	  x[0].value= cadena ;  
+  } else {
+	x[0].value = 0;
+  }
+}
+function firmar()
+{
+	if(document.Sign.isSigned()){
+		document.Sign.clear();
+	}
+    document.Sign.setSignThickness(2);
+    //{/literal}
+    var nombre = "{$paciente.apellido}" + " " + "{$paciente.apellido2}" + ", " + "{$paciente.nombre}";
+	document.Sign.signNowEx({$paciente.id_paciente},nombre,"none","none","{$paciente.direccion}","{$paciente.dni}",true);
+	//{literal}
+	if(document.Sign.isSigned()){
+		var x = document.Sign.getString();
+		var y = document.Sign.getPNGString(x, 200, 200, true);
+		var info = document.getElementsByName ("txtSignData");
+		var image = document.getElementsByName ("txtSignImage");
+		info[0].value = x;
+		image[0].value = y;
+	}
+}
+function getHashData()
+{
+	var hashstr = "";
+	var line = document.getElementById("line");
+	if (line != null){
+		while(line.nodeName == "TR"
+				&& line.attributes != null 
+				&& line.attributes.getNamedItem("id") != null 
+				&& line.attributes.getNamedItem("id").nodeValue == "line"){
+			var cells = line.childNodes;
+			var num = cells.length;
+			for (var i = 0 ; i < num ; ++i){
+				var aux = cells.item(i);
+				if(aux.nodeName == "TD"){
+					var cellNode = aux.childNodes[0];
+					if(cellNode.nodeType == 3){
+						//If is a text node
+  						hashstr += trim(cellNode.data);
+					}
+				}
+			}
+			do {
+				//While we find a text node, get next sibling looking for a row
+				line = line.nextSibling;
+			} while (line.nodeType == 3);
+		}
+	}
+	hashstr += "N" + document.formulario.txtNumero.value + 
+				"D" + document.formulario.txtDuracion.value + 
+				"V" + document.formulario.txtValidez.value;
+  	return hashstr;	
+}
+function checkIntegrityAndSubmit()
+{
+	//{/literal}
+	var err1 = "{#texto64#}<br />";
+	var err2 = "{#texto65#}<br />";
+	var err3 = "{#texto67#}<br />";
+	var err4 = "{#texto66#}<br />";
+	var err7 = "{#error7#}<br />";
+	var err8 = "{#error8#}<br />";
+	var err9 = "{#error9#}<br />";
+	var err10 = "{#error10#}<br />";
+	var err11 = "{#error11#}<br />";
+	var err12 = "{#error12#}<br />";
+	//{literal}
+	var err = "";
+	var canSend = true;
+	if(document.Sign.isSigned()){
+		switch(document.Sign.verifyDocument()){
+		case 0:
+			break;
+		case 1:
+			err += err1;
+			canSend = false;
+			break;
+		case 2: 
+			err += err2;
+			canSend = false;
+			break;
+		case 4:
+			err += err4;
+			canSend = false;
+			break;
+		case 3:
+		default:
+			err += err3;
+			canSend = false;
+			break;
+		}
+	} else {
+		err += err4;
+		canSend = false;
+	}
+
+	var z = document.getElementsByName ("txtNumero");
+	var k = document.getElementsByName ("txtDuracion");
+	var y = document.getElementsByName ("txtValidez");
+	z = z[0].value;
+	k = k[0].value;
+	y = y[0].value;
+
+	var charPos = z.search("[^0-9]");
+	if(z.length > 0){
+		if(charPos >= 0){
+			err += err7;
+			canSend = false;	
+		}
+	} else {
+		err += err8;
+		canSend = false;
+	}
+	charPos = k.search("[^0-9]");
+	if(k.length > 0){
+		if(charPos >= 0){
+			err += err9;
+			canSend = false;	
+		}
+	} else {
+		err += err10;
+		canSend = false;
+	}
+	charPos = y.search("[^0-9]");
+	if(y.length > 0){
+		if(charPos >= 0){
+			err += err11;
+			canSend = false;	
+		}
+	} else {
+		err += err12;
+		canSend = false;
+	}
+	if(canSend){
+		document.getElementById ("formulario").submit();
+	} else {
+		show_errs("formulario_errorloc", err);
+	}
 }
 -->
-{/literal}
+//{/literal}
 </script>
 
 <div class="contenidos">
@@ -43,7 +240,8 @@ function servicio()
   </div>
   <div class="col_central">
     <span class="intro">{#texto57#}</span>
-    <form id="formulario" enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.actualizapres/id.{$paciente.id_paciente}/pres.{$presup.id_presupuesto}>
+    <div id='formulario_errorloc' class='error_strings'></div>
+    <form id="formulario" name="formulario" enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.actualizapres/id.{$paciente.id_paciente}/pres.{$presup.id_presupuesto}>
     {include file=$tpl_path_base|cat:"gbdapp/presupuestos/cabecera.phtml"}
     <p>{#texto60#}</p>
     <table border="0" width="100%">
@@ -69,7 +267,7 @@ function servicio()
       {assign var=total value=0}
         {if is_array($datos)}
           {foreach from=$datos key=llave item=linea}
-            <tr>
+            <tr id="line">
               <td colspan="2">{$numlinea}.&nbsp;{$linea.servicio|default:#texto20#}</td>
               <td align="center">{$linea.unitario}</p>
               <td align="center">{$linea.cantidad}</td>
@@ -92,7 +290,7 @@ function servicio()
             <a href={$req_base}index.php/cod.servicios>{#texto19#}</a>
           {/if}
         </td>
-        <td><input type="text" name="txtUnitario" /></td>
+        <td><input type="text" name="txtUnitario" value="0"/></td>
         <td><input type="text" name="txtCuantos" value="1" /></td>
         <td><input type="button" value="{#aceptar#}" onclick="linea()"/></td>
       </tr>
@@ -119,26 +317,27 @@ function servicio()
     <p><b>{#texto31#}</b><input type="text" name="txtDuracion" value="{$presup.duracion|default:30}" />{#texto37#}</p>
     <p>{#texto33#}</p>
     <div class="firmas">
-      <object data={$req_base}file.php/fd type="image/jpg" width="100" height="100"></object>
-      {if isset($presup.extension)}
-        <object data={$req_base}file.php/fpres/{$paciente.id_paciente}/{$presup.id_presupuesto}/{$presup.extension} type="image/{$presup.extension}" width="100" height="100"></object>
-        <div class="inputfirma">
-          <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
-          <input type="file" name="fileFirma" />
-        </div>
-      {else}
-        <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
-        <input type="file" name="fileFirma" />
-      {/if}
+    <APPLET classid=clsid:8AD9C840-044E-11D1-B3E9-00805F499D93 code="integrisign.webclient.WebSign" width=125 height=65 name="Sign" codebase="{$req_base}lib/" archive="websignsunjvm.jar" MAYSCRIPT>
+	  <PARAM NAME="borderstyle" VALUE="1" >
+	  <PARAM NAME="scriptable" VALUE="true" >
+	  <PARAM NAME="cache_option" VALUE="Plugin" >
+	  <PARAM NAME="cache_archive" VALUE="websignsunjvm.jar" >
+	  <PARAM NAME="cache_version" VALUE="7.5.0.3" >
+	  {#error6#}
+	</APPLET> 
+	
+      <input type="button" value="{#texto63#}" onclick="firmar()"/>
       <br />
-      <p>{#texto34#}</p>
       <p>{#texto35#}</p>
     </div>   
+      <input type="hidden" name="txtSignData" value="{$presup.firma}"/>
+      <input type="hidden" name="txtSignImage" value="{$presup.image}"/>
       <input type="hidden" name="txtTotal" value="{$total}" />
-      <input type="submit" value="{#texto38#}" />
+      <input type="button" value="{#texto38#}" onclick="checkIntegrityAndSubmit()"/>
       <input type="button" value="{#cancelar#}" onclick="document.location='{$req_base}index.php/cod.presupuestos/id.{$paciente.id_paciente}'">
     </form>
   </div>
 </div>
+
 
 {include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

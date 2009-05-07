@@ -34,10 +34,10 @@
             $valores = $datos[id_tipo_consentimiento].COMA.
             	$datos[id_paciente].COMA.
             	COMILLA.$datos[fecha].COMILLA.COMA.
-            	COMILLA.$datos[extension].COMILLA.COMA.
+            	COMILLA.$datos[firma].COMILLA.COMA.
             	$datos[id_usuario];
             
-            $sentencia = "insert into consentimiento (id_tipo_consentimiento, id_paciente, fecha, extension, id_usuario) values ($valores)";
+            $sentencia = "insert into consentimiento (id_tipo_consentimiento, id_paciente, fecha, firma, id_usuario) values ($valores)";
             $this->datos = $this->DBManager->hacer_peticion ($sentencia);
             return $this->datos;   
         }
@@ -49,15 +49,16 @@
             $this->datos = $this->DBManager->hacer_peticion ($sentencia);
             return $this->datos;        
         }
-        function ver ($datos)
+        function ver ($id)
         {
-            $id = $datos[id_consentimiento];
             $idusr = $_SESSION[id_usr];
-            $sentencia = "select * from consentimiento where id_usuario = $idusr and id_consentimiento = $id";
+            $sentencia = "select id_consentimiento, id_paciente, fecha, firma, texto_incluido from consentimiento as c 
+            	inner join tipo_consentimiento as t on (c.id_tipo_consentimiento = t.id_tipo_consentimiento)
+            	where c.id_usuario = $idusr and id_consentimiento = $id";
             $devuelto = $this->DBManager->recoger_datos ($sentencia);
             if(is_array($devuelto))
             {
-                return $this->datos[1];
+                return $devuelto[1];
             }else
                 return 0;       
         }
@@ -68,7 +69,7 @@
         function listado ($id, $pagina = -1)
         {
             $idusr = $_SESSION[id_usr];
-            $sentencia = "select id_consentimiento, id_tipo_consentimiento, fecha from consentimiento where id_usuario = $idusr and id_paciente = $id order by id_consentimiento desc";
+            $sentencia = "select * from consentimientos_view where id_paciente = $id or isnull(id_paciente) and id_usuario = $idusr";
             
             if($pagina != -1)
             {   
@@ -77,7 +78,11 @@
                 $sentencia .= " limit $inf, $sup";
             }
             $devuelto = $this->DBManager->recoger_datos ($sentencia);
-            return $devuelto;    
+            if(is_array($devuelto)){
+            	return $devuelto[1];
+            } else {
+            	return 0;
+            }
         }
         function buscar ($datos)
         {

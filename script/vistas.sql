@@ -23,3 +23,19 @@ select c.id_paciente as id_paciente, IFNULL(pagado,0) - IFNULL(precio,0) as sald
 costes_view as c
 left outer join pagos_view as s on (c.id_paciente = s.id_paciente)
 inner join paciente as p on (c.id_paciente = p.id_paciente);
+
+-- Vistas para consentimientos
+-- Cod 0 son consentimientos firmados, 1 revocados y 2 sin firmar
+create or replace view consentimientos_view as
+select 0 as cod, c.id_consentimiento as id_consentimiento, c.fecha as fecha, nombre, c.id_paciente, c.id_usuario from consentimiento as c
+left outer join consentimiento_revocado as r on (c.id_consentimiento = r.id_consentimiento)
+inner join tipo_consentimiento as t on (c.id_tipo_consentimiento = t.id_tipo_consentimiento)
+where isnull(id_consentimiento_revocado)
+union
+select 1 as cod, r.id_consentimiento_revocado as id_consentimiento, c.fecha as fecha, nombre, c.id_paciente, c.id_usuario from consentimiento as c
+inner join consentimiento_revocado as r on (c.id_consentimiento = r.id_consentimiento)
+inner join tipo_consentimiento as t on (c.id_tipo_consentimiento = t.id_tipo_consentimiento)
+union
+select 2 as cod, t.id_tipo_consentimiento as id_consentimiento, NULL as fecha, nombre, c.id_paciente, t.id_usuario from tipo_consentimiento as t
+left outer join consentimiento as c on (t.id_tipo_consentimiento = c.id_tipo_consentimiento)
+where isnull(id_consentimiento) order by nombre asc;

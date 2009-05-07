@@ -26,6 +26,7 @@ de = " de "
 ver = "Ver"
 modificar = "Modificar"
 volver = "Volver."
+errorSignApplet = "Plugin no habilitado, no se podr&aacute; firmar"
 
 [home]
 intro = "GlobalDent, la comunidad online para profesionales y estudiantes del sector dental."
@@ -1126,6 +1127,11 @@ texto23 = "Ning&uacute;n consentimiento revocado."
 texto24 = "Consentimiento Revocado"
 texto25 = "El presente consentimiento queda, a partir de la fecha "
 texto26 = "revocado y no deseo proseguir el tratamiento, que doy con esta fecha por finalizado."
+texto27 = "Firmar"
+texto28 = "Va a firmar un nuevo consentimiento informado."
+texto29 = "Guardar."
+
+error1 = "Presupuesto no firmado, firme el presupuesto."
 
 [pedidos]
 texto1 = "¿Qu&eacute; desea hacer?"

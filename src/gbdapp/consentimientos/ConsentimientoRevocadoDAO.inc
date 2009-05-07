@@ -31,16 +31,12 @@
         }
         function nuevo ($datos)
         {
-            $valores = $datos[id_tipo_consentimiento].COMA.
-            	$datos[id_paciente].COMA.
+            $valores = $datos[id_consentimiento].COMA.
             	COMILLA.$datos[fecha].COMILLA.COMA.
-            	COMILLA.$datos[fecha_r].COMILLA.COMA.
-            	COMILLA.$datos[extension].COMILLA.COMA.
-            	COMILLA.$datos[extension_r].COMILLA.COMA.
+            	COMILLA.$datos[firma].COMILLA.COMA.
             	$datos[id_usuario];
             
-            $sentencia = "insert into consentimiento_revocado (id_tipo_consentimiento, id_paciente, fecha, fecha_r, extension, extension_r, id_usuario)."
-            	 ."values ($valores)";
+            $sentencia = "insert into consentimiento_revocado (id_consentimiento, fecha, firma, id_usuario) values ($valores)";
             $this->datos = $this->DBManager->hacer_peticion ($sentencia);
             return $this->datos;   
         }
@@ -51,25 +47,15 @@
         function ver ($datos)
         {
             $id = $datos[id_consentimiento];
-            $idp = $datos [id_paciente];
             $idusr = $_SESSION[id_usr];
-            $sentencia = "select * from consentimiento_revocado where id_usuario = $idusr and id_consentimiento = $id";
+            $sentencia = "select c.id_paciente, r.id_consentimiento, c.fecha as fecha, r.fecha as fecha_r, texto_incluido from consentimiento_revocado as r
+            	inner join consentimiento as c on (r.id_consentimiento = c.id_consentimiento)
+            	inner join tipo_consentimiento as t on (c.id_tipo_consentimiento = t.id_tipo_consentimiento)
+            	 where r.id_usuario = $idusr and r.id_consentimiento_revocado = $id";
             $devuelto = $this->DBManager->recoger_datos ($sentencia);
             if(is_array($devuelto))
             {
-                $this->datos = $devuelto[1];
-                foreach ($this->datos as $elemento => $array)
-                {
-                    foreach ($array as $indice => $valor)
-                    {
-                        if (strncmp ($indice, "id_", 3))
-                        {
-                            $valor = $this->crypter->descifrar ($valor);
-                            $this->datos[$elemento][$indice] = $valor;   
-                        }
-                    }   
-                }
-                return $this->datos;
+                return $devuelto[1];
             }else
                 return 0;       
         }

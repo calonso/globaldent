@@ -1,0 +1,79 @@
+{config_load file=$lang_file section="consentimientos"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<script type="text/javascript">
+//<!--{literal}
+function firmar()
+{
+	if(document.Sign.isSigned()){
+		document.Sign.clear();
+	}
+    document.Sign.setSignThickness(2);
+    //{/literal}
+    var nombre = "{$paciente.apellido}" + " " + "{$paciente.apellido2}" + ", " + "{$paciente.nombre}";
+	document.Sign.signNowEx({$paciente.id_paciente},nombre,"none","none","{$paciente.direccion}","{$paciente.dni}",true);
+	//{literal}
+	if(document.Sign.isSigned()){
+		var x = document.Sign.getString();
+		var y = document.Sign.getPNGString(x, 200, 200, true);
+		var info = document.getElementsByName ("txtSignData");
+		var img = document.getElementsByName ("txtSignImage");
+		info[0].value = x;
+		img[0].value = y;
+	}
+}
+function getHashData()
+{
+	//{/literal}
+	return "{$datos.texto_incluido|regex_replace:"/\r\n/":" "}";
+	//{literal}
+}
+function loaded(){}
+//{/literal} -->
+</script>
+
+<div class="contenidos">
+	<div class="col_izq">
+	    <span class="intro">{#texto27#}</span>
+    	<p>{#texto28#}</p>
+	</div>
+	<div class="col_central">
+	  <span class="intro">{#texto17#}</span>
+	  {if is_array($datos)}
+	    {include file=$tpl_path_base|cat:"gbdapp/consentimientos/cabecera.phtml"}
+	    <div id='formulario_errorloc' class='error_strings'></div>
+	    <p>{$datos.texto_incluido}</p>
+	    <blockquote class="firmas">
+		   <APPLET classid=clsid:8AD9C840-044E-11D1-B3E9-00805F499D93 code="integrisign.webclient.WebSign" width=125 height=65 name="Sign" codebase="{$req_base}lib/" archive="websignsunjvm.jar" MAYSCRIPT>
+			  <PARAM NAME="borderstyle" VALUE="1" >
+			  <PARAM NAME="scriptable" VALUE="true" >
+			  <PARAM NAME="cache_option" VALUE="Plugin" >
+			  <PARAM NAME="cache_archive" VALUE="websignsunjvm.jar" >
+			  <PARAM NAME="cache_version" VALUE="7.5.0.3" >
+			  {#errorSignApplet#}
+			</APPLET> 
+			<input type="button" value="{#texto7#}" onclick="firmar()"/>
+	      	<p>{#texto19#}</p>
+	    </blockquote>
+	 	<form name="formulario" enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.firmacons/id.{$paciente.id_paciente}/cons.{$datos.id_tipo_consentimiento}>
+        	<input type="hidden" name="txtSignData" />
+        	<input type="hidden" name="txtSignImage" />
+            <input type="submit" value="{#texto29#}" />
+        </form>
+	  {else}
+	    <p>{#texto8#}</p>
+	  {/if}
+  </div>
+</div>
+
+<script type="text/javascript">
+//<!--
+	var validator = new Validator("formulario");
+	validator.addValidation("txtSignData", "req", "{#error1#}");
+	validator.EnableOnPageErrorDisplaySingleBox();
+	validator.EnableMsgsTogether();
+//-->
+</script>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

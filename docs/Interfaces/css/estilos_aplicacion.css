@@ -1,0 +1,219 @@
+/* CSS Document */
+
+/* CSS Document */
+
+/* Estructura de la pagina */
+.cabecera{
+	background-image: url(../imagenes/logo.jpg);
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
+	padding: 20px 30px 0 170px;
+	min-height: 110px;
+}
+.cabecera img{
+	float: right;
+	width: 220px;
+	height: 100px;
+}
+.pestanas{
+	padding: 0;
+	float: left;
+	width: 100%;
+	margin: 90px 0 0 0;
+	background-image: url(../imagenes/linea.jpg);
+	background-repeat: repeat-x;
+}
+.pestanas ul{
+	list-style: none;
+	position: relative;
+	bottom: 62px;
+	left: 150px;
+	background: none;
+}
+.pestanas li{
+	float: left;
+	padding-left: 3px;
+}
+.contenidos{
+	display: table;
+	clear: both;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+.col_central{
+	display: table-cell;
+	float: left;
+	margin: 0;
+	padding: 0;
+	width: 75%;
+	
+}	
+.col_der{
+	display: table-cell;
+	float: left;
+	margin: 0;
+	padding: 40px 0 0 0;
+	max-width: 25%;
+}
+
+/* Recuadros en columnas laterales */
+
+.recuadro{
+	display: table;
+	padding: 0;
+	margin: 0;
+}
+.top_recuadro{
+	display: table-row;
+}
+.top_recuadro img{
+	position: relative;
+	top: 1px;
+}
+.fila_central{
+	display: table-row;
+	}
+.cuerpo_recuadro{
+	display: table-cell;
+	background-color: #F0F0F0;
+	border-left: 2px solid #656565;
+	border-right: 2px solid #656565;
+	padding-left: 20px;
+}
+.borde_recuadro{
+	display: table-cell;
+	background-image:url(../imagenes/borde_recuadro.jpg);
+	background-repeat:repeat-y;
+}
+.bottom_recuadro{
+	display: table-row;
+}
+.intro_cols{
+	font-size: 22px;
+	color: #006600;
+}
+.cuerpo_recuadro ul{
+	list-style: none;
+}
+.cuerpo_recuadro li{
+	margin: 3px 0 3px 0;
+}
+	
+/* Estilos Generales */
+body{
+	font: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 100%;
+	margin: 0;
+	padding: 0;
+}
+p{
+	direction: ltr;
+}
+/* Estilos contenidos */
+.inicio{
+	background-image: url(../imagenes/fondo_inicio.gif);
+	background-repeat: no-repeat;
+	background-position: top;
+	padding: 20px 0 0 150px;
+	height: 150px;
+	clear: both;
+}
+.inicio ul{
+	list-style: none;
+	float: right;
+	display: inline;
+	margin-right: 300px;
+}
+.inicio li{
+	background-image: url(../imagenes/punto.jpg);
+	background-repeat: no-repeat;
+	padding: 0 0 20px 25px;
+	font-size: large;
+	color: #454545;
+}
+.intro{
+	font-size: 28px;
+	color: #006600;
+	margin-left: 50px;
+}
+.tabla_agenda{
+	padding: 50px 0 0 200px;
+}
+.pasada{
+	background-color: #FF3333;
+}
+.en_curso{
+	background-color:#CCFF66;
+}
+.programada{
+	background-color:#33CC33;
+}
+.botones{
+	margin: 30px 0 0 0;
+}
+.botones input{
+	margin-left: 220px;
+}
+legend{
+	font-weight: bold;
+	color: #656565;
+	border: 1px solid #656565;
+	background: #F0F0F0;
+	margin-top: 10px;
+}
+fieldset{
+	text-align: justify;
+}
+fieldset p{
+	text-indent: 10px;
+	display: inline;
+	line-height: 30px;
+}
+fieldset img{
+	float: right;
+	margin-right: 300px;
+}
+form{
+	margin: 0 30px 0 30px;
+}
+.letras{
+	display: block;
+	padding: 0;
+	float: left;
+	margin-left: 50px;
+}
+.letras ul{
+	list-style: none;
+}
+.letras li{
+	float: left;
+	margin-left: 5px;
+}	
+.lista{
+	display: block;
+	margin: 70px 0 60px 60px;
+}
+.lista ul{
+	list-style: none;
+}
+.lista input{
+	margin-left: 5px;
+}
+/* Estilos pie de pagina */
+.pie{
+	width: 100%;
+	background-color: #F0F0F0;
+	margin-top: 80px;
+	clear: both;
+}
+.pie img{
+	display: inline;
+	margin: 5px 0 10px 100px;
+}
+.pie p{
+	display: inline;
+	color:#656565;
+	font-weight:300;
+}
+

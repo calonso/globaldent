@@ -2,6 +2,30 @@
 
 {include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
 
+<script type="text/javascript" src="{$req_base}js/fckeditor/fckeditor.js"></script>
+  <script type="text/javascript">
+  <!--
+  {literal}
+  function FCKeditor_OnComplete( editorInstance )
+  {
+  	editorInstance.Events.AttachEvent( 'OnBlur'	, FCKeditor_OnBlur ) ;
+  	editorInstance.Events.AttachEvent( 'OnFocus', FCKeditor_OnFocus ) ;
+  }
+
+  function FCKeditor_OnBlur( editorInstance )
+  {
+  	editorInstance.ToolbarSet.Collapse() ;
+  }
+
+  function FCKeditor_OnFocus( editorInstance )
+  {
+  	editorInstance.ToolbarSet.Expand() ;
+  }
+  function loaded(){}
+  {/literal} 
+  // -->
+  </script>
+
   <div class="contenidos">
     <div class="col_central">
       <span class="intro">{#texto78#}</span>
@@ -9,7 +33,13 @@
       <p>{#texto79#}</p>
       <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.modtipocons/id.{$datos.id_tipo_consentimiento}>
         <p>{#texto68#}<input type="text" name="txtNombre" value="{$datos.nombre}"/></p><br />
-        <p>{#texto69#}</p><textarea name="txtTexto" cols="80" rows="100">{$datos.texto_incluido}</textarea><br />
+        <p>{#texto69#}</p>
+        <script type="text/javascript">
+            var oFCKeditor = new FCKeditor('txtTexto','100%','400','MyToolbar','{$datos.texto_incluido|regex_replace:"/[\r\n]/":""}');
+            oFCKeditor.BasePath = "{$req_base}js/fckeditor/";
+            oFCKeditor.Config['ToolbarStartExpanded'] = false ;
+            oFCKeditor.Create();
+         </script>
         <input type="submit" value={#aceptar#} />
         <input type="reset" value={#borrar#} />
         <input type="button" value={#cancelar#} onclick="document.location='{$req_base}index.php/cod.tipocons'">

@@ -9,7 +9,7 @@
 	<script language="JavaScript" src="{$req_base}js/utils.js" type="text/javascript"></script>
 </head>
 
-<body>
+<body onLoad="loaded()">
 	<div class="cabecera" >
 	<img class="obj" src="{$req_base}file.php/logo" width="220" height="150" />
 	<p>{#textoheaderapp#}</p>
@@ -18,5 +18,5 @@
 	<div class="salir">
 	 <a href={$req_base}index.php/cod.logout><img class="salir" src="{$img_path_base}btn_salir.jpg" alt="Salir" /></a>
 	</div>
-	
+
 {include file=$tpl_path_base|cat:"gbdapp/common/navbar.phtml"}

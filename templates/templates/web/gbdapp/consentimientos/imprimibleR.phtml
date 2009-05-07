@@ -13,12 +13,8 @@
     {include file=$tpl_path_base|cat:"gbdapp/consentimientos/cabeceraver.phtml"}
     <p>{$datos.texto_incluido}</p>
     <blockquote class="firmas">
-      <object data={$req_base}file.php/fd type="image/jpg" width="100" height="100"></object>
-      {if isset($datos.extension)}
-      <object data={$req_base}file.php/fconsr/{$paciente.id_paciente}/{$datos.id_consentimiento}/{$datos.extension} type="image/{$datos.extension}" width="100" height="100"></object>
-      {/if}
+		<img src="{$req_base}file.php/fc/{$datos.id_paciente}/{$datos.id_consentimiento}" width="200" height="200" />
       <br />
-      <p>{#texto18#}</p>
       <p>{#texto19#}</p>
     </blockquote>
     <div class="lineahor">
@@ -27,12 +23,7 @@
     <span class="intro">{#texto24#}</span>
     <p>{#texto25#} {$datos.fecha_r} {#texto26#}</p>
     <blockquote class="firmas">
-      <object data={$req_base}file.php/fd type="image/jpg" width="100" height="100"></object>
-      {if isset($datos.extensionr)}
-      <object data={$req_base}file.php/fconsrb/{$paciente.id_paciente}/{$datos.id_consentimiento}/{$datos.extensionr} type="image/{$datos.extensionr}" width="100" height="100"></object>
-      {/if}
-      <br />
-      <p>{#texto18#}</p>
+      	<img src="{$req_base}file.php/fcr/{$datos.id_paciente}/{$datos.id_consentimiento}" width="200" height="200" />
       <p>{#texto19#}</p>
     </blockquote>
   {else}

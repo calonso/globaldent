@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Agenda</title>
+<link href="estilos.css" rel="stylesheet" type="text/css" />
+<style type="text/css">@import url(calendario/estilos/calendar-system.css);</style>
+<script type="text/javascript" src="calendario/calendar.js"></script>
+<script type="text/javascript" src="calendario/calendar-es.js"></script>
+<script type="text/javascript" src="calendario/calendar-setup.js"></script>
+</head>
+
+<body>
+<p align="left">Bienvenidos al proyecto.	22 Marzo, 2007  12:07 </p>
+<p align="right"><a href ="#"><img src="#" alt="Logotipo"/></a> </p>
+<ul class = "navbar">
+  <a href="index.html"> P&aacute;gina Principal</a> <a href="agenda.html">Agenda</a> <a href="pac_index.html"> Pacientes</a> <a href="drref_index.html">Doctores Referidores</a> <a href="drcol_index.html">Doctores Colaboradores</a> <a href="personal_index.html">Personal</a> <a href="pedidos_index.html">Pedidos</a> <a href="conta_index.html">Contabilidad</a>
+</ul>
+<ul class = "navbar">
+	<a href="cita_agregar.html"> Dar nueva cita.</a> <a href="cita_buscar.html"> Buscar citas. </a>
+</ul>
+<div align="center" id="calendar-container"></div>
+<script type="text/javascript">
+function dateChanged(calendar) {
+// Beware that this function is called even if the end-user only
+// changed the month/year. In order to determine if a date was
+// clicked you can use the dateClicked property of the calendar:
+if (calendar.dateClicked) {
+// OK, a date was clicked, redirect to /yyyy/mm/dd/index.php
+var y = calendar.date.getFullYear();
+var m = calendar.date.getMonth(); // integer, 0..11
+var d = calendar.date.getDate(); // integer, 1..31
+// redirect...
+window.location = "/" + y + "/" + m + "/" + d + "/index.php";
+}
+};
+Calendar.setup(
+{
+flat : "calendar-container", // ID of the parent element
+flatCallback : dateChanged // our callback function
+}
+);
+</script>
+</body>
+</html>

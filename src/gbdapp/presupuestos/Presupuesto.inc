@@ -92,7 +92,7 @@
             $this->datos = array();
             $this->dao = new PresupuestoDAO();
             $this->id = $id; 
-            $this->carpeta = PATH_BASE."imagenes/".$_SESSION[id_usr]."/id$id";
+            $this->carpeta = PATH_BASE."imagenes/".$_SESSION[id_usr]."/id$id/";
             $this->nombre = $this->cargaPaciente ($id); 
             $this->nombre = "Presupuesto de: ".$this->nombre;
             $this->logger = new Logger($lang);
@@ -249,6 +249,7 @@
         {
             $ldao = new LineaPresDAO();
             $this->datos = $this->recibirFormulario ($params);
+            $image = base64_decode($this->datos['image']);
              
             $this->datos = $this->dao->nuevo ($this->datos);
             if($this->datos > 0)
@@ -269,6 +270,9 @@
                     }
                 }
                 $this->logger->save(LOG_ALTA, $this->nombre);
+                $imageFile = fopen($this->carpeta."fpres".$this->datos, 'x');
+                fwrite($imageFile, $image);
+                fclose($imageFile);
                 $this->dao->commit ();
             }
             
@@ -291,6 +295,7 @@
             $datos[duracion] = $params->getParam('txtDuracion');
             $datos[total] = $params->getParam('txtTotal');
             $datos[firma] = $params->getParam('txtSignData');
+            $datos[image] = $params->getParam('txtSignImage');
             $fecha = strftime("%d-%m-%Y");
             $aux = explode ("-", $fecha);
             $aux[0] = (int)$aux[0];
@@ -325,7 +330,7 @@
             {   
                 $lineas = $ldao->ver ($id);
             }
-                
+               
             $this->smarty->assign ('datos', $this->datos[0]);
             $this->smarty->assign ('lineas', $lineas);
             
@@ -348,7 +353,7 @@
             $this->datos = $this->dao->borrar (array("id_paciente" => $this->id, "id_presupuesto" => $id));
             if($this->datos > 0)
             {
-                @unlink($this->carpeta."/fpres$id");
+                @unlink($this->carpeta."fpres$id");
                 $this->logger->save(LOG_BAJA, $this->nombre);
                 $this->dao->commit ();   
             }else
@@ -400,6 +405,9 @@
             $id = $params->getParam ('pres');
         
             $this->datos = $this->recibirFormulario ($params);
+            $image = base64_decode($this->datos['image']);
+            unset($this->datos['image']);
+      
             
             $this->datos[id_presupuesto] = $id;
             $this->dao->start ();
@@ -423,6 +431,10 @@
             
             $this->datos = $this->dao->modificar ($this->datos);
             if($this->datos > 0){
+            	@unlink($this->carpeta."fpres$id");
+            	$imageFile = fopen($this->carpeta."fpres$id", 'x');
+                fwrite($imageFile, $image);
+                fclose($imageFile);
                 $this->logger->save(LOG_MODIFICACION, $this->nombre);
                 $this->dao->commit ();
             }else

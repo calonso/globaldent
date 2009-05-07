@@ -4,7 +4,6 @@
 
 <script type="text/javascript">
 //{literal}
-//<!--
 function abrir(dir)
 {
   window.open(dir);
@@ -13,7 +12,18 @@ function getHashData()
 {
 	return null;
 }
--->
+function loaded()
+{
+	var s = document.Sign;
+	if (s != null){
+		{/literal}
+		var str = "{$datos.firma}";
+		{literal}
+		if(str.length > 0){
+			document.Sign.openSign1(str);
+		}
+	}
+}
 //{/literal}
 </script>
 
@@ -73,13 +83,16 @@ function getHashData()
     <p><b>{#texto31#}</b>{$datos.duracion} {#texto37#}</p>
     <p>{#texto33#}</p>
     <div class="firmas">
-    <APPLET classid=clsid:8AD9C840-044E-11D1-B3E9-00805F499D93 code="integrisign.webclient.WebSign" width=300 height=225 name="Sign" codebase="{$req_base}lib/" archive="websignsunjvm.jar" MAYSCRIPT>
+       
+	<APPLET classid=clsid:8AD9C840-044E-11D1-B3E9-00805F499D93 code="integrisign.webclient.WebSign" width=125 height=65 name="Sign" codebase="{$req_base}lib/" archive="websignsunjvm.jar" MAYSCRIPT>
+	  <PARAM NAME="borderstyle" VALUE="1" >
 	  <PARAM NAME="scriptable" VALUE="true" >
 	  <PARAM NAME="cache_option" VALUE="Plugin" >
 	  <PARAM NAME="cache_archive" VALUE="websignsunjvm.jar" >
 	  <PARAM NAME="cache_version" VALUE="7.5.0.3" >
 	  {#error6#}
-	</APPLET>
+	</APPLET> 
+	
       <p>{#texto35#}</p>
     </div>
   {else}
@@ -96,21 +109,5 @@ function getHashData()
     {/if}
   {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
 </div>
-
-<script type="text/javascript">
-//<!--
-//{literal}
-var s = document.Sign;
-if (s != null){
-	//{/literal}
-	var str = "{$datos.firma}";
-	//{literal}
-	if(str.length > 0){
-		s.openSign1(str);
-	}
-}
-//{/literal}
--->
-</script>
 
 {include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

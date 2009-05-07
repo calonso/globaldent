@@ -9,6 +9,7 @@
   {
     window.open(dir);
   }
+function loaded(){}
 -->
 {/literal}
 </script>
@@ -38,11 +39,7 @@
             <input type="button" value="{#texto16#}" onclick="abrir('{$req_base}index.php/cod.vercons/id.{$paciente.id_paciente}/cons.{$cons.id_consentimiento}')" />
           </td>
           <td colspan="2" align="right">  
-            <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.revocar/id.{$paciente.id_paciente}/cons.{$cons.id_consentimiento}>
-              <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
-              <input type="file" name="fileFirma" />
-              <input type="submit" value={#texto20#} />
-            </form>
+			<a href="{$req_base}index.php/cod.nuevoconsr/id.{$paciente.id_paciente}/cons.{$cons.id_consentimiento}"><img src="{$img_path_base}sign_logoX.png" alt="{#texto20#}"/></a>
           </td>
         </tr>
       {/foreach}
@@ -67,11 +64,7 @@
         <tr>
           <td colspan="3">{$cons.nombre}</td>
           <td align="right">
-            <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.firmacons/id.{$paciente.id_paciente}/cons.{$cons.id_tipo_consentimiento}>
-              <input type="hidden" name="MAX_FILE_SIZE" value="200000" />
-              <input type="file" name="fileFirma" />
-              <input type="submit" value={#texto7#} />
-            </form>
+            <a href="{$req_base}index.php/cod.nuevocons/id.{$paciente.id_paciente}/cons.{$cons.id_consentimiento}"><img src="{$img_path_base}sign_logo.png" alt="{#texto7#}"/></a>
           </td>
         </tr>
       {/foreach}

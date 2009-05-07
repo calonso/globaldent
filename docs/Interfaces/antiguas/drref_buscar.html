@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Buscar Doctor Referidor</title>
+<link href="estilos.css" rel="stylesheet" type="text/css" />
+<script type="text/JavaScript">
+<!--
+function MM_goToURL() { //v3.0
+  var i, args=MM_goToURL.arguments; document.MM_returnValue = false;
+  for (i=0; i<(args.length-1); i+=2) eval(args[i]+".location='"+args[i+1]+"'");
+}
+//-->
+</script>
+</head>
+
+<body>
+<p align="left">Bienvenidos al proyecto.	22 Marzo, 2007  12:07 </p>
+<p align="right"><a href ="#"><img src="#" alt="Logotipo"/></a> </p>
+<ul class = "navbar">
+  <a href="index.html"> P&aacute;gina Principal</a> <a href="agenda.html">Agenda</a> <a href="pac_index.html"> Pacientes</a> <a href="drref_index.html">Doctores Referidores</a> <a href="drcol_index.html">Doctores Colaboradores</a> <a href="personal_index.html">Personal</a> <a href="pedidos_index.html">Pedidos</a> <a href="conta_index.html">Contabilidad</a>
+</ul>
+<ul class="navbar">
+  <a href="drref_agregar.html"> Nuevo doctor.</a> <a href="drref_buscar.html"> Buscar doctores.</a>
+</ul>
+<p align="center">Introduzca los datos de los doctores que quiere buscar: </p>
+<form id="form1" name="form1" method="post" action="">
+  <fieldset>
+  <legend>Datos personales</legend>
+  <br />
+  <label>Nombre:
+  <input type="text" name="textfield" />
+  </label>
+  <label>Apellidos:
+  <input type="text" name="textfield2" />
+  </label>
+  <br />
+  <label>Direcci&oacute;n:
+  <input type="text" name="textfield3" />
+  </label>
+  <label>C.P.:
+  <input type="text" name="textfield4" />
+  </label>
+  <label>Provincia:
+  <select name="select">
+  </select>
+  </label>
+  <label>Ciudad:
+  <select name="select2">
+  </select>
+  </label>
+  <label>Pa&iacute;s:
+  <select name="select3">
+  </select>
+  </label>
+  <br />
+  <label>Tel&eacute;fono:
+  <input type="text" name="textfield5" />
+  </label>
+  <label>Fax:
+  <input type="text" name="textfield6" />
+  </label>
+  <label>E-Mail:
+  <input type="text" name="textfield7" />
+  </label>
+  <div align="center"><br />
+      <input type="submit" name="Submit" value="Aceptar" />
+      <input type="reset" name="Submit2" value="Borrar" />
+      <input name="Submit3" type="button" onclick="MM_goToURL('parent','drref_index.html');return document.MM_returnValue" value="Cancelar" />
+  </div>
+  </fieldset>
+</form>
+<p align="left"></p>
+<p>&nbsp;</p>
+</body>
+</html>

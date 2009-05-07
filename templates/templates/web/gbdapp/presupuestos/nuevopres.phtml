@@ -13,6 +13,18 @@ function borrar(num)
   //{literal}
   x.submit();
 }
+function loaded()
+{
+	var s = document.Sign;
+	if (s != null){
+		//{/literal}
+		var str = "{$presup.firma}";
+		//{literal}
+		if(str.length > 0){
+			s.openSign1(str);
+		}
+	}
+}
 function linea()
 {
 	//{/literal}
@@ -92,8 +104,11 @@ function firmar()
 	//{literal}
 	if(document.Sign.isSigned()){
 		var x = document.Sign.getString();
+		var y = document.Sign.getPNGString(x, 200, 200, true);
 		var info = document.getElementsByName ("txtSignData");
+		var image = document.getElementsByName ("txtSignImage");
 		info[0].value = x;
+		image[0].value = y;
 	}
 }
 function getHashData()
@@ -315,28 +330,13 @@ function checkIntegrityAndSubmit()
       <p>{#texto35#}</p>
     </div>   
       <input type="hidden" name="txtSignData" value="{$presup.firma}"/>
+      <input type="hidden" name="txtSignImage" value="{$presup.image}"/>
       <input type="hidden" name="txtTotal" value="{$total}" />
       <input type="button" value="{#texto38#}" onclick="checkIntegrityAndSubmit()"/>
       <input type="button" value="{#cancelar#}" onclick="document.location='{$req_base}index.php/cod.presupuestos/id.{$paciente.id_paciente}'">
     </form>
   </div>
 </div>
-
-<script type="text/javascript">
-//<!--
-//{literal}
-var s = document.Sign;
-if (s != null){
-	//{/literal}
-	var str = "{$presup.firma}";
-	//{literal}
-	if(str.length > 0){
-		s.openSign1(str);
-	}
-}
-//{/literal}
--->
-</script>
 
 
 {include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

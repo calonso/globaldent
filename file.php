@@ -41,6 +41,16 @@
           case "logo":
             $file = "./imagenes/".$_SESSION[id_usr]."/logoclinica.jpg";
             break;
+          case "fp":
+          	$file = "./imagenes/".$_SESSION[id_usr]."/id".$aux[2]."/fpres".$aux[3];
+          	//header('Content-Type: image/png'');
+          	break;
+          case "fc":
+          	$file = "./imagenes/".$_SESSION[id_usr]."/id".$aux[2]."/fcons".$aux[3];
+          	break;
+          case "fcr":
+          	$file = "./imagenes/".$_SESSION[id_usr]."/id".$aux[2]."/fconsr".$aux[3];
+          	break;
         }
         readfile ($file);   
     }else

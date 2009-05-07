@@ -29,6 +29,10 @@
     */
     include_once PATH_BASE."src/gbdapp/pacientes/PacienteDAO.inc";
     
+    define ('FIRMADOS', 0);
+    define ('REVOCADOS', 1);
+    define ('SINFIRMA', 2);
+    
     /**
     * Clase Consentimiento. Implementa toda la lógica de negocio para gestionar el firmado de consentimientos por parte del paciente
     * 
@@ -48,15 +52,15 @@
         */
         private $dao;
         /**
-        * Almacenará la dirección de la carpeta donde estan las imagenes del paciente
-        * @var string
-        */ 
-        private $carpeta;
-        /**
         * Almacenará el identificador del paciente con que se está trabajando
         * @var int
         */
         private $id;
+        /**
+         * Almacenará la ruta a la carpeta donde se guardan las firmas del paciente
+         * @var string
+         */
+        private $carpeta;
         
         /**
         * Constuctor de la clase, prepara las variables necesarias para su funcionamiento
@@ -78,8 +82,8 @@
             $this->datos = array();
             $this->dao = new ConsentimientoDAO();
             $this->id = $id; 
-            $this->carpeta = PATH_BASE."imagenes/".$_SESSION[id_usr]."/id$id";
             $this->cargaPaciente ($id);
+            $this->carpeta = PATH_BASE."imagenes/".$_SESSION[id_usr]."/id$id/";
             return;
         }
         /**
@@ -95,72 +99,68 @@
             return;      
         } 
         /**
+         * Funcion que muestra el consentimiento con los datos del paciente para que lo lea y firme
+         * @param resource Objeto de la clase params para acceder a los parámetros de la petición
+         * @param string Archivo que se ha solicitado
+         */
+        function muestraFormulario (Params $params, $file){
+        	$id_cons = $params->getParam("cons");
+        	$tipoDAO = new TipoConsDAO();
+        	$this->datos = $tipoDAO->ver($id_cons);
+        	$this->smarty->assign('datos', $this->datos[0]);
+        	$this->smarty->display ($this->path.$file.".phtml");
+        }
+        /**
+         * Funcion que muestra el consentimiento con los datos del paciente para que lo lea y firme su revocación
+         * @param resource Objeto de la clase params para acceder a los parámetros de la petición
+         * @param string Archivo que se ha solicitado
+         */
+        function muestraFormularioR (Params $params, $file){
+        	$id_cons = $params->getParam("cons");
+        	$this->datos = $this->dao->ver($id_cons);
+        	$this->smarty->assign('datos', $this->datos[0]);
+        	$this->smarty->display ($this->path.$file.".phtml");
+        }
+        /**
         * Funcion que muestra un listado con todos los consentimientos que el paciente tiene firmados y los que le quedan
         * @param resource Objeto de la clase params para acceder a los parámetros de la petición
         * @param string Archivo que se ha solicitado
         * @return void
         */
         function listado ($params, $file)
-        {
-            
+        {     
             $this->datos = $this->dao->listado ($this->id);
+            $firmados = array();
+            $revocados = array();
+            $sinfirma = array();
             if(is_array($this->datos))
             {
-                $temp = array();
-                $this->datos = $this->datos[1];
-                foreach ($this->datos as $indice => $valor)
+                foreach ($this->datos as $consent)
                 {
-                    $this->datos[$indice][nombre] = $this->verTipoCons ("nombre", $this->datos[$indice][id_tipo_consentimiento]);
-                    array_push ($temp, $this->datos[$indice][id_tipo_consentimiento]);      
+                	switch($consent['cod']){
+                		case FIRMADOS:
+                			array_push($firmados, $consent);
+                			break;
+                		case REVOCADOS:
+                			array_push($revocados, $consent);
+                			break;
+                		case SINFIRMA:
+                			array_push($sinfirma, $consent);
+                			break;
+                	}
                 }
             }
-            $this->smarty->assign ('firmados', $this->datos);
-            $aux = new TipoConsDAO ();
-            if(is_array($temp))
-            {
-                $this->datos = $aux->buscar ($temp);
-                $this->smarty->assign ('resto', $this->datos);
-            }else
-            {    
-                $this->datos = $aux->listado (0);
-                $this->smarty->assign ('resto', $this->datos[1]);
+            if (count($firmados) > 0){
+            	$this->smarty->assign ('firmados', $firmados);
             }
-            $aux = new ConsentimientoRevocadoDAO ();
-            $this->datos = $aux->listado ($this->id);
-            if(is_array($this->datos))
-            {
-                $temp = array();
-                $this->datos = $this->datos[1];
-                foreach ($this->datos as $indice => $valor)
-                {
-                    $this->datos[$indice][nombre] = $this->verTipoCons ("nombre", $this->datos[$indice][id_tipo_consentimiento]);
-                    array_push ($temp, $this->datos[$indice][id_tipo_consentimiento]);      
-                }
+            if (count($sinfirma) > 0){
+            	$this->smarty->assign ('resto', $sinfirma);
             }
-            $this->smarty->assign ('revocados', $this->datos);
-            
+            if (count($revocados) > 0){
+            	$this->smarty->assign ('revocados', $revocados);
+            }
             $this->smarty->display ($this->path.$file.".phtml");
             return;   
-        }
-        /**
-        * Funcion que recoje el nombre y el texto del tipo de consentimiento seleccionado
-        * @param int Id del tipo de consentimiento que se quiere consultar
-        * @return string
-        */
-        function verTipoCons ($motivo, $id)
-        {
-            $dao = new TipoConsDAO ();
-            $datos = $dao->ver ($id);
-            switch ($motivo)
-            {
-                case "nombre":
-                    return $datos[0][nombre];
-                    break;
-                case "texto":
-                    return $datos[0][texto_incluido];
-                    break;   
-            }
-               
         }
         /**
         * Funcion que añade un nuevo consentimiento firmado a la base de datos
@@ -182,22 +182,15 @@
             $this->datos[id_tipo_consentimiento] = $id;
             $this->datos[id_usuario] = $_SESSION[id_usr];
             $this->datos[fecha] = $fecha;
-            
-            if(is_uploaded_file($_FILES[fileFirma][tmp_name]))
-            {
-                $ext = $_FILES[fileFirma][type];
-                $aux = explode ("/", $ext);
-                $this->datos[extension] = $aux[1];  
-            }
+			$this->datos[firma] = $params->getParam('txtSignData');
+			$image = base64_decode($params->getParam('txtSignImage'));
             
             $this->datos = $this->dao->nuevo ($this->datos);
-            if($this->datos > 0)
-            {
-                if(is_uploaded_file($_FILES[fileFirma][tmp_name]))
-                {
-                    move_uploaded_file ($_FILES[fileFirma][tmp_name], $this->carpeta."/fcons".$this->datos);   
-                }
-            } 
+            if($this->datos > 0){
+            	$imageFile = fopen($this->carpeta."fcons".$this->datos, 'x');
+                fwrite($imageFile, $image);
+                fclose($imageFile);
+            }
             
             $this->listado ($params, "cons");
             return; 
@@ -211,63 +204,29 @@
          function revocar ($params, $file)
          {
             $id = $params->getParam ('cons');
-            $this->dao->start();
-            $this->datos = $this->nuevoRevocado ($id);
-            if($this->datos > 0)
-            {
-                $ret = $this->dao->borrar (array("id_paciente" => $this->id, "id_consentimiento" => $id));
-                if($ret > 0)
-                {
-                    @rename ($this->carpeta."/fcons$id", $this->carpeta."/fconsr".$this->datos);   
-                    $this->dao->commit ();
-                }else
-                    $this->dao->rollback ();
-            }else
-                $this->dao->rollback ();
+            
+            $fecha = strftime ("%d-%m-%Y");
+            $aux = explode ("-", $fecha);
+            $aux[0] = (int)$aux[0];
+            $aux[1] = (int)$aux[1];
+            $fecha = $aux[0]."-".$aux[1]."-".$aux[2];
+            
+            $this->datos[id_consentimiento] = $id;
+            $this->datos[id_usuario] = $_SESSION[id_usr];
+            $this->datos[fecha] = $fecha;
+			$this->datos[firma] = $params->getParam('txtSignData');
+			$image = base64_decode($params->getParam('txtSignImage'));
+            
+			$dao = new ConsentimientoRevocadoDAO();
+            $this->datos = $dao->nuevo ($this->datos);
+            if($this->datos > 0){
+            	$imageFile = fopen($this->carpeta."fconsr".$id, 'x');
+                fwrite($imageFile, $image);
+                fclose($imageFile);
+            }
             
             $this->listado ($params, "cons");
-            return;   
-         }
-         /**
-         * Funcion que crea el nuevo presupuesto revocado
-         * @param int Id del viejo presupuesto para consultar sus datos
-         * @return int
-         */
-         function nuevoRevocado ($id)
-         {
-            $datos = $this->dao->ver (array("id_paciente" => $this->id, "id_consentimiento" => $id));
-            if(is_array($datos))
-            {
-                $aux[fecha] = $datos[0][fecha];
-                $aux[id_tipo_consentimiento] = $datos[0][id_tipo_consentimiento];
-                $fecha = strftime ("%d-%m-%Y");
-                $temp = explode("-", $fecha);
-                $temp[0] = (int)$temp[0];
-                $temp[1] = (int)$temp[1];
-                $fecha = $temp[0]."-".$temp[1]."-".$temp[2];
-                $aux[fecha_r] = $fecha;
-                $aux[id_paciente] = $this->id;
-                $aux[id_usuario] = $_SESSION[id_usr];
-                $aux[extension] = $datos[0][extension];
-                
-                if(is_uploaded_file($_FILES[fileFirma][tmp_name]))
-                {
-                    $ext = $_FILES[fileFirma][type];
-                    $ext = explode ("/", $ext);
-                    $aux[extensionr] = $ext[1];   
-                }
-                
-                $rdao = new ConsentimientoRevocadoDAO();
-                $datos = $rdao->nuevo ($aux);
-                
-                if(is_uploaded_file($_FILES[fileFirma][tmp_name]))
-                {
-                    move_uploaded_file ($_FILES[fileFirma][tmp_name], $this->carpeta."/fconsr".$datos."b");       
-                }
-            }else
-                $datos = -1;    
-            
-            return $datos;
+            return;    
          }
         /**
         * Funcion que muestra todos los datos del consentimiento
@@ -278,8 +237,7 @@
         function ver ($params, $file)
         {
             $id = $params->getParam ('cons');
-            $this->datos = $this->dao->ver (array("id_consentimiento" => $id, "id_paciente" => $this->id));
-            $this->datos[0][texto_incluido] = $this->verTipoCons ("texto", $this->datos[0][id_tipo_consentimiento]);
+            $this->datos = $this->dao->ver ($id);
             $this->smarty->assign ('datos', $this->datos[0]);
             $this->smarty->display ($this->path."imprimible.phtml");
             return;   
@@ -294,8 +252,7 @@
         {
             $dao = new ConsentimientoRevocadoDAO ();
             $id = $params->getParam ('cons');
-            $this->datos = $dao->ver (array("id_consentimiento" => $id, "id_paciente" => $this->id));
-            $this->datos[0][texto_incluido] = $this->verTipoCons ("texto", $this->datos[0][id_tipo_consentimiento]);
+            $this->datos = $dao->ver ($id);
   
             $this->smarty->assign ('datos', $this->datos[0]);
             $this->smarty->display ($this->path."imprimibleR.phtml");
