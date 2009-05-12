@@ -62,6 +62,7 @@ function loaded(){}
   {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
     {if is_array($datos)}
       <li><input type="button" value="{#texto35#}" onclick="abrir('{$req_base}index.php/cod.verfact/id.{$paciente.id_paciente}/fact.{$datos.id_factura}/imp.1')" /></li>
+      <li><a href={$req_base}index.php/cod.modfact/id.{$paciente.id_paciente}/fact.{$datos.id_factura}>{#texto21#}</a></li>
       <li><a href={$req_base}index.php/cod.borrafact/id.{$paciente.id_paciente}/fact.{$datos.id_factura}>{#texto36#}</a></li>
       <li><a href={$req_base}index.php/cod.verpac/id.{$paciente.id_paciente}>{#texto49#}</a></li>
     {/if}

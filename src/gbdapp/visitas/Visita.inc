@@ -350,43 +350,38 @@
             $aux[1] = (int)$aux[1];
             $this->datos[fecha] = $aux[0]."-".$aux[1]."-".$aux[2];
             
-            $precio = $this->datos[precio];
+            $this->dao->start ();
             $this->datos = $this->dao->nuevo ($this->datos);
             $this->smarty->assign ('codigo', $this->datos);
             if($this->datos < 1)
             {
-                $this->smarty->display ($this->path.$file.".phtml");   
-                return;
-            }
-    
-            $this->dao->start ();
-            $ret = $this->guardaServicios ($params, $this->datos);
-            if ($ret)
-            {
-                $ret1 = $this->guardaAsistencia ($params, $this->datos);
-                if($ret1)
-                {
-                    $ret2 = $this->guardaColaboracion ($params, $this->datos);
-                    if ($ret2){
-                        $this->logger->save(LOG_ALTA, "Visita de: ".$this->nombre);
-                        $this->dao->commit ();
-                    }else
-                    {
-                        $this->smarty->assign ('codigo', -1);
-                        $this->dao->rollback ();  
-                        $this->dao->borrar ($this->datos);      
-                    }
-                }else
-                {
-                    $this->smarty->assign ('codigo', -1);
-                    $this->dao->rollback (); 
-                    $this->dao->borrar ($this->datos);       
-                }
-            }else
-            {
-                $this->smarty->assign ('codigo', -1);
-                $this->dao->rollback (); 
-                $this->dao->borrar ($this->datos);       
+            	$this->dao->rollback();
+            } else {
+	            $ret = $this->guardaServicios ($params, $this->datos);
+	            if ($ret)
+	            {
+	                $ret1 = $this->guardaAsistencia ($params, $this->datos);
+	                if($ret1)
+	                {
+	                    $ret2 = $this->guardaColaboracion ($params, $this->datos);
+	                    if ($ret2){
+	                        $this->logger->save(LOG_ALTA, "Visita de: ".$this->nombre);
+	                        $this->dao->commit ();
+	                    }else
+	                    {
+	                        $this->smarty->assign ('codigo', -1);
+	                        $this->dao->rollback ();  
+	                    }
+	                }else
+	                {
+	                    $this->smarty->assign ('codigo', -1);
+	                    $this->dao->rollback (); 
+	                }
+	            }else
+	            {
+	                $this->smarty->assign ('codigo', -1);
+	                $this->dao->rollback (); 
+	            }
             }
             
             $this->smarty->display ($this->path.$file.".phtml");
@@ -536,7 +531,7 @@
                 foreach ($datos as $indice => $valor)
                 {
                     $temp = $aux->ver ($valor);
-                    $temp = $temp[0];
+                    $temp = $temp[1][0];
                     $cadena = $temp[apellido]." ".$temp[apellido2].", ".$temp[nombre];
                     $datos[$indice] = array("id_dr" => $valor, "nombre" => $cadena);
                 }
@@ -648,7 +643,6 @@
             $ret = $this->actualizaDatos ($params, $id);
             if ($ret)
             {
-               
                 $this->datos = $this->dao->modificar ($this->datos);
                 if($this->datos >= 1){
                     $this->logger->save(LOG_MODIFICACION, "Visita de: ".$this->nombre);
@@ -765,7 +759,6 @@
                 $fechas[ultima] = $this->datos[$indice][fecha];
 
             }
-
             $fechas[curr] = $fecha;
             $this->smarty->assign ('saldoAnt', $saldo);
             $this->smarty->assign ('order', $orden);

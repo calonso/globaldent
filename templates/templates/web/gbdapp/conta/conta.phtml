@@ -16,6 +16,9 @@
       <ul>
         <li><a href={$req_base}index.php/cod.vercaja>{#texto2#}</a></li>
         <li><a href={$req_base}index.php/cod.verpendientes>{#texto3#}</a></li>
+        {if $privilegios == 4}
+        	<li><a href={$req_base}index.php/cod.listafacturas>{#texto38#}</a></li>
+        {/if}
       </ul>
     </div>
   </div>

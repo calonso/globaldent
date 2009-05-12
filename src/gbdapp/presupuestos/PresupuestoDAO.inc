@@ -100,9 +100,14 @@
         {
                 
         }  
-        function bloquear ($datos)
+        function bloquear ($id)
         {
-        
-        }
+	        $idusr = $_SESSION[id_usr];
+	
+			$sentencia = "select IFNULL(MAX(numero),0) as numero, IFNULL(YEAR(STR_TO_DATE(fecha, '%d-%m-%Y')), YEAR(CURDATE())) as year from presupuesto where id_paciente = $id and id_usuario = $idusr and 
+				YEAR(STR_TO_DATE(fecha, '%d-%m-%Y')) = YEAR(CURDATE()) for update";
+			$this->datos = $this->DBManager->recoger_datos ($sentencia);
+			return $this->datos;
+        } 
     }
 ?>

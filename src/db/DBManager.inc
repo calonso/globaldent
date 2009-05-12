@@ -17,6 +17,10 @@
   * Inclusion de la biblioteca EzSQL
   */
   include_once PATH_BASE."src/db/ezsql/mysql/ez_sql_mysql.php";
+  /**
+  * Inclusion de la biblioteca mysql
+  */
+  include_once PATH_BASE."src/db/mysql.inc";
   
   
   /**
@@ -45,9 +49,10 @@
     */
     function DBManager()
     {
-        $this->conexion = new ezSQL_mysql (DB_USUARIO, DB_CLAVE, DB_BD, DB_SERVIDOR);
-        $conectado = $this->conexion->quick_connect (DB_USUARIO, DB_CLAVE, DB_BD, DB_SERVIDOR);
-        return $conectado;
+        //$this->conexion = new ezSQL_mysql (DB_USUARIO, DB_CLAVE, DB_BD, DB_SERVIDOR);
+        //$conectado = $this->conexion->quick_connect (DB_USUARIO, DB_CLAVE, DB_BD, DB_SERVIDOR);
+        //return $conectado;
+        $this->conexion = new mysql();
     }
     /**
     * Función que emplearán los objetos DAO para realizar las peticiones de tipo insert, delete o update, es decir, que no devuelvan

@@ -427,12 +427,12 @@ form{
   display: table;
   width: 90%;
 }
-.imprimible .pac_info object{
+.imprimible .pac_info img{
   margin-right: 20px;
   width: 200px;
   height: 200px;
 }
-.imprimible .pac_info .logoclinica object{
+.imprimible .pac_info .logoclinica img{
   margin: 40px 80px 20px 0;
   width: 250px;
   height: 200px;
@@ -441,8 +441,9 @@ form{
   display: table;
   width: 90%;
 }
-.imprimible .clin_info object{
-  margin-right: 20px;
+.imprimible .clin_info img{
+  float: left;
+  margin: 25px 20px 0 0;
   width: 200px;
   height: 200px;
 }

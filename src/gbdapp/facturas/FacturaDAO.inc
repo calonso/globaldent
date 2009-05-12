@@ -48,7 +48,6 @@
         function borrar ($datos)
         {
             $id = $datos[id_factura];
-            $idp = $datos[id_paciente];
             $idusr = $_SESSION[id_usr];
             $sentencia = "delete from factura where id_usuario = $idusr and id_factura = $id";
             $this->datos = $this->DBManager->hacer_peticion ($sentencia);
@@ -75,12 +74,33 @@
         }
         function modificar ($datos)
         {
-                 
+        	$id = $datos[id_factura];
+            $idusr = $_SESSION[id_usr];
+        	foreach ($datos as $indice => $valor)
+            {
+                if(!empty($valor)){
+                	switch($indice){
+                		case "nombre_pagador":
+                		case "dni_pagador":
+                			$valor = $this->crypter->cifrar($valor);
+                			break;
+                		default:
+                			break;
+                	}
+                	$parejas .= "$indice = '$valor', ";
+                }
+            }
+            $parejas = substr ($parejas, 0, strlen($parejas) -2);
+            $sentencia = "update factura set $parejas where id_factura = $id and id_usuario = $idusr";
+            $this->datos = $this->DBManager->hacer_peticion ($sentencia);
+            if($this->datos == 1)
+                $this->datos = $id;
+            return $this->datos; 
         }
         function listado ($id, $pagina = -1)
         {
             $idusr = $_SESSION[id_usr];
-            $sentencia = "select id_factura, numero, fecha, total from factura where id_usuario = '$idusr' and id_paciente = '$id' order by id_factura desc";
+            $sentencia = "select id_factura, numero, fecha, total from factura where id_usuario = $idusr and id_paciente = $id order by id_factura desc";
             
             if($pagina != -1)
             {   
@@ -97,7 +117,45 @@
         }
         function bloquear ($datos)
         {
-        
+	        $idusr = $_SESSION[id_usr];
+	
+			$sentencia = "select IFNULL(MAX(numero),0) as numero, IFNULL(YEAR(STR_TO_DATE(fecha, '%d-%m-%Y')), YEAR(CURDATE())) as year from factura where id_usuario = $idusr and 
+				YEAR(STR_TO_DATE(fecha, '%d-%m-%Y')) = YEAR(CURDATE()) for update";
+			$this->datos = $this->DBManager->recoger_datos ($sentencia);
+			return $this->datos;
         }  
+        function yearList ()
+        {
+        	$idusr = $_SESSION[id_usr];
+        	$sentencia = "select distinct YEAR(STR_TO_DATE(fecha, '%d-%m-%Y')) as year from factura where id_usuario = $idusr order by year desc";
+        	$this->datos = $this->DBManager->recoger_datos ($sentencia);
+        	if(is_array($this->datos)){
+        		$this->datos = $this->datos[1];
+        	}
+			return $this->datos;
+        }
+        function fullListByYear ($year, $pagina = -1){
+        	$idusr = $_SESSION[id_usr];
+        	$sentencia = "select id_factura, numero, fecha, f.id_paciente, total, nombre, apellido, apellido2 from factura as f 
+        		inner join (select id_paciente, nombre, apellido, apellido2 from paciente) as p on (f.id_paciente = p.id_paciente)
+        		where id_usuario = $idusr and YEAR(STR_TO_DATE(fecha, '%d-%m-%Y')) = $year order by id_factura asc";
+        	if($pagina != -1)
+            {   
+                $inf = $pagina * MAX_FILAS;
+                $sup = MAX_FILAS;
+                $sentencia .= " limit $inf, $sup";
+            }
+            $this->datos = $this->DBManager->recoger_datos ($sentencia);
+            if(is_array($this->datos)){
+            	$this->datos = $this->datos[1];
+            	foreach($this->datos as $indice => $valor){
+            		$nombre = $this->crypter->descifrar($this->datos[$indice][nombre]);
+            		$apellido = $this->crypter->descifrar($this->datos[$indice][apellido]);
+            		$apellido2 = $this->crypter->descifrar($this->datos[$indice][apellido2]);
+            		$this->datos[$indice][nombre] = $apellido." ".$apellido2.", ".$nombre;
+            	}
+            }
+			return $this->datos;
+        }
     }
 ?>

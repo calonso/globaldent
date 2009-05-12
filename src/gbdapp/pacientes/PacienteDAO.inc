@@ -196,7 +196,7 @@
                 return 0;         
         }
         function listaReferidos($id){
-        	$sentencia = "select id_paciente, nombre, apellido, apellido2 from paciente where id_dr_referidor = $id";
+        	$sentencia = "select id_paciente, nombre, apellido, apellido2 from paciente where id_paciente_referidor = $id";
         	$this->datos = $this->DBManager->recoger_datos($sentencia);
         	if (is_array($this->datos)){
         		$devolver = $this->datos[1];

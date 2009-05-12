@@ -50,7 +50,15 @@
         }
         function ver ($id)
         {
-                
+            $idusr = $_SESSION[id_usr];
+            $sentencia = "select * from pagopac where id_usuario = $idusr and id_pago = $id";
+            $devuelto = $this->DBManager->recoger_datos ($sentencia);
+            
+            if(is_array($devuelto))
+            {
+                return $devuelto[1];
+            }else
+                return 0; 
         }
         function modificar ($datos)
         {

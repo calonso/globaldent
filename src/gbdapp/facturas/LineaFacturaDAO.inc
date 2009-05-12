@@ -43,7 +43,10 @@
         }
         function borrar ($id)
         {
-                    
+            $idusr = $_SESSION[id_usr];
+            $sentencia = "delete from linea_factura where id_factura = $id and id_usuario = $idusr";           
+            $this->datos = $this->DBManager->hacer_peticion ($sentencia);
+            return $this->datos; 
         }
         function ver ($id)
         {

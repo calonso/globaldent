@@ -251,10 +251,12 @@
             $this->datos = $this->recibirFormulario ($params);
             $image = base64_decode($this->datos['image']);
              
+            $this->dao->start();
+            $numero = $this->dao->bloquear($this->id);
+            $this->datos[numero] = $numero[1][0][numero] + 1;
             $this->datos = $this->dao->nuevo ($this->datos);
             if($this->datos > 0)
             { 
-                $this->dao->start();
                 foreach ($_SESSION['lp'.$this->id] as $linea)
                 {
                     $linea[id_presupuesto] = $this->datos;
@@ -263,7 +265,6 @@
                     if($aux < 1)
                     {
                         $this->dao->rollback ();
-                        $this->dao->borrar ($this->datos);
                         $this->smarty->assign ('codigo', 0);
                         $this->smarty->display ($this->path.$file.".phtml");
                         return; 
@@ -274,6 +275,8 @@
                 fwrite($imageFile, $image);
                 fclose($imageFile);
                 $this->dao->commit ();
+            } else {
+            	$this->dao->rollback();
             }
             
             $_SESSION['lp'.$this->id] = null; 
@@ -290,7 +293,6 @@
         function recibirFormulario ($params)
         {
             $datos = array();
-            $datos[numero] = $params->getParam('txtNumero');
             $datos[validez] = $params->getParam('txtValidez');
             $datos[duracion] = $params->getParam('txtDuracion');
             $datos[total] = $params->getParam('txtTotal');
@@ -330,7 +332,9 @@
             {   
                 $lineas = $ldao->ver ($id);
             }
-               
+            $year = explode("-", $this->datos[0][fecha]);
+            $year = str_split($year[2], 2);
+            $this->datos[0][numero] .= "/".$year[1];   
             $this->smarty->assign ('datos', $this->datos[0]);
             $this->smarty->assign ('lineas', $lineas);
             

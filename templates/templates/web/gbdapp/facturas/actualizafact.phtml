@@ -1,0 +1,23 @@
+{config_load file=$lang_file section="facturas"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <script type="text/javascript">
+  <!--
+  {literal}
+  function loaded(){}
+  {/literal} 
+  // -->
+  </script>
+
+<div class="contenidos">
+  <span class="intro">{#texto57#}</span>
+  {if $codigo > 0}
+    <p>{#texto56#}</p>
+    <p>{#texto29#}<a href={$req_base}index.php/cod.verfact/id.{$paciente.id_paciente}/fact.{$codigo}>{#texto30#}</a>{#texto31#}</p>
+  {else}
+    <p>{#texto28#}</p>
+  {/if}
+</div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

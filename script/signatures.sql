@@ -1,8 +1,10 @@
 USE gbd;
 
+ALTER TABLE presupuesto MODIFY COLUMN numero INTEGER NOT NULL DEFAULT 0;
 ALTER TABLE presupuesto DROP COLUMN extension;
 ALTER TABLE presupuesto ADD COLUMN firma MEDIUMBLOB;
 
+ALTER TABLE factura MODIFY COLUMN numero INTEGER NOT NULL DEFAULT 0;
 ALTER TABLE factura DROP COLUMN extension;
 
 ALTER TABLE consentimiento DROP COLUMN extension;

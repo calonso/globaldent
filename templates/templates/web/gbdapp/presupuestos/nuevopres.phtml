@@ -138,8 +138,7 @@ function getHashData()
 			} while (line.nodeType == 3);
 		}
 	}
-	hashstr += "N" + document.formulario.txtNumero.value + 
-				"D" + document.formulario.txtDuracion.value + 
+	hashstr += "D" + document.formulario.txtDuracion.value + 
 				"V" + document.formulario.txtValidez.value;
   	return hashstr;	
 }
@@ -150,8 +149,6 @@ function checkIntegrityAndSubmit()
 	var err2 = "{#texto65#}<br />";
 	var err3 = "{#texto67#}<br />";
 	var err4 = "{#texto66#}<br />";
-	var err7 = "{#error7#}<br />";
-	var err8 = "{#error8#}<br />";
 	var err9 = "{#error9#}<br />";
 	var err10 = "{#error10#}<br />";
 	var err11 = "{#error11#}<br />";
@@ -186,24 +183,12 @@ function checkIntegrityAndSubmit()
 		canSend = false;
 	}
 
-	var z = document.getElementsByName ("txtNumero");
 	var k = document.getElementsByName ("txtDuracion");
 	var y = document.getElementsByName ("txtValidez");
-	z = z[0].value;
 	k = k[0].value;
 	y = y[0].value;
 
-	var charPos = z.search("[^0-9]");
-	if(z.length > 0){
-		if(charPos >= 0){
-			err += err7;
-			canSend = false;	
-		}
-	} else {
-		err += err8;
-		canSend = false;
-	}
-	charPos = k.search("[^0-9]");
+	var charPos = k.search("[^0-9]");
 	if(k.length > 0){
 		if(charPos >= 0){
 			err += err9;

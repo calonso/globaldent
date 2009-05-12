@@ -33,6 +33,10 @@
     */
     include_once PATH_BASE."src/gbdapp/pacientes/PagoPacDAO.inc";
     /**
+    * Inclusion del archivo FacturaDAO para tener acceso a la lógica de acceso y almacenamiento de datos
+    */
+    include_once PATH_BASE."src/gbdapp/facturas/FacturaDAO.inc";
+    /**
     * Inclusion del archivo Logger
     */
     include_once PATH_BASE."src/gbdapp/log/Logger.inc";
@@ -360,13 +364,19 @@
             $efect = $this->datos[total_efectivo];
             
             $this->datos[id_pago] = $params->getParam('idp');
+            unset($this->datos[fecha]);
             $this->datos = $dao->modificar ($this->datos);
             
             $aux = $this->getPaciente($id);
             $nombre = $aux[nombre];
-            $this->logger->save(LOG_MODIFICACION, "Pago de: $nombre por valor de: $tarj y $efect");
             
-            $this->verCaja ($params, "vercaja");
+        	$referer = $_SERVER[HTTP_REFERER];
+            if (strpos($referer, "actualizapagopac") === false){
+            	$this->logger->save(LOG_MODIFICACION, "Pago de: $nombre por valor de: $tarj y $efect");
+            	$this->verCaja ($params, "vercaja");
+            } else {
+            	header('Location: '.REQ_BASE.'index.php/cod.historiaecon/id.'.$id);
+            }
             return;
         }
         /**
@@ -384,9 +394,15 @@
             
             $aux = $this->getPaciente($idpac);
             $nombre = $aux[nombre]; 
-            $this->logger->save(LOG_BAJA, "Pago de: $nombre");
             
-            $this->verCaja ($params, "vercaja");
+            $referer = $_SERVER[HTTP_REFERER];
+            echo $referer;
+            if (strpos($referer, "historiaecon") === false){
+            	$this->logger->save(LOG_BAJA, "Pago de: $nombre");
+            	$this->verCaja ($params, "vercaja");
+            } else {
+            	header('Location: '.REQ_BASE.'index.php/cod.historiaecon/id.'.$idpac);
+            }
             return;  
         }
         /**
@@ -453,6 +469,60 @@
             }
             
             $this->smarty->display ($this->path.$file.".phtml");
+        }
+        
+    	/**
+        * Funcion que muestra la pantalla de edición de un pago
+        * @param resource Objeto params para acceder a los parametros de la peticion
+        * @param string Cadena que determina el template a mostrar
+        * @return void
+        */
+        function muestraEditarPago ($params, $file)
+        {
+            $dao = new PagoPacDAO();
+            $idpac = $params->getParam('id');
+            $idpago = $params->getParam('idp');
+            $this->datos = $dao->ver($idpago);
+            
+            if (is_array ($this->datos))
+            {    
+                $this->smarty->assign ('pago', $this->datos[0]);
+                $this->smarty->assign ('paciente', $this->getPaciente($idpac));
+            }
+            
+            $this->smarty->display ($this->path.$file.".phtml");
+        }
+		/**
+        * Funcion que muestra un listado de facturas
+        * @param resource Objeto params para acceder a los parametros de la peticion
+        * @param string Cadena que determina el template a mostrar
+        * @return void
+		 */
+        function listaFacturas ($params, $file)
+        {
+        	$dao = new FacturaDAO();
+        	$years = $dao->yearList();
+        	$year = $params->getParam('year');
+        	if (is_array($years)){
+	        	if (empty($year)){
+	        		$year = $years[0][year];
+	        	}
+        		$tmp = array();
+        		/*
+        		 * tmp quedará un array de la forma {[2009]=>2009, [2008]=>2008}, etc para 
+        		 * que sea más facil usarlo en el html select
+        		 */
+        		foreach($years as $indice => $valor){
+        			$tmp[$years[$indice][year]] = $years[$indice][year];	
+        		}
+        		$years = $tmp;
+	        	$this->datos = $dao->fullListByYear($year);
+        	}
+        	
+        	$this->smarty->assign ('datos', $this->datos);
+        	$this->smarty->assign ('years', $years);
+        	$this->smarty->assign ('selected', $year);
+        	$this->smarty->display ($this->path.$file.".phtml");
         }
     }
 ?>

@@ -183,9 +183,17 @@
             $this->smarty->assign ('datos', $_SESSION['lf'.$this->id]);
             
             $this->datos = $this->recibirFormulario ($params);
+        	$id = $params->getParam ('fact');
+            if($id)
+            {
+                $this->datos[id_factura] = $id;
+            }
             $this->smarty->assign ('fact', $this->datos);
             
-            $this->muestraFormulario ($params, "nuevafact");  
+           	if($file == 'nuevalineamf')
+                $this->muestraFormulario ($params, "modfact");
+            else
+                $this->muestraFormulario ($params, "nuevafact");  
             return;
         }
         /**
@@ -221,9 +229,17 @@
             $this->smarty->assign ('datos', $_SESSION['lf'.$this->id]);
             
             $this->datos = $this->recibirFormulario ($params);
+            $id = $params->getParam ('fact');
+            if($id)
+            {
+                $this->datos[id_factura] = $id;
+            }
             $this->smarty->assign ('fact', $this->datos);
             
-            $this->muestraFormulario ($params, "nuevafact");
+            if($file == 'borralineamf')
+                $this->muestraFormulario ($params, "modfact");
+            else
+                $this->muestraFormulario ($params, "nuevafact");
             return;
         }
         /**
@@ -237,10 +253,12 @@
             $ldao = new LineaFacturaDAO();
             $this->datos = $this->recibirFormulario ($params);
              
+            $this->dao->start();
+            $numero = $this->dao->bloquear(null);
+            $this->datos[numero] = $numero[1][0][numero] + 1;
             $this->datos = $this->dao->nuevo ($this->datos);
             if($this->datos > 0)
             {   
-                $this->dao->start();
                 foreach ($_SESSION['lf'.$this->id] as $linea)
                 {
                     $linea[id_factura] = $this->datos;
@@ -250,13 +268,14 @@
                     {
                         $this->smarty->assign ('codigo', $aux);
                         $this->dao->rollback ();
-                        $this->dao->borrar ($this->datos);
                         $this->smarty->display ($this->path.$file.".phtml");
                         return;
                     }
                 }
                 $this->logger->save (LOG_ALTA, $this->nombre);
                 $this->dao->commit ();
+            } else {
+            	$this->dao->rollback();
             }
             $_SESSION['lf'.$this->id] = null;    
             $this->smarty->assign ('codigo', $this->datos);
@@ -271,7 +290,6 @@
         function recibirFormulario ($params)
         {
             $datos = array();
-            $datos[numero] = $params->getParam('txtNumero');
             $datos[nombre_pagador] = $params->getParam('txtNombre');
             $datos[dni_pagador] = $params->getParam('txtDNI');
             $datos[total] = $params->getParam('txtTotal');
@@ -299,7 +317,10 @@
             if(is_array($this->datos))
             {   
                 $lineas = $ldao->ver ($id);
-            }   
+            }  
+            $year = explode("-", $this->datos[0][fecha]);
+            $year = str_split($year[2], 2);
+            $this->datos[0][numero] .= "/".$year[1]; 
             $this->smarty->assign ('datos', $this->datos[0]);
             $this->smarty->assign ('lineas', $lineas);
             
@@ -325,6 +346,83 @@
                 $this->dao->commit ();
             }else
                 $this->dao->rollback ();
+            $this->smarty->assign ('codigo', $this->datos);
+            $this->smarty->display ($this->path.$file.".phtml");
+            return;   
+        }
+            /**
+        * Funcion que muestra todos los datos de la factura en formato editable
+        * @param resource Objeto de la clase params para acceder a los parámetros de la petición
+        * @param string Archivo que se ha solicitado
+        * @return void
+        */
+        function muestraEditar ($params, $file)
+        {
+            $this->cargaSelector();
+            $ldao = new LineaFacturaDAO();
+            $id = $params->getParam('fact');
+            $this->datos = $this->dao->ver (array("id_factura" => $id, "id_paciente" => $this->id));
+            if(is_array($this->datos))
+            {   
+                $lineas = $ldao->ver ($id);
+                if(is_array($lineas))
+                {
+                    foreach($lineas as $indice => $valor)
+                    {
+                        $lineas[$indice][unitario] = $lineas[$indice][total] / $lineas[$indice][cantidad];
+                    }
+                    $_SESSION['lf'.$this->id] = array();
+                    $_SESSION['lf'.$this->id] = $lineas;   
+                }
+            }
+                
+            $this->smarty->assign ('fact', $this->datos[0]);
+            $this->smarty->assign ('datos', $lineas);
+            
+            $this->smarty->display ($this->path.$file.".phtml");
+            return;
+        }
+    	/**
+        * Funcion que actualiza los datos de la factura en funcion de los nuevos introducidos por el usuario
+        * @param resource Objeto de la clase params para acceder a los parámetros de la petición
+        * @param string Archivo que se ha solicitado
+        * @return void
+        */
+        function actualizar ($params, $file)
+        {
+            $id = $params->getParam ('fact');
+        
+            $this->datos = $this->recibirFormulario ($params);
+            
+            $this->datos[id_factura] = $id;
+            $this->dao->start ();
+            
+            $ldao = new LineaFacturaDAO();
+            $ldao->borrar ($id);
+            
+            foreach ($_SESSION['lf'.$this->id] as $linea)
+            {
+                $linea[id_factura] = $id;
+                $linea[id_usuario] = $_SESSION[id_usr]; 
+                $aux = $ldao->nuevo ($linea); 
+                if($aux < 1)
+                {
+                    $this->dao->rollback ();
+                    $this->smarty->assign ('codigo', 0);
+                    $this->smarty->display ($this->path.$file.".phtml");
+                    $_SESSION['lf'.$this->id] = null;
+                    return; 
+                }
+            }
+            
+            $this->datos = $this->dao->modificar ($this->datos);
+            if($this->datos > 0){
+                $this->logger->save(LOG_MODIFICACION, $this->nombre);
+                $this->dao->commit ();
+            }else
+                $this->dao->rollback ();
+            
+            $_SESSION['lf'.$this->id] = null;
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return;   

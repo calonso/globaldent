@@ -131,7 +131,7 @@ class VisitaDAO extends DAO {
 			}
 			
 			$sentencia = "
-                    (select id_visita, precio, fecha, 'tarj', 'ef', NULL from visita where id_paciente = $idpac and STR_TO_DATE(fecha, '%d-%m-%Y') BETWEEN '$fechaInf' AND '$fechaSup' ) 
+                    (select id_visita, precio, fecha, 'tarj', 'ef', NULL as id_pago from visita where id_paciente = $idpac and STR_TO_DATE(fecha, '%d-%m-%Y') BETWEEN '$fechaInf' AND '$fechaSup' ) 
                     UNION 
                     (select NULL, '0', fecha, total_tarjeta, total_efectivo, id_pago from pagopac where id_paciente = $idpac and STR_TO_DATE(fecha, '%d-%m-%Y') BETWEEN '$fechaInf' AND '$fechaSup' ) 
                     order by STR_TO_DATE(fecha, '%d-%m-%Y') desc";

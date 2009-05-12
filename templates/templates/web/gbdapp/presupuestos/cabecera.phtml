@@ -4,7 +4,7 @@
   </div>
   <div class="numpres">
   <p>{#texto12#}</p>
-  <input type="text" name="txtNumero" value="{$presup.numero}"/>
+  <input type="text" name="txtNumero" value="{$presup.numero}" disabled="disabled">
   </div>
   {if is_array($paciente)}
   <p>{#texto8#}{$paciente.apellido}&nbsp;{$paciente.apellido2},&nbsp;{$paciente.nombre}</p>

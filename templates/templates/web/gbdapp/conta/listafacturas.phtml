@@ -1,0 +1,65 @@
+{config_load file=$lang_file section="conta"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <script type="text/javascript">
+  <!--
+  {literal}
+  function loaded(){}
+  function change(){
+	  var x = document.getElementById ("sel");
+	  var yr = x.options[x.selectedIndex].value;
+	  var dir = location.href;
+	  document.location= dir + "/year." + yr;
+  }
+  {/literal} 
+  // -->
+  </script>
+
+<div class="contenidos">
+  <div class="col_central">
+  <span class="intro">{#texto38#}</span>
+  {if is_array($datos)}
+  Viendo facturas del año
+  {if is_array($years)}
+ 	<select id="sel" onchange="change()">
+    {html_options options=$years selected=$selected}
+    </select>
+  {/if}
+  <br />
+  <table border="0" cellspacing="0" cellspadding="0" width="90%">
+  	<tr>
+  		<th>{#texto40#}</th>
+  		<th>{#texto41#}</th>
+  		<th>{#texto7#}</th>
+  		<th>{#texto42#}</th>
+  		<th>{#texto43#}</th>
+  	</tr>
+  	<tr>
+  		<td class="lineahor" colspan="5">&nbsp;</td>
+  	</tr>
+  	{foreach from=$datos item=fact}
+  		<tr>
+  			<td>{$fact.fecha}</td>
+  			<td align="center">{$fact.numero}</td>
+  			<td align="center"><a href={$req_base}index.php/cod.verpac/id.{$fact.id_paciente}>{$fact.nombre}</a></td>
+  			<td align="center">{$fact.total} €</td>
+  			<td align="center">
+  				<a href={$req_base}index.php/cod.verfact/id.{$fact.id_paciente}/fact.{$fact.id_factura}>
+  					<img src={$img_path_base}icover.ico alt="{#ver#}" />
+             	</a>
+             	<a href={$req_base}index.php/cod.modfact/id.{$fact.id_paciente}/fact.{$fact.id_factura}>
+  					<img src={$img_path_base}icoedit.png alt="{#modificar#}" />
+  				</a>
+            	<a href={$req_base}index.php/cod.borrafact/id.{$fact.id_paciente}/fact.{$fact.id_factura}>
+              		<img src={$img_path_base}icoborrar.ico alt="{#borrar#}" width="16" height="16"/>
+             	</a>
+  			</td>
+  		</tr>
+  	{/foreach}
+  </table>
+  {else}
+  	<p>{#texto39#}</p>
+  {/if}
+  </div>
+</div>

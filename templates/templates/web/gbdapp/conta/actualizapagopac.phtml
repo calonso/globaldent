@@ -1,0 +1,38 @@
+{config_load file=$lang_file section="conta"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+  <script type="text/javascript">
+  <!--
+  {literal}
+  function loaded(){}
+  {/literal} 
+  // -->
+  </script>
+
+  <div class="contenidos">
+    <div class="col_izq">
+      <p>{#texto33#}</p>
+      <a href={$req_base}index.php/cod.historiaecon/id.{$paciente.id}>{#texto34#}</a>
+    </div>
+    <div class="col_central">
+      <span class="intro">{#texto31#}{$paciente.nombre}</span>
+      {if is_array($pago)}
+          <div class="modpagopac">
+           <a href={$req_base}index.php/cod.borrapagopac/idpaciente.{$paciente.id}/idp.{$pago.id_pago} ><img src={$img_path_base}icoborrar.ico width="20px" height="20px"/></a>
+            <form enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.modpagopac/idpaciente.{$paciente.id}/idp.{$pago.id_pago}>
+              <label>{#texto35#}</label><input type="text"  name="tarjeta" value="{$pago.total_tarjeta}"/>
+              <label>{#texto36#}</label><input type="text" name="efectivo" value="{$pago.total_efectivo}" /> 
+              <input type="submit" value={#aceptar#} />
+            </form>
+           
+          </div>
+      {else}
+        <p>{#texto32#}</p>
+      {/if}
+        
+    </div>
+    
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

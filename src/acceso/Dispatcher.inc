@@ -601,6 +601,7 @@
                     $objeto->muestraFormulario ($this->params, $peticion);
                     break;
                 case "nuevalineaf":
+                case "nuevalineamf":
                     $id = $this->params->getParam('id');
                     if(!isset($id))
                     {
@@ -612,6 +613,7 @@
                     $objeto->nuevaLinea ($this->params, $peticion);
                     break;
                 case "borralineaf":
+                case "borralineamf":
                     $id = $this->params->getParam('id');
                     if(!isset($id))
                     {
@@ -654,6 +656,28 @@
                     }
                     $objeto = new Factura ($lang, $id);
                     $objeto->borrar ($this->params, $peticion);
+                    break;
+                case "modfact":
+                    $id = $this->params->getParam('id');
+                    if(!isset($id))
+                    {
+                        $objeto = new noAutorizado ($lang);
+                        $objeto->denegar ($this->params, $peticion);
+                        break;
+                    }
+                    $objeto = new Factura ($lang, $id);
+                    $objeto->muestraEditar ($this->params, $peticion);
+                    break;
+                case "actualizafact":
+                    $id = $this->params->getParam('id');
+                    if(!isset($id))
+                    {
+                        $objeto = new noAutorizado ($lang);
+                        $objeto->denegar ($this->params, $peticion);
+                        break;
+                    }
+                    $objeto = new Factura ($lang, $id);
+                    $objeto->actualizar ($this->params, $peticion);
                     break;
                 case "cons":
                     $id = $this->params->getParam('id');
@@ -967,6 +991,14 @@
                     $objeto = new Personal ($lang);
                     $objeto->actualizaPass ($this->params, $peticion);
                     break;
+                case "actualizapagopac":
+                    $objeto = new Contabilidad ($lang);
+                    $objeto->muestraEditarPago ($this->params, $peticion);
+                    break;
+                case "listafacturas":
+                	$objeto = new Contabilidad ($lang);
+                	$objeto->listaFacturas ($this->params, $peticion);
+                	break;
                 case "borraemp":
                     $objeto = new Personal ($lang);
                     $objeto->borrar ($this->params, $peticion);
