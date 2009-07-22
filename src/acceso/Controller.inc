@@ -104,25 +104,27 @@
         */
         function validar()
         {
+        	$ret = 0;
             session_start(); 
             if(isset($_SESSION[id]))
             {      
-                if(!strncmp($_SESSION[ip], $_SERVER[REMOTE_ADDR], strlen($_SESSION[ip])))
+                if(!strncmp($_SESSION[ip], $_SERVER['REMOTE_ADDR'], strlen($_SESSION[ip])))
                 {   
                     if (($_SESSION[privilegios] == 4)&&($_SESSION[start] == true))
-                        return $_SESSION[privilegios]; 
+                        $ret = $_SESSION[privilegios]; 
                     elseif ($_SESSION[privilegios] == 9)
-                        return 9;
+                        $ret = 9;
                     elseif (($_SESSION[privilegios] == 5) && ($_SESSION[start]))
-                        return 5;
+                        $ret = 5;
                     elseif (($_SESSION[privilegios] == 6) && ($_SESSION[start]))
-                        return 6;
+                        $ret = 6;
                     else
-                        return 1;                
+                        $ret = 1;                
                 }else
-                    return -1; 
-            }else  
-                return 0;
+                    $ret = -1; 
+            } 
+            Utils::log_debug("$ret privileges value binded."); 
+            return $ret;
         }
     }
 ?>

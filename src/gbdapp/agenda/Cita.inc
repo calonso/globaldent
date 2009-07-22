@@ -262,6 +262,7 @@
         {
             $this->recibirFormulario ($params);
             $this->datos[id_usuario] = $_SESSION[id_usr];
+            Utils::log_info("User: ".$_SESSION[id_usuario]."Creating cita.");
             $fecha = $this->datos[fecha];
             $this->dao->start ();
             $ret = $this->bloquearAgenda ($this->datos);
@@ -271,9 +272,13 @@
                 if($resultado > 0){
                     $this->logger->save (LOG_ALTA, "Visita para: ".$this->datos[paciente]);
                     $this->dao->commit ();
-                }else
+                    Utils::log_info("New cita successfully stored with id: $resultado");
+                }else {
+                	Utils::log_error("An error ocurred!! Rolling back.");
                     $this->dao->rollback ();
+                }
             }else{
+            	Utils::log_error("An error ocurred!! Rolling back.");
                 $this->dao->rollback();
                 $resultado = -1;
             }
@@ -353,21 +358,12 @@
         function borrar ($params, $file)
         {
             $id = $params->getParam ('id');
-            $this->logger->save(LOG_BAJA, "Visita para: ".$this->getNombre($id));
+            Utils::log_info("Deleting cita with id: $id");
+            $this->logger->save(LOG_BAJA, "Visita id: $id");
             $this->datos = $this->dao->borrar ($id);
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return;
-        }
-        /**
-        * Funcion que devuelve el nombre del paciente al que pertenece la cita
-        * @param int Identificador de la cita
-        * @return string Apellidos y nombre del paciente
-        */
-        function getNombre ($id)
-        {
-            $datos = $this->dao->ver($id)   ;
-            return $datos[apellido]." ".$datos[apellido2].", ".$datos[nombre];
         }
         /**
         * Funcion que bloquea parte de un dia entero por tener el gabinete cerrado para evitar citas erroneas

@@ -31,6 +31,9 @@
         }
         function nuevo ($datos)
         {
+        	$datos[cantidad] = $this->crypter->corregir($datos[cantidad]);
+        	$datos[total] = $this->crypter->corregir($datos[total]);
+        	
             $valores = $datos[id_visita].COMA.
 				$datos[id_servicio].COMA.
 				$datos[cantidad].COMA.

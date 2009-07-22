@@ -20,7 +20,7 @@ class Params {
 		if(!empty($_SERVER["PATH_INFO"])) {	
 
 			$fchx_lang=$_SERVER["PATH_INFO"];
-  			$fchx_tmp = ereg_replace("^/","",$fchx_lang);
+  			$fchx_tmp = preg_replace("/^\//","",$fchx_lang);
 			$fchx_tok = strtok($fchx_tmp,"/");
 			while($fchx_tok) {
     		// list($k,$v) = explode(".",$fchx_tok);
@@ -62,8 +62,6 @@ class Params {
 	      return $_REQUEST[$param];
 	  	}
 	  }
-	  
-	  					
     }
 	
 	

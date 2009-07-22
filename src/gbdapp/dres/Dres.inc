@@ -107,9 +107,14 @@
         {
             $this->datos = $this->recibirFormulario ($params);
             $this->datos[id_usuario] = $_SESSION[id_usr];
+            Utils::log_info("Starting new doctor register with name: ".$this->datos[apellido]." ".$this->datos[apellido2].", ".$this->datos[nombre]);
             $ret = $this->dao->nuevo ($this->datos);
-            if($ret > 0)
+            if($ret > 0){
+            	Utils::log_info("New doctor stored successfully with id: $ret");
                 $this->logger->save (LOG_ALTA, "Dr. Refer: ".$this->datos[apellido]." ".$this->datos[apellido2].", ".$this->datos[nombre]);
+            } else {
+            	Utils::log_error("An error ocurred storing new doctor!! code returned: $ret");
+            }
             $this->smarty->assign ('codigo', $ret);
             $this->smarty->display ($this->path.$file.".phtml");
             return;  
@@ -237,8 +242,14 @@
             $this->datos = $this->recibirFormulario ($params);
             $this->datos[id_usuario] = $_SESSION[id_usr];
             $this->datos[id_dr_externo] = $params->getParam ('id');
+            Utils::log_info("Starting modification of doctor id: ".$this->datos[id_dr_externo]." : ".$this->datos[apellido]." ".$this->datos[apellido2].", ".$this->datos[nombre]);
             $ret = $this->dao->modificar ($this->datos);
-            $this->logger->save (LOG_MODIFICACION, "Dr. Refer: ".$this->datos[apellido]." ".$this->datos[apellido2].", ".$this->datos[nombre]);
+            if ($ret > 0){
+            	Utils::log_info("Successfully modification of doctor ".$this->datos[apellido]." ".$this->datos[apellido2].", ".$this->datos[nombre]);
+                $this->logger->save (LOG_MODIFICACION, "Dr. Refer: ".$this->datos[apellido]." ".$this->datos[apellido2].", ".$this->datos[nombre]);
+            } else {
+            	Utils::log_error("An error ocurred modifying the doctor: ".$this->datos[apellido]." ".$this->datos[apellido2].", ".$this->datos[nombre]);
+            }
             $this->smarty->assign ('codigo', $ret);
             $this->smarty->display ($this->path.$file.".phtml");
             return;   
@@ -252,8 +263,16 @@
         function borrar ($params, $file)
         {
             $id = $params->getParam ('id');
-            $this->logger->save (LOG_BAJA, "Dr. Refer: ".$this->getNombre($id)); 
+            $nombre = $this->getNombre($id);
+            Utils::log_info("Deleting doctor with id: $id: $nombre");
             $this->datos = $this->dao->borrar ($id);
+            if ($this->datos != 1){
+            	Utils::log_error("An error ocurred deleting the doctor!!");
+            } else {
+            	Utils::log_info("Successful deletion of doctor id: $id: $nombre");
+                $this->logger->save (LOG_BAJA, "Dr. Refer: $nombre");
+            } 
+            
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return;   

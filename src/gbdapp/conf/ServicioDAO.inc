@@ -32,7 +32,9 @@
         }
         function nuevo ($datos)
         {
+        	$datos[precio_unitario] = $this->crypter->corregir($datos[precio_unitario]);
             $nombre = $this->crypter->cifrar($datos[nombre]);
+            
             $valores = COMILLA.$nombre.COMILLA.COMA.
             	$datos[precio_unitario].COMA.
             	$datos[id_usuario];

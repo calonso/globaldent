@@ -59,12 +59,13 @@ class Logger extends DisplayManager
     */
     function save ($accion, $mensaje)
     {
-        $this->datos[id_usuario] = $_SESSION[id_usr];
-        $this->datos[id_personal] = $_SESSION[id_pers];
-        $this->datos[nombre] = $_SESSION[nombre];
+        $this->datos[id_usuario] = isset($_SESSION[id_usr]) ? $_SESSION[id_usr] : 0;
+        $this->datos[id_personal] = isset($_SESSION[id_pers]) ? $_SESSION[id_pers] : 0;
+        $this->datos[nombre] = isset($_SESSION[nombre]) ? $_SESSION[nombre] : "nobody";
         $this->datos[id_tipo_log] = $accion;
         $this->datos[detalles] = $mensaje;
         $this->datos[fecha] = strftime ("%Y-%m-%d %H:%M:%S");
+        $this->datos[ip] = $_SERVER['REMOTE_ADDR'];
         
         $this->dao->nuevo ($this->datos);
         return;

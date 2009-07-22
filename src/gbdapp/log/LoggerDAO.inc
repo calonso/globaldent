@@ -31,14 +31,20 @@
         }
         function nuevo ($datos)
         {
+        	$datos[nombre] = $this->crypter->corregir($datos[nombre]);
+        	$datos[detalles] = $this->crypter->corregir($datos[detalles]);
+        	$datos[fecha] = $this->crypter->corregir($datos[fecha]);
+        	$datos[ip] = $this->crypter->corregir($datos[ip]);
+        	
             $valores = $datos[id_usuario].COMA.
             	$datos[id_personal].COMA.
             	COMILLA.$datos[nombre].COMILLA.COMA.
             	COMILLA.$datos[detalles].COMILLA.COMA.
             	COMILLA.$datos[fecha].COMILLA.COMA.
-            	$datos[id_tipo_log];
+            	$datos[id_tipo_log].COMA.
+            	COMILLA.$datos[ip].COMILLA;
             
-            $sentencia = "insert into log (id_usuario, id_personal, nombre, detalles, fecha, id_tipo_log) values ($valores)";
+            $sentencia = "insert into log (id_usuario, id_personal, nombre, detalles, fecha, id_tipo_log, ip) values ($valores)";
             $this->datos = $this->DBManager->hacer_peticion ($sentencia);
             return $this->datos;   
         }

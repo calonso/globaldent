@@ -31,6 +31,9 @@
         }
         function nuevo ($datos)
         {
+        	$datos[total_tarjeta] = $this->crypter->corregir($datos[total_tarjeta]);
+        	$datos[total_efectivo] = $this->crypter->corregir($datos[total_efectivo]);
+        	
             $valores = $datos[id_paciente].COMA.
             	$datos[id_usuario].COMA.
             	$datos[total_tarjeta].COMA.
@@ -66,6 +69,7 @@
             $idusr = $_SESSION[id_usr];
             foreach ($datos as $indice => $valor)
             {
+            	$valor = $this->crypter->corregir($valor);
                 $parejas .= "$indice = '$valor', "; 
             } 
             $parejas = substr ($parejas, 0, strlen($parejas) -2);

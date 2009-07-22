@@ -33,6 +33,10 @@
         {
         	$datos[nombre_pagador] = $this->crypter->cifrar($datos[nombre_pagador]);
         	$datos[dni_pagador] = $this->crypter->cifrar($datos[dni_pagador]);
+        	$datos[numero] = $this->crypter->corregir($datos[numero]);
+        	$datos[total] = $this->crypter->corregir($datos[total]);
+        	$datos[fecha] = $this->crypter->corregir($datos[fecha]);
+        	
 			$valores = COMILLA.$datos[numero].COMILLA.COMA.
 				COMILLA.$datos[fecha].COMILLA.COMA.
 				COMILLA.$datos[nombre_pagador].COMILLA.COMA.
@@ -85,6 +89,7 @@
                 			$valor = $this->crypter->cifrar($valor);
                 			break;
                 		default:
+                			$valor = $this->crypter->corregir($valor);
                 			break;
                 	}
                 	$parejas .= "$indice = '$valor', ";
@@ -92,10 +97,7 @@
             }
             $parejas = substr ($parejas, 0, strlen($parejas) -2);
             $sentencia = "update factura set $parejas where id_factura = $id and id_usuario = $idusr";
-            $this->datos = $this->DBManager->hacer_peticion ($sentencia);
-            if($this->datos == 1)
-                $this->datos = $id;
-            return $this->datos; 
+            return $this->DBManager->hacer_peticion ($sentencia);
         }
         function listado ($id, $pagina = -1)
         {
@@ -120,7 +122,7 @@
 	        $idusr = $_SESSION[id_usr];
 	
 			$sentencia = "select IFNULL(MAX(numero),0) as numero, IFNULL(YEAR(STR_TO_DATE(fecha, '%d-%m-%Y')), YEAR(CURDATE())) as year from factura where id_usuario = $idusr and 
-				YEAR(STR_TO_DATE(fecha, '%d-%m-%Y')) = YEAR(CURDATE()) for update";
+				YEAR(STR_TO_DATE(fecha, '%d-%m-%Y')) = YEAR(CURDATE()) group by id_usuario for update";
 			$this->datos = $this->DBManager->recoger_datos ($sentencia);
 			return $this->datos;
         }  

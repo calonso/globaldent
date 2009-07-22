@@ -35,7 +35,7 @@
         */
         function dispatch()
         {
-			$this->dispathEmpleado();
+			$this->dispatchEmpleado();
         }
     }
 ?>

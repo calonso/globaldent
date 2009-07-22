@@ -31,6 +31,10 @@
         }
         function nuevo ($datos)
         {
+        	$datos[observaciones] = $this->crypter->corregir($datos[observaciones]);
+        	$datos[resumen] = $this->crypter->corregir($datos[resumen]);
+        	$datos[texto] = $this->crypter->corregir($datos[texto]);
+        	
             $valores = COMILLA.$datos[observaciones].COMILLA.COMA.
             	$datos[id_visita_medica].COMA.
             	$datos[id_paciente].COMA.

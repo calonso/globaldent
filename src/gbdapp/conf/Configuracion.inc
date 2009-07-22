@@ -124,7 +124,9 @@
             $this->datos[precio_unitario] = $params->getParam ('txtPrecio');
             $this->datos[descripcion] = $params->getParam ('txtDescripcion');
             $this->datos[id_usuario] = $_SESSION[id_usr];
+            Utils::log_info("Starting new service register with name: ".$this->datos[nombre]);
             $this->datos = $dao->nuevo ($this->datos);
+            Utils::log_info("New service registration finished with id: ".$this->datos);
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return; 
@@ -139,7 +141,9 @@
         {
             $id = $params->getParam ('id');
             $dao = new ServicioDAO ();
+            Utils::log_info("Deleting service with id: $id");
             $this->datos = $dao->borrar ($id);
+            Utils::log_info("Deletion of service with id $id finished with code: ".$this->datos);
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return;    
@@ -170,7 +174,9 @@
             $this->datos[nombre] = $params->getParam ('txtNombre');   
             $this->datos[descripcion] = $params->getParam ('txtDescripcion');
             $this->datos[id_usuario] = $_SESSION[id_usr];
+            Utils::log_info("Starting new TipoImagen register with name: ".$this->datos[nombre]);
             $this->datos = $dao->nuevo ($this->datos);
+            Utils::log_info("New TipoImagen registration finished with id: ".$this->datos);
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return; 
@@ -185,7 +191,9 @@
         {
             $id = $params->getParam ('id');
             $dao = new TipoImagenDAO ();
+            Utils::log_info("Deleting TipoImagen with id: $id");
             $this->datos = $dao->borrar ($id);
+            Utils::log_info("Deletion of TipoImagen with id $id finished with code: ".$this->datos);
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return;    
@@ -295,7 +303,9 @@
             $this->datos[nombre] = $params->getParam ('txtNombre');
             $this->datos[texto_incluido] = $params->getParam ('txtTexto');
             $this->datos[id_usuario] = $_SESSION[id_usr];
+            Utils::log_info("Starting new TipoConsentimiento register with name: ".$this->datos[nombre]);
             $this->datos = $dao->nuevo ($this->datos);
+            Utils::log_info("New TipoConsentimiento registration finished with id: ".$this->datos);
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return;   
@@ -310,7 +320,9 @@
         {
             $dao = new TipoConsDAO ();
             $id = $params->getParam ('id');
+            Utils::log_info("Deleting TipoConsentimiento with id: $id");
             $this->datos = $dao->borrar ($id);
+            Utils::log_info("Deletion of TipoConsentimiento with id $id finished with code: ".$this->datos);
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return;   
@@ -341,7 +353,9 @@
             $dao = new TipoConsDAO ();
             $this->datos[nombre] = $params->getParam ('txtNombre');
             $this->datos[texto_incluido] = $params->getParam ('txtTexto');
+            Utils::log_info("Modifying TipoConsentimiento with id: ".$this->datos[id_tipo_consentimiento]. " and name: ".$this->datos[nombre]);
             $this->datos[id_tipo_consentimiento] = $params->getParam ('id');
+            Utils::log_info("Modification of TipoConsentimiento with id: ".$this->datos[id_tipo_consentimiento]. " finished with code: ".$this->datos);
             $this->datos = $dao->modificar ($this->datos);
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
@@ -375,8 +389,9 @@
             $this->datos[nombre] = $params->getParam('txtNombre');
             $this->datos[texto] = $params->getParam ('txtTexto');
             $this->datos[resumen] = $params->getParam ('txtResumen');
-            
+            Utils::log_info("Starting new Receta register with name: ".$this->datos[nombre]);
             $this->datos = $dao->nuevo ($this->datos);
+            Utils::log_info("New Receta registration finished with id: ".$this->datos);
             $this->listaRecetas ($params, "tiporecetas");
             return;   
         }
@@ -411,8 +426,9 @@
             $this->datos[nombre] = $params->getParam('txtNombre');
             $this->datos[texto] = $params->getParam ('txtTexto');
             $this->datos[resumen] = $params->getParam ('txtResumen');
-            
+            Utils::log_info("Modifying Receta with id: ".$this->datos[id_tipo_receta]. " and name: ".$this->datos[nombre]);
             $this->datos = $dao->modificar ($this->datos);
+            Utils::log_info("Modification of Receta with id: ".$this->datos[id_tipo_receta]. " finished with code: ".$this->datos);
             $this->listaRecetas ($params, "tiporecetas");
             return;          
         }
@@ -426,7 +442,9 @@
         {
             $id = $params->getParam ('id');
             $dao = new TipoRecetaDAO ();
+            Utils::log_info("Deleting Receta with id: $id");
             $this->datos = $dao->borrar ($id);
+            Utils::log_info("Deletion of Receta with id $id finished with code: ".$this->datos);
             $this->listaRecetas ($params, "tiporecetas");
             return;   
         }
@@ -467,7 +485,9 @@
             $dao = new GrupoImgsDAO();
             $this->datos[nombre] = $params->getParam('txtNombre');
             $this->datos[id_usuario] = $_SESSION[id_usr];
+            Utils::log_info("Starting new GrupoImagenes register with name: ".$this->datos[nombre]);
             $this->datos = $dao->nuevo($this->datos);
+            Utils::log_info("New GrupoImagenes registration finished with id: ".$this->datos);
             $this->listaGrupoImgs ($params, "grupoimgs");
             return;   
         }
@@ -480,8 +500,10 @@
         function borraGrupoImgs ($params, $file)
         {
             $dao = new GrupoImgsDAO();
-            $id = $params->getParam('id');   
+            $id = $params->getParam('id'); 
+            Utils::log_info("Deleting GrupoImagenes with id: $id");  
             $this->datos = $dao->borrar($id);
+            Utils::log_info("Deletion of GrupoImagenes with id $id finished with code: ".$this->datos);
             $this->listaGrupoImgs ($params, "grupoimgs");
             return;
         }

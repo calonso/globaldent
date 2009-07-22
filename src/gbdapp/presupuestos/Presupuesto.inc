@@ -251,12 +251,18 @@
             $this->datos = $this->recibirFormulario ($params);
             $image = base64_decode($this->datos['image']);
              
+            Utils::log_info("Starting new presupuesto register.");
             $this->dao->start();
             $numero = $this->dao->bloquear($this->id);
             $this->datos[numero] = $numero[1][0][numero] + 1;
+            Utils::log_debug("Number ".$this->datos[numero]." assigned to the new presupuesto.");
             $this->datos = $this->dao->nuevo ($this->datos);
             if($this->datos > 0)
             { 
+            	Utils::log_debug("Presupuesto register stored successfully with id: ".$this->datos);
+                Utils::log_info("Starting register of ".count($_SESSION['lp'.$this->id])."lines for presupuesto id: ".$this->datos);
+                $linesArray = Utils::print_array($_SESSION['lp'.$this->id]);
+                Utils::log_debug("Storing lines: $linesArray");
                 foreach ($_SESSION['lp'.$this->id] as $linea)
                 {
                     $linea[id_presupuesto] = $this->datos;
@@ -264,18 +270,24 @@
                     $aux = $ldao->nuevo ($linea); 
                     if($aux < 1)
                     {
+                    	Utils::log_error("An error ocurred storing the line!! Rolling back");
                         $this->dao->rollback ();
                         $this->smarty->assign ('codigo', 0);
                         $this->smarty->display ($this->path.$file.".phtml");
                         return; 
+                    } else {
+                        Utils::log_info("New stored line was given id: $aux");
                     }
                 }
                 $this->logger->save(LOG_ALTA, $this->nombre);
+                Utils::log_info("Writing signature to: ".$this->carpeta."fpres".$this->datos);
                 $imageFile = fopen($this->carpeta."fpres".$this->datos, 'x');
                 fwrite($imageFile, $image);
                 fclose($imageFile);
+                Utils::log_info("Presupuesto and lines stored successfully");
                 $this->dao->commit ();
             } else {
+            	Utils::log_error("An error ocurred storing the new presupuesto. ".$this->datos." code retrieved");
             	$this->dao->rollback();
             }
             
@@ -331,12 +343,12 @@
             if(is_array($this->datos))
             {   
                 $lineas = $ldao->ver ($id);
+                $year = explode("-", $this->datos[0][fecha]);
+	            $year = str_split($year[2], 2);
+	            $this->datos[0][numero] .= "/".$year[1];   
+	            $this->smarty->assign ('datos', $this->datos[0]);
+	            $this->smarty->assign ('lineas', $lineas);
             }
-            $year = explode("-", $this->datos[0][fecha]);
-            $year = str_split($year[2], 2);
-            $this->datos[0][numero] .= "/".$year[1];   
-            $this->smarty->assign ('datos', $this->datos[0]);
-            $this->smarty->assign ('lineas', $lineas);
             
             $imprimible = $params->getParam('imp');
             if($imprimible == 1)
@@ -353,15 +365,20 @@
         function borrar ($params, $file)
         {
             $id = $params->getParam ('pres');
+            Utils::log_info("Deleting presupuesto with id: $id");
             $this->dao->start ();
             $this->datos = $this->dao->borrar (array("id_paciente" => $this->id, "id_presupuesto" => $id));
             if($this->datos > 0)
             {
+            	Utils::log_debug("Deleting signature file: ".$this->carpeta."fpres$id");
                 @unlink($this->carpeta."fpres$id");
                 $this->logger->save(LOG_BAJA, $this->nombre);
+                Utils::log_info("Successful deletion of presupuesto with id: $id");
                 $this->dao->commit ();   
-            }else
+            }else {
+            	Utils::log_error("An error ocurred deleting the presupuesto!! Rolling back...");
                 $this->dao->rollback ();
+            }
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return;   
@@ -414,10 +431,14 @@
       
             
             $this->datos[id_presupuesto] = $id;
+            Utils::log_info("Updating data of presupuesto with id: $id");
             $this->dao->start ();
             
             $ldao = new LineaPresDAO();
-            $ldao->borrar ($id);
+            $lborradas = $ldao->borrar ($id);
+            Utils::log_debug("$lborradas lines deleted of the presupuesto");
+            Utils::log_info("Starting register of ".count($_SESSION['lp'.$this->id])."lines for presupuesto id: ".$this->datos);
+            Utils::log_debug("Inserting this lines: ".Utils::print_array($_SESSION['lp'.$this->id]));
             
             foreach ($_SESSION['lp'.$this->id] as $linea)
             {
@@ -426,26 +447,36 @@
                 $aux = $ldao->nuevo ($linea); 
                 if($aux < 1)
                 {
+                	Utils::log_error("An error ocurred storing the line!! Rolling back");
                     $this->dao->rollback ();
                     $this->smarty->assign ('codigo', 0);
                     $this->smarty->display ($this->path.$file.".phtml");
                     return; 
+                } else {
+                	Utils::log_info("New stored line was given id: $aux");
                 }
             }
             
+            Utils::log_info("Updating now presupuesto register data");
             $this->datos = $this->dao->modificar ($this->datos);
-            if($this->datos > 0){
+            if($this->datos >= 0){
+            	Utils::log_info("Factura data was updated successfully!");
+            	Utils::log_debug("Deleting old signature at: ".$this->carpeta."fpres$id");
             	@unlink($this->carpeta."fpres$id");
+            	Utils::log_debug("Writing new signature to: ".$this->carpeta."fpres$id");
             	$imageFile = fopen($this->carpeta."fpres$id", 'x');
                 fwrite($imageFile, $image);
                 fclose($imageFile);
                 $this->logger->save(LOG_MODIFICACION, $this->nombre);
                 $this->dao->commit ();
-            }else
+                $this->smarty->assign ('codigo', $id);
+            }else {
+            	Utils::log_error("An error ocurred updating data!! Rolling back...");
                 $this->dao->rollback ();
+                $this->smarty->assign ('codigo', 0);
+            }
             
             $_SESSION['lp'.$this->id] = null;
-            $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return;   
         }

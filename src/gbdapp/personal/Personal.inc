@@ -125,7 +125,7 @@
         }
         
         /**
-        * Funcion que agrega un nuevo paciente a la base de datos a partir de los datos introducidos por el usuario
+        * Funcion que agrega un nuevo empleado a la base de datos a partir de los datos introducidos por el usuario
         * @param resource Objeto params para acceder a los parametros de la peticion
         * @param string Cadena que determina el template a mostrar
         * @return void
@@ -141,11 +141,20 @@
             $this->datos[fecha_alta] = $fecha;
             $this->datos[id_usuario] = $_SESSION[id_usr];
             
+            Utils::log_info ( "Starting new personal register: " . $this->datos [apellido] . " " . $this->datos [apellido2] . ", " . $this->datos [nombre] );
             if(is_uploaded_file($_FILES[fileFoto][tmp_name])) 
             {    
+            	Utils::log_info ( "Uploaded personal photo at: " . $_FILES [fileFoto] [tmp_name] );
                 $extension = $_FILES[fileFoto][type];
+                Utils::log_debug ( "Photo file type is: " . $extension );
                 $aux = explode ("/",$extension);
-                $extension = $aux[1];
+	            if (! strncmp ( $aux [0], "image", 5 )) {
+	                Utils::log_debug ( "Photo extension is: " . $aux [1] );
+	            } else {
+	                Utils::log_error ( "Uploaded file was not a phto!!" );
+	                $this->smarty->display ( $this->path . $file . ".phtml" );
+	                return;
+	            }
                 $this->datos[extension] = $extension;
             } 
             
@@ -154,9 +163,12 @@
             $this->smarty->assign ('codigo', $this->datos);
             if($this->datos > 0)
             {
+            	Utils::log_info ( "Personal stored successfully with id: ".$this->datos );
                 mkdir ($this->carpeta."pers".$this->datos);
+                Utils::log_debug ( "New directory created at: " . $this->carpeta."pers".$this->datos );
                 if(is_uploaded_file($_FILES[fileFoto][tmp_name])) 
                 {    
+                	Utils::log_debug ( "Moving personal's photo to " . $this->carpeta."pers".$this->datos."/fotopers" );
                     move_uploaded_file ($_FILES[fileFoto][tmp_name], $this->carpeta."pers".$this->datos."/fotopers");
                 }  
             }
@@ -264,19 +276,38 @@
             $this->datos = $this->recibirFormulario ($params);
             $this->datos[id_usuario] = $_SESSION[id_usr];
             $this->datos[id_personal] = $params->getParam ('id');
-            
-            if(is_uploaded_file($_FILES[fileFoto][tmp_name])) 
-            {
-                @unlink ($this->carpeta."pers".$this->datos[id_personal]."/fotopers");
-                $extension = $_FILES[fileFoto][type];
-                $aux = explode ("/",$extension);
-                $extension = $aux[1];
-                $this->datos[extension] = $extension;
-                move_uploaded_file ($_FILES[fileFoto][tmp_name], $this->carpeta."pers".$this->datos[id_personal]."/fotopers");
-            }
+            Utils::log_info ( "Starting personal " . $this->datos [id_personal] . " modification." );
+            $this->dao->start();
             $ret = $this->dao->modificar ($this->datos);
-            $ret = $ret < 0 ? $ret : $this->datos[id_personal];
-            $this->smarty->assign ('codigo', $ret);
+            if ($ret == 1){
+            	Utils::log_info ( "Personal data modification successfull" );
+	            if(is_uploaded_file($_FILES[fileFoto][tmp_name])) 
+	            {
+	            	Utils::log_info ( "Uploaded new file to " . $_FILES [fileFoto] [tmp_name] );
+	                $extension = $_FILES[fileFoto][type];
+	                Utils::log_debug ( "New file type is: " . $extension );
+	                $aux = explode ("/",$extension);
+		            if (! strncmp ( $aux [0], "image", 5 )) {
+	                    $this->datos [extension] = $aux [1];
+	                    Utils::log_debug ( "New image extension is " . $aux [1] );
+	                    unlink ($this->carpeta."pers".$this->datos[id_personal]."/fotopers");
+                        move_uploaded_file ($_FILES[fileFoto][tmp_name], $this->carpeta."pers".$this->datos[id_personal]."/fotopers");
+	                    Utils::log_info ( "Substituted photo at: " . $this->carpeta."pers".$this->datos[id_personal]."/fotopers" );
+	                    $this->dao->commit();
+	                } else {
+	                    Utils::log_error ( "Uploaded file was not an image!!! Rolling back..." );
+	                    $this->dao->rollback();
+	                    $this->smarty->display ( $this->path . $file . ".phtml" );
+	                    return;
+	                }
+	            } else {
+			$this->dao->commit();
+		    }
+	            $this->smarty->assign ( 'codigo', $this->datos [id_personal] );
+            } else {
+            	Utils::log_error ( "An error ocurred updating data!! Rolling back..." );
+                $this->dao->rollback();
+            }
             $this->smarty->display ($this->path.$file.".phtml");
             return;   
         }
@@ -290,8 +321,13 @@
         {
             $id = $params->getParam ('id');
             $this->datos = $this->dao->borrar ($id);
-            if($this->datos == 1)
+            Utils::log_info("Deleting personal $id");
+            if($this->datos == 1){
+            	Utils::log_info("Personal deleted successfully, deleting associated files at: ".$this->carpeta."pers".$id);
                 $this->borraDir ($this->carpeta."pers".$id);
+            } else {
+                Utils::log_error("An error ocurred deleting the paciente!!");
+            }
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return;   
@@ -310,8 +346,10 @@
                     $this->borraDir( $carpeta . "/" . $item );
                 }
                 rmdir( $carpeta );
+                Utils::log_debug("Deleted folder: ".$carpeta);
             } else {
                 unlink( $carpeta );
+                Utils::log_debug("Deleted file: ".$carpeta);
             }   
         }
         /**

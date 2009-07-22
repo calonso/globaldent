@@ -32,6 +32,19 @@
         }
         function nuevo ($datos)
         {
+        	$datos[nombre] = $this->crypter->corregir($datos[nombre]);
+        	$datos[especialidad] = $this->crypter->corregir($datos[especialidad]);
+        	$datos[nif] = $this->crypter->corregir($datos[nif]);
+        	$datos[direccion] = $this->crypter->corregir($datos[direccion]);
+        	$datos[telefono] = $this->crypter->corregir($datos[telefono]);
+        	$datos[cp] = $this->crypter->corregir($datos[cp]);
+        	$datos[ciudad] = $this->crypter->corregir($datos[ciudad]);
+        	$datos[id_provincia] = $this->crypter->corregir($datos[id_provincia]);
+        	$datos[gabinetes] = $this->crypter->corregir($datos[gabinetes]);
+        	$datos[reg_sanidad] = $this->crypter->corregir($datos[reg_sanidad]);
+        	$datos[extension] = $this->crypter->corregir($datos[extension]);
+        	$datos[extensionf] = $this->crypter->corregir($datos[extensionf]);
+        	
             $valores = $datos[id_usuario].COMA.
             	COMILLA.$datos[nombre].COMILLA.COMA.
             	COMILLA.$datos[especialidad].COMILLA.COMA.
@@ -75,6 +88,7 @@
             foreach ($datos as $indice => $valor)
             {
             	if (!empty($valor)){
+            		$valor = $this->crypter->corregir($valor);
 	          		$parejas .= "$indice = $valor, ";
             	}
             } 

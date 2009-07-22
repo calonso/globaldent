@@ -35,11 +35,18 @@
         	$datos[apellido] = $this->crypter->cifrar($datos[apellido]);
         	$datos[apellido2] = $this->crypter->cifrar($datos[apellido2]);
         	$datos[direccion] = $this->crypter->cifrar($datos[direccion]);
+        	$datos[ciudad] = $this->crypter->corregir($datos[ciudad]);
         	$datos[cp] = $this->crypter->cifrar($datos[cp]);
         	$datos[telefono_fijo] = $this->crypter->cifrar($datos[telefono_fijo]);
         	$datos[telefono_trabajo] = $this->crypter->cifrar($datos[telefono_trabajo]);
         	$datos[telefono_movil] = $this->crypter->cifrar($datos[telefono_movil]);
         	$datos[dni] = $this->crypter->cifrar($datos[dni]);
+        	$datos[profesion] = $this->crypter->corregir($datos[profesion]);
+        	$datos[fecha_nacimiento] = $this->crypter->corregir($datos[fecha_nacimiento]);
+        	$datos[alertas_medicas] = $this->crypter->corregir($datos[alertas_medicas]);
+        	$datos[observaciones] = $this->crypter->corregir($datos[observaciones]);
+        	$datos[extension] = $this->crypter->corregir($datos[extension]);
+        	$datos[fecha_alta] = $this->crypter->corregir($datos[fecha_alta]);
         	$datos[email] = $this->crypter->cifrar($datos[email]);
         	$refer = $datos[id_paciente_referidor] == 0 ? 'NULL' : $datos[id_paciente_referidor];
         	$drrefer = $datos[id_dr_referidor] == 0 ? 'NULL' : $datos[id_dr_referidor];
@@ -69,7 +76,6 @@
             $sentencia = "insert into paciente (nombre, apellido, apellido2, direccion, ciudad, id_provincia, cp, telefono_fijo, telefono_trabajo, 
             	telefono_movil, profesion, dni, fecha_nacimiento, email, alertas_medicas, observaciones, extension, id_paciente_referidor, 
             	id_dr_referidor, fecha_alta, id_usuario) values ($valores)";
-            echo $sentencia;
             $this->datos = $this->DBManager->hacer_peticion ($sentencia);
             return $this->datos;   
         }
@@ -133,6 +139,7 @@
                 			$valor = $this->crypter->cifrar($valor);
                 			break;
                 		default:
+                			$valor = $this->crypter->corregir($valor);
                 			break;
                 	}
                 	$parejas .= "$indice = '$valor', ";
@@ -140,10 +147,7 @@
             } 
             $parejas = substr ($parejas, 0, strlen($parejas) -2);
             $sentencia = "update paciente set $parejas where id_paciente = $id and id_usuario = $idusr";
-            $this->datos = $this->DBManager->hacer_peticion ($sentencia);
-            if($this->datos == 1)
-                $this->datos = $id;
-            return $this->datos;     
+            return $this->DBManager->hacer_peticion ($sentencia);
         }
         function listado ($idarg, $pagina = -1)
         {    

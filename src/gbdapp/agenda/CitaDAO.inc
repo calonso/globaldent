@@ -31,6 +31,14 @@ class CitaDAO extends DAO
 	}
 	function nuevo ($datos)
 	{
+		$datos[fecha] = $this->crypter->corregir($datos[fecha]);
+		$datos[hora] = $this->crypter->corregir($datos[hora]);
+		$datos[duracion] = $this->crypter->corregir($datos[duracion]);
+		$datos[gabinete] = $this->crypter->corregir($datos[gabinete]);
+		$datos[id_paciente] = $this->crypter->corregir($datos[id_paciente]);
+		$datos[observaciones] = $this->crypter->corregir($datos[observaciones]);
+		$datos[tipo] = $this->crypter->corregir($datos[tipo]);
+		
 		$valores = COMILLA.$datos[fecha].COMILLA.COMA.
 			COMILLA.$datos[hora].COMILLA.COMA.
 			$datos[duracion].COMA.

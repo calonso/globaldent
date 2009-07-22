@@ -45,10 +45,10 @@
         {
             $this->smarty = new Smarty();
             
-            $this->smarty->template_dir = PATH_BASE."/templates/templates/";
-            $this->smarty->compile_dir = PATH_BASE."/templates/templates_c/";
-            $this->smarty->config_dir = PATH_BASE."/templates/configs/";
-            $this->smarty->cache_dir = PATH_BASE."/templates/cache/";
+            $this->smarty->template_dir = PATH_BASE."templates/templates/";
+            $this->smarty->compile_dir = PATH_BASE."templates/templates_c/";
+            $this->smarty->config_dir = PATH_BASE."templates/configs/";
+            $this->smarty->cache_dir = PATH_BASE."templates/cache/";
             
             $this->smarty->left_delimiter = '{';
             $this->smarty->right_delimiter = '}';

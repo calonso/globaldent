@@ -31,6 +31,10 @@
         }
         function nuevo ($datos)
         {
+        	$datos[nombre] = $this->crypter->corregir($datos[nombre]);
+            $datos[texto] = $this->crypter->corregir($datos[textoo]);
+            $datos[resumen] = $this->crypter->corregir($datos[resumen]);
+        	
             $valores = COMILLA.$datos[nombre].COMILLA.COMA.
             	COMILLA.$datos[texto].COMILLA.COMA.
             	COMILLA.$datos[resumen].COMILLA.COMA.
@@ -64,7 +68,8 @@
             $idusr = $_SESSION[id_usr];
             foreach ($datos as $indice => $valor)
             {
- 	           $parejas .= "$indice = '$valor', ";
+                $valor = $this->crypter->corregir($valor);
+                $parejas .= "$indice = '$valor', ";
             } 
             $parejas = substr ($parejas, 0, strlen($parejas) -2);
             $sentencia = "update tipo_receta set $parejas where id_usuario = $idusr and id_tipo_receta = $id";

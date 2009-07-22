@@ -350,35 +350,44 @@
             $aux[1] = (int)$aux[1];
             $this->datos[fecha] = $aux[0]."-".$aux[1]."-".$aux[2];
             
+            Utils::log_info("Starting new visita register for paciente".$this->id);
             $this->dao->start ();
             $this->datos = $this->dao->nuevo ($this->datos);
             $this->smarty->assign ('codigo', $this->datos);
             if($this->datos < 1)
             {
+            	Utils::log_error("An error ocurred!!Rolling back...");
             	$this->dao->rollback();
             } else {
+            	Utils::log_info("Storing now the lines of the visita");
 	            $ret = $this->guardaServicios ($params, $this->datos);
 	            if ($ret)
 	            {
+	            	Utils::log_info("Visita's lines stored successfully");
+	            	Utils::log_info("Storing now visita's assistance");
 	                $ret1 = $this->guardaAsistencia ($params, $this->datos);
 	                if($ret1)
 	                {
+	                	Utils::log_info("Visita's assistance stored successfully");
+	                	Utils::log_info("Storing now visita's collaborations");
 	                    $ret2 = $this->guardaColaboracion ($params, $this->datos);
 	                    if ($ret2){
+	                    	Utils::log_info("Visita's collaboration stored successfully");
 	                        $this->logger->save(LOG_ALTA, "Visita de: ".$this->nombre);
 	                        $this->dao->commit ();
-	                    }else
-	                    {
+	                        Utils::log_info("Visita stored successfully");
+	                    } else {
+	                    	Utils::log_error("An error ocurred storing visita's collaboration!!Rolling back...");
 	                        $this->smarty->assign ('codigo', -1);
 	                        $this->dao->rollback ();  
 	                    }
-	                }else
-	                {
+	                } else {
+	                	Utils::log_error("An error ocurred storing visita's assistance!!Rolling back...");
 	                    $this->smarty->assign ('codigo', -1);
 	                    $this->dao->rollback (); 
 	                }
-	            }else
-	            {
+	            } else {
+	            	Utils::log_error("An error ocurred storing visita's service lines!!Rolling back...");
 	                $this->smarty->assign ('codigo', -1);
 	                $this->dao->rollback (); 
 	            }
@@ -412,14 +421,20 @@
         function guardaServicios ($params, $id)
         {
             $ldao = new LineaVisitaDAO ();
+            Utils::log_debug("Starting register of ".count($_SESSION['lv'.$this->id])." service lines for visita: $id");
+            Utils::log_debug("Storing this lines: ".Utils::print_array($_SESSION['lv'.$this->id]));
             foreach ($_SESSION['lv'.$this->id] as $linea)
             {
                 $linea[id_visita] = $id;
                 $linea[id_usuario] = $_SESSION[id_usr];
               
                 $aux = $ldao->nuevo ($linea); 
-                if($aux < 1)
+                if($aux < 1) {
+                	Utils::log_error("An error ocurred storing the line!!Returning error");
                     return false;
+                } else {
+                	Utils::log_debug("Service line stored successfully with id: $aux");
+                }
             }
             $_SESSION['lv'.$this->id] = null;
             return true;  
@@ -435,18 +450,26 @@
         {
             $aux = new AsistenteDAO ();
             $datos = $params->getParam ('selPers');
+            Utils::log_debug("Starting register of ".count($datos)." assistance items for visita: $id");
+            Utils::log_debug("Storing this lines: ".Utils::print_array($datos));
             if (isset($datos))
             {
                 foreach ($datos as $empleado)
                 {
                     $temp = array ("id_visita_medica" => $id, "id_personal" => $empleado, "id_usuario" => $_SESSION[id_usr]);
                     $ret = $aux->nuevo ($temp);
-                    if ($ret < 1)
-                        return false;    
+                    if ($ret < 1) {
+                    	Utils::log_error("An error ocurred storing the assistance item!!Returning error");
+                        return false;
+                    } else {
+                    	Utils::log_debug("Assistance item stored successfully with id: $ret");    
+                    }
                 }   
                 return true;
-            }else
-                return true;   
+            } else {
+            	Utils::log_warning("No assistance was defined for visita: $id");
+                return true;
+            }   
         }
         /**
         * Funcion que guarda la colaboracion de la visita
@@ -458,6 +481,8 @@
         {
             $aux = new ColaboradorDAO ();
             $datos = $params->getParam ('selDres');
+            Utils::log_debug("Starting register of ".count($datos)." collaboration items for visita: $id");
+            Utils::log_debug("Storing this lines: ".Utils::print_array($datos));
             $idusr = $_SESSION[id_usr];
             if (isset($datos))
             {
@@ -465,12 +490,18 @@
                 {
                     $temp = array ("id_visita_medica" => $id, "id_dr_colaborador" => $doctor, "id_usuario" => $idusr);
                     $ret = $aux->nuevo ($temp);
-                    if ($ret < 1)
-                        return false;   
+                    if ($ret < 1) {
+                    	Utils::log_error("An error ocurred storing the collaboration item!!Returning error");
+                        return false;
+                    } else {
+                    	Utils::log_debug("Collaboration item stored successfully with id: $aux");       
+                    }
                 }   
                 return true;
-            }else
-                return true;   
+            } else {
+            	Utils::log_debug("No collaboration was set for visita: $id");
+                return true;
+            }   
         }
         /**
         * Funcion que muestra todos los detalles de la visita medica
@@ -638,23 +669,29 @@
             $this->datos[id_visita] = $id;
             $this->datos[id_paciente] = $this->id;
             
+            Utils::log_info("Starting visita $id modification");
             $this->dao->start (); 
            
             $ret = $this->actualizaDatos ($params, $id);
             if ($ret)
             {
+            	Utils::log_info("Visita components modified successfully");
+            	Utils::log_info("Modifying now visita's data");
                 $this->datos = $this->dao->modificar ($this->datos);
-                if($this->datos >= 1){
+                if($this->datos >= 0){
                     $this->logger->save(LOG_MODIFICACION, "Visita de: ".$this->nombre);
                     $this->dao->commit ();
-                }else
+                    Utils::log_info("Visita data modified successfully");
+                    $this->smarty->assign ('codigo', $id);
+                }else {
+                	Utils::log_error("An error ocurred updating visita's data!!Rolling back...");
                     $this->dao->rollback ();
-                $this->smarty->assign ('codigo', $this->datos);
-            }
-            else
+                    $this->smarty->assign ('codigo', $this->datos);
+                }
+            } else {
+            	Utils::log_error("An error ocurred updating visita's components!!Rolling back...");
                 $this->dao->rollback ();
-            
-            
+            }
             $this->smarty->display ($this->path.$file.".phtml");
             return;   
         }
@@ -670,32 +707,43 @@
         function actualizaDatos ($params, $id)
         {
             $dao = new AsistenteDAO ();
+            Utils::log_info("Deleting previous assistance");
             $ret = $dao->borrar ($id);
+            Utils::log_debug("Deleted $ret assistance lines");
             if ($ret >= 0)
             {
-               $ret1 = $this->guardaAsistencia ($params, $id);
-               if (!$ret1)
+            	Utils::log_debug("Inserting new assistance lines");
+                $ret1 = $this->guardaAsistencia ($params, $id);
+                if (!$ret1){
                     return false;
+                }
             }
             
             $dao = new ColaboradorDAO ();
+            Utils::log_info("Deleting previous assistance");
             $ret = $dao->borrar ($id);
+            Utils::log_debug("Deleted $ret collaboration lines");
             if ($ret >= 0)
             { 
-               $ret1 = $this->guardaColaboracion ($params, $id);
-               if (!$ret1)
+            	Utils::log_debug("Inserting new collaboration lines");
+                $ret1 = $this->guardaColaboracion ($params, $id);
+                if (!$ret1) {
                     return false;
+                }
             }
             
             $dao = new LineaVisitaDAO ();
+            Utils::log_info("Deleting previous service's lines");
             $ret = $dao->borrar ($id);
+            Utils::log_debug("Deleted $ret service's' lines");
             if ($ret >= 0)
             { 
-               $ret1 = $this->guardaServicios ($params, $id);
-               if (!$ret1)
+            	Utils::log_debug("Inserting new service's lines");
+                $ret1 = $this->guardaServicios ($params, $id);
+                if (!$ret1){
                     return false;
+                }
             }
-            
             return true;     
         }
         /**
@@ -707,13 +755,16 @@
         function borrar ($params, $file)
         {
             $id = $params->getParam ('vis');
+            Utils::log_info("Starting visita $id deletion");
             $this->dao->start ();
             $this->datos = $this->dao->borrar ($id);
-            if ($this->datos < 1)
+            if ($this->datos < 1) {
+            	Utils::log_error("An error ocurred deleting the visita!!Rolling back...");
                 $this->dao->rollback ();
-            else{
+            } else {
                 $this->logger->save(LOG_BAJA, "Visita de: ".$this->nombre);
                 $this->dao->commit ();
+                Utils::log_info("Visita $id deleted successfully");
             }
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");   

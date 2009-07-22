@@ -32,6 +32,9 @@
         }
         function nuevo ($datos)
         {
+        	$datos[nombre] = $this->crypter->corregir($datos[nombre]);
+        	$datos[descripcion] = $this->crypter->corregir($datos[descripcion]);
+        	
 			$valores = COMILLA.$datos[nombre].COMILLA.COMA.
 				COMILLA.$datos[descripcion].COMILLA.COMA.
 				$datos[id_usuario];

@@ -31,6 +31,22 @@
         }
         function nuevo ($datos)
         {
+        	$datos[nombre] = $this->crypter->corregir($datos[nombre]);
+        	$datos[apellido] = $this->crypter->corregir($datos[apellido]);
+        	$datos[apellido2] = $this->crypter->corregir($datos[apellido2]);
+        	$datos[dni] = $this->crypter->corregir($datos[dni]);
+        	$datos[direccion] = $this->crypter->corregir($datos[direccion]);
+        	$datos[cp] = $this->crypter->corregir($datos[cp]);
+        	$datos[ciudad] = $this->crypter->corregir($datos[ciudad]);
+        	$datos[id_provincia] = $this->crypter->corregir($datos[id_provincia]);
+        	$datos[telefono_clinica] = $this->crypter->corregir($datos[telefono_clinica]);
+        	$datos[telefono_movil] = $this->crypter->corregir($datos[telefono_movil]);
+        	$datos[telefono_casa] = $this->crypter->corregir($datos[telefono_casa]);
+        	$datos[fax] = $this->crypter->corregir($datos[fax]);
+        	$datos[email] = $this->crypter->corregir($datos[email]);
+        	$datos[fecha_nacimiento] = $this->crypter->corregir($datos[fecha_nacimiento]);
+        	$datos[especialidad] = $this->crypter->corregir($datos[especialidad]);
+        	
             $valores = COMILLA.$datos[nombre].COMILLA.COMA.
             	COMILLA.$datos[apellido].COMILLA.COMA.
             	COMILLA.$datos[apellido2].COMILLA.COMA.
@@ -76,6 +92,7 @@
             $idusr = $_SESSION[id_usr];
             foreach ($datos as $indice => $valor)
             {
+            	$valor = $this->crypter->corregir($valor);
                 $parejas .= "$indice = '$valor', ";
             } 
             $parejas = substr ($parejas, 0, strlen($parejas) -2);

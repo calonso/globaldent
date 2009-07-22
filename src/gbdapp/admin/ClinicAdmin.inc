@@ -24,6 +24,8 @@
         
         private $carpeta;
         
+        private $backup;
+        
         /**
         * Constructor de la clase, inicializa las variables
         */
@@ -49,6 +51,7 @@
             $this->dao = new Copier();
             
             $this->carpeta = PATH_BASE."imagenes/".$_SESSION[id_usr]."/";
+            $this->backup = PATH_BASE."backup/gbd.tar";
 
             return; 
         }
@@ -77,12 +80,10 @@
         */
         function copiar ($params, $file)
         {
-            $this->crearZip();
-            
+            //$this->crearZip();
             header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=backup.zip');
-            readfile ($this->carpeta."backup.zip");
-            unlink($this->carpeta."backup.zip");
+            header('Content-Disposition: attachment; filename=backup.tar');
+            readfile ($this->backup);
             return;
         }
         

@@ -200,50 +200,7 @@
             }
             return $devolver;
         }
-        /**
-        * Funcion que recoje todas las lineas de cada visita y pide su nombre a getServicio
-        * @param int Id de la visita que se quiere consultar
-        * @return array
-        */
-        function verTratamiento ($id)
-        {
-            $aux = new LineaVisitaDAO ();
-            $lineas = $aux->ver ($id);
-            if(is_array($lineas))
-            {
-                foreach ($lineas as $indice => $valor)
-                    $lineas[$indice][servicio] = $this->getServicio ("nombre", $lineas[$indice][id_servicio]);    
-            }
-            return $lineas;    
-        }
         
-        /**
-        * Funcion que recoje y carga el nombre del servicio solicitado
-        * @param int Id del servicio solicitado
-        * @return string||void
-        */
-        function getServicio ($motivo, $id)
-        {
-            $aux = new ServicioDAO ();
-            $datos = $aux->ver ($id);
-            if(is_array($datos))
-            {
-                $cadena = $datos[0][nombre];
-                $precio = $datos[0][precio_unitario];
-            }
-            switch ($motivo)
-            {
-                case "nombre":
-                    return $cadena;
-                    break;
-                case "precio":
-                    return $precio;
-                    break;
-                case "todo":
-                    return array("nombre" => $cadena, "precio" => $precio);
-                    break;   
-            }   
-        }
         /**
         * Funcion que calcula los dias siguiente y previo a uno dado y los devuelve
         * @param string Cadena con la fecha sobre la que se quiere operar
@@ -334,18 +291,19 @@
             $id = $this->datos[id_paciente];
             $tarj = $this->datos[total_tarjeta];
             $efect = $this->datos[total_efectivo];
-            
+            Utils::log_info("Starting new pago register for paciente: $id efectivo: $efect and tarjeta: $tarj");
             $this->datos = $dao->nuevo ($this->datos);
             if ($this->datos >= 1)
             {
+            	Utils::log_info("New service registration finished with id: ".$this->datos);
                 $aux = $this->getPaciente($id);
                 $nombre = $aux[nombre]; 
                 $this->logger->save(LOG_ALTA, "Pago de: $nombre por valor de: $tarj y $efect");          
-            }else
+            }else {
+            	Utils::log_error("An error happened!!!");
                 echo "<br /><br />Se ha producido un error, el pago no se ha guardado<br /><br />";
-                
+            }
             $this->verCaja ($params, "vercaja");
-                
             return;   
         }
         /**
@@ -365,8 +323,9 @@
             
             $this->datos[id_pago] = $params->getParam('idp');
             unset($this->datos[fecha]);
+            Utils::log_info("Modifying pago register for paciente: $id efectivo: $efect and tarjeta: $tarj");
             $this->datos = $dao->modificar ($this->datos);
-            
+            Utils::log_info("Pago modification finished with code: ".$this->datos);
             $aux = $this->getPaciente($id);
             $nombre = $aux[nombre];
             
@@ -390,13 +349,16 @@
             $dao = new PagoPacDAO (); 
             $id = $params->getParam('idp'); 
             $idpac = $params->getParam('idpaciente');
-            $dao->borrar ($id);
-            
             $aux = $this->getPaciente($idpac);
-            $nombre = $aux[nombre]; 
+            $nombre = $aux[nombre];
+            Utils::log_info("Deleting pago for paciente: $idpac: $nombre");
+            if ($dao->borrar ($id) != 1){ 
+                Utils::log_error("An error ocurred deleting pago for paciente: $idpac: $nombre!!");
+            } else {
+                Utils::log_info("Successfully deleted pago for paciente: $idpac: $nombre");	
+            }
             
             $referer = $_SERVER[HTTP_REFERER];
-            echo $referer;
             if (strpos($referer, "historiaecon") === false){
             	$this->logger->save(LOG_BAJA, "Pago de: $nombre");
             	$this->verCaja ($params, "vercaja");

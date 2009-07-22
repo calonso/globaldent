@@ -122,6 +122,8 @@
             {
 			    $lang = LANG_LOCALE_DEFAULT;
 		    }
+		    
+		    Utils::log_info("Starting dispatch as empleado for $peticion request.");
              
             switch($peticion)
             {
@@ -827,6 +829,7 @@
                     $objeto->logout ($this->params, $peticion);
                     break;
                 default:
+                	Utils::log_info("Dispatch for $peticion request wasn't performed denying permissions.");
                     $objeto = new noAutorizado ($lang);
                     $objeto->denegar ($this->params, $peticion);
                     break;    
@@ -841,6 +844,8 @@
             {
 			    $lang = LANG_LOCALE_DEFAULT;
 		    }
+		    
+		    Utils::log_info("Starting dispatch as subAdmin for $peticion request.");
              
             switch($peticion)
             {
@@ -964,6 +969,8 @@
             {
 			    $lang = LANG_LOCALE_DEFAULT;
 		    }
+		    
+		    Utils::log_info("Starting dispatch as admin for $peticion request.");
              
             switch($peticion)
             {

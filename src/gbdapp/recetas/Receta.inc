@@ -249,7 +249,13 @@
         function nueva ($params, $file)
         {
             $this->datos = $this->recibirFormulario ($params);
+            Utils::log_info("Storig new receta for visita: ".$this->vis);
             $this->datos = $this->dao->nuevo ($this->datos);
+            if ($this->datos > 0){
+            	Utils::log_info("New receta stored successfully with id: ".$this->datos);
+            } else {
+            	Utils::log_error("An error ocurred creating new receta!!");
+            }
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return;   
@@ -300,8 +306,13 @@
         function borrar ($params, $file)
         {
             $id = $params->getParam ('r');
-            
+            Utils::log_info("Deleting receta with id: $id");
             $this->datos = $this->dao->borrar ($id);
+            if ($this->datos == 1){
+            	Utils::log_info("Receta deleted successfully!");
+            } else {
+            	Utils::log_error("An error ocurred deleting the receta!!");
+            }
             $this->smarty->assign ('codigo', $this->datos);
             $this->smarty->display ($this->path.$file.".phtml");
             return;       

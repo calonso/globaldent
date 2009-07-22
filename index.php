@@ -18,5 +18,8 @@
     */
     include_once PATH_BASE."src/acceso/Controller.inc";
     
+    set_error_handler(array("Utils", "log_system_error"), E_ALL & ~E_NOTICE);
+    set_exception_handler(array("Utils", "log_system_exception"));
+    
     new Controller();
 ?>

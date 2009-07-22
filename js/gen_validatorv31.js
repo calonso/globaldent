@@ -656,14 +656,14 @@ function validateInput(strValidateStr,objValue,strError)
         case "alnum": 
         case "alphanumeric": 
            { 
-				ret = TestInputType(objValue,"[^A-Za-z0-9]",strError, 
+				ret = TestInputType(objValue,"[^A-ZÁÉÍÓÚÑa-záéíóúñºª0-9]",strError, 
 						objValue.name+": Only alpha-numeric characters allowed ");
 				break; 
            }
         case "alnum_s": 
         case "alphanumeric_space": 
            { 
-				ret = TestInputType(objValue,"[^A-Za-z0-9\\s]",strError, 
+				ret = TestInputType(objValue,"[^A-ZÁÉÍÓÚÑa-záéíóúñºª0-9\\s]",strError, 
 						objValue.name+": Only alpha-numeric characters and space allowed ");
 				break; 
            }		   
@@ -684,14 +684,14 @@ function validateInput(strValidateStr,objValue,strError)
         case "alphabetic": 
         case "alpha": 
            { 
-                ret = TestInputType(objValue,"[^A-Za-z]",strError, 
+                ret = TestInputType(objValue,"[^A-ZÁÉÍÓÚÑa-záéíóúñºª]",strError, 
 						objValue.name+": Only alphabetic characters allowed ");
                 break; 
            }
         case "alphabetic_space": 
         case "alpha_s": 
            { 
-                ret = TestInputType(objValue,"[^A-Za-z\\s]",strError, 
+                ret = TestInputType(objValue,"[^A-ZÁÉÍÓÚÑa-záéíóúñºª\\s]",strError, 
 						objValue.name+": Only alphabetic characters and space allowed ");
                 break; 
            }

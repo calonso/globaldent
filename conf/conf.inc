@@ -8,6 +8,10 @@
     * @version 1.0 (5 - Diciembre - 2007)
     */
     
+    /**
+     * Inclusion del modulo de log
+     */
+    include "Log.php";
     
     /**
     * Nombre del servidor
@@ -30,10 +34,12 @@
     * Path absoluto donde se guardan los archivos del site
     */
     define ("PATH_BASE", $_SERVER['DOCUMENT_ROOT']."/globaldent/");
+    
+    include_once PATH_BASE."src/common/Utils.inc";
     /**
     * Request base del site
     */ 
-    define ("REQ_BASE", "https://192.168.1.35/globaldent/"); 
+    define ("REQ_BASE", "https://192.168.1.33/globaldent/"); 
     /**
     * Path donde se localizan los archivos de texto
     */
@@ -94,6 +100,18 @@
     * Constante para actuaciones prohibidas
     */
     define ("LOG_FORBIDDEN", 6);
+    /**
+     * Constante para determinar donde se recojera el log
+     */
+    define ("LOGGING_TARGET", "log/gbd.".date('D').".log");
+    /**
+     * Constante para determinar el metodo de log
+     */
+    define ("LOGGING_METHOD", "file");
+    /**
+     * Constante para determinar el filtro de log
+     */
+    define ("LOGGING_FILTER", PEAR_LOG_DEBUG);
     /**
     * Constante de administrador absoluto
     */

@@ -31,6 +31,14 @@
         }
         function nuevo ($datos)
         {
+        	$datos[numero] = $this->crypter->corregir($datos[numero]);
+        	$datos[fecha] = $this->crypter->corregir($datos[fecha]);
+        	$datos[validez] = $this->crypter->corregir($datos[validez]);
+        	$datos[duracion] = $this->crypter->corregir($datos[duracion]);
+        	$datos[total] = $this->crypter->corregir($datos[total]);
+        	$datos[objetivo] = $this->crypter->corregir($datos[objetivo]);
+        	$datos[firma] = $this->crypter->corregir($datos[firma]);
+        	
 			$valores = $datos[id_paciente].COMA.
 				COMILLA.$datos[numero].COMILLA.COMA.
 				COMILLA.$datos[fecha].COMILLA.COMA.
@@ -73,14 +81,12 @@
             $idusr = $_SESSION[id_usr];
             foreach ($datos as $indice => $valor)
             {
+            	$valor = $this->crypter->corregir($valor);
             	$parejas .= "$indice = '$valor', "; 
             } 
             $parejas = substr ($parejas, 0, strlen($parejas) -2);
             $sentencia = "update presupuesto set $parejas where id_presupuesto = $id and id_usuario = $idusr";
-            $this->datos = $this->DBManager->hacer_peticion ($sentencia);
-            if($this->datos == 1)
-                $this->datos = $id;
-            return $this->datos;        
+            return $this->DBManager->hacer_peticion ($sentencia);
         }
         function listado ($id, $pagina = -1)
         {
@@ -105,7 +111,7 @@
 	        $idusr = $_SESSION[id_usr];
 	
 			$sentencia = "select IFNULL(MAX(numero),0) as numero, IFNULL(YEAR(STR_TO_DATE(fecha, '%d-%m-%Y')), YEAR(CURDATE())) as year from presupuesto where id_paciente = $id and id_usuario = $idusr and 
-				YEAR(STR_TO_DATE(fecha, '%d-%m-%Y')) = YEAR(CURDATE()) for update";
+				YEAR(STR_TO_DATE(fecha, '%d-%m-%Y')) = YEAR(CURDATE()) group by id_paciente for update";
 			$this->datos = $this->DBManager->recoger_datos ($sentencia);
 			return $this->datos;
         } 

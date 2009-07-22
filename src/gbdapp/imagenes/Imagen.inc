@@ -189,25 +189,37 @@
         */
         function nueva ($params, $file)
         {
-            if(is_uploaded_file($_FILES[fileFoto][tmp_name]))
+        	$image = $_FILES[fileFoto][tmp_name];
+            if(is_uploaded_file($image))
             {
-                $aux = $_FILES[fileFoto][type];
-                $aux = explode ("/", $aux);
+            	Utils::log_info("Uploaded new image $image");
+                $fileType = $_FILES[fileFoto][type];
+                Utils::log_debug("Image filetype is: $fileType");
+                $aux = explode ("/", $fileType);
                 if (!strncmp ($aux[0], "image", 5))
                 { 
                     $this->datos = $this->recibirFormulario ($params);
+                    Utils::log_debug("Image extension is: ".$aux[1]);
                     $this->datos[extension] = $aux[1];
+                    Utils::log_info("Starting new image register");
                     $this->datos = $this->dao->nuevo ($this->datos);
                     if($this->datos > 0)
                     {  
+                    	Utils::log_info("New image data stored successfully, now moving the image to: ".$this->carpeta."/im".$this->datos);
                         move_uploaded_file ($_FILES[fileFoto][tmp_name], $this->carpeta."/im".$this->datos);
                         $this->logger->save(LOG_ALTA, $this->nombre);
                         $this->smarty->assign ('codigo', $this->datos);
-                    }     
-                }else
-                    $this->smarty->assign ('codigo', -3);          
-            }else
+                    } else {
+                    	Utils::log_error("An error ocurred storing the image data!!"); 
+                    }
+                }else {
+                	Utils::log_error("The uploaded image is not an image!");
+                    $this->smarty->assign ('codigo', -3);
+                }          
+            }else {
+            	Utils::log_error("No image was uploaded at $image");
                 $this->smarty->assign ('codigo', -2);
+            }
             
             $this->smarty->display ($this->path.$file.".phtml");   
         }
@@ -265,12 +277,24 @@
         {
             $id = $params->getParam ('img');
             $this->datos = array("id_paciente" => $this->id, "id_imagen" => $id);
-            $this->datos = $this->dao->borrar ($this->datos); 
-            if($this->datos == 1)
-            {
-                $this->smarty->assign ('codigo', $this->datos);
-                $this->logger->save(LOG_BAJA, $this->nombre);  
-                @unlink ($this->carpeta."/im".$id.".".$extension);  
+            Utils::log_info("Retrieving image $id data for deletion");
+            $imgInfo = $this->dao->ver($this->datos);
+            if (is_array($imgInfo)){
+            	$extension = $this->datos[0][extension];
+            	Utils::log_debug("Image info retrieved successfully, the image extension is: $extension");
+                Utils::log_info("Deleting the image $id");
+	            $this->datos = $this->dao->borrar ($this->datos); 
+	            if($this->datos == 1)
+	            {
+	                $this->smarty->assign ('codigo', $this->datos);
+	                $this->logger->save(LOG_BAJA, $this->nombre);
+	                Utils::log_info("Image deleted successfully, deleting now the file: ".$this->carpeta."/im".$id.".".$extension);  
+	                unlink ($this->carpeta."/im".$id.".".$extension);  
+	            } else {
+	            	Utils::log_error("An error ocurred deleting the image!!");	
+	            }
+            } else {
+            	Utils::log_error("An error ocurred!! Image with id $id data couldn't be retrieved!!");
             }
             $this->smarty->display ($this->path.$file.".phtml");
         }

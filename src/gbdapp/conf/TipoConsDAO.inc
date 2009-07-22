@@ -31,12 +31,15 @@
         }
         function nuevo ($datos)
         {
+        	$datos[nombre] = $this->crypter->corregir($datos[nombre]);
+        	$datos[texto_incluido] = $this->crypter->corregir($datos[texto_incluido]);
+        	
             $valores = COMILLA.$datos[nombre].COMILLA.COMA.
            		COMILLA.$datos[descripcion].COMILLA.COMA.
            		COMILLA.$datos[texto_incluido].COMILLA.COMA.
            		$datos[id_usuario];
              
-            $sentencia = "insert into tipo_consentimiento (nombre, descripcion, texto_incluido, id_usuario) values ($valores)";
+            $sentencia = "insert into tipo_consentimiento (nombre, texto_incluido, id_usuario) values ($valores)";
             $this->datos = $this->DBManager->hacer_peticion ($sentencia);
             return $this->datos;   
         }
@@ -64,6 +67,7 @@
             $idusr = $_SESSION[id_usr];
             foreach ($datos as $indice => $valor)
             {
+            	$valor = $this->crypter->corregir($valor);
             	$parejas .= "$indice = '$valor', ";  
             } 
             $parejas = substr ($parejas, 0, strlen($parejas) -2);

@@ -26,7 +26,7 @@ function firmar()
 function getHashData()
 {
 	//{/literal}
-	return "{$datos.texto_incluido|regex_replace:"/\r\n/":" "} {#texto25#} {$fecha} {#texto26#}";
+	return '{$datos.texto_incluido|regex_replace:"/\r\n/":" "|regex_replace:"/\'/":"\""} {#texto25#} {$fecha} {#texto26#}';
 	//{literal}
 }
 function loaded(){}

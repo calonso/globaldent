@@ -21,6 +21,14 @@ function FCKeditor_OnFocus( editorInstance )
 {
 	editorInstance.ToolbarSet.Expand() ;
 }
+function borrar(num)
+{
+  var x = document.getElementById ("formulario");
+  //{/literal}
+  x.action = "{$req_base}index.php/cod.borralineav/id.{$paciente.id_paciente}/num." + num;
+  //{literal}
+  x.submit();
+}
 function linea()
 {
   var x = document.getElementById ("formulario");
@@ -92,7 +100,7 @@ function loaded(){}
                       <td align="center">{$linea.unitario}</td>
                       <td align="center">{$linea.cantidad}</td>
                       <td align="right">{$linea.total} €.</td>
-                      <td><input type="button" value="{#borrar#}" onclick="document.location='{$req_base}index.php/cod.borralineav/id.{$paciente.id_paciente}/num.{$llave}'">
+                      <td><input type="button" value="{#borrar#}" onclick="borrar({$llave})">
                     </tr>
                   {counter}
                   {math equation="x + y" x=$total y=$linea.total assign=total}

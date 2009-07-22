@@ -184,9 +184,11 @@
             $this->datos[fecha] = $fecha;
 			$this->datos[firma] = $params->getParam('txtSignData');
 			$image = base64_decode($params->getParam('txtSignImage'));
-            
+            Utils::log_info("Starting new consentimiento register of tipo: $id for paciente: ".$this->id);
             $this->datos = $this->dao->nuevo ($this->datos);
+            Utils::log_info("New consentimiento registration finished with id: ".$this->datos);
             if($this->datos > 0){
+            	Utils::log_info("Writing signature image to: ".$this->carpeta."fcons".$this->datos);
             	$imageFile = fopen($this->carpeta."fcons".$this->datos, 'x');
                 fwrite($imageFile, $image);
                 fclose($imageFile);
@@ -216,10 +218,12 @@
             $this->datos[fecha] = $fecha;
 			$this->datos[firma] = $params->getParam('txtSignData');
 			$image = base64_decode($params->getParam('txtSignImage'));
-            
 			$dao = new ConsentimientoRevocadoDAO();
+			Utils::log_info("Starting new consentimiento revoke of tipo: $id for paciente: ".$this->id);
             $this->datos = $dao->nuevo ($this->datos);
+            Utils::log_info("New consentimiento registration finished with id: ".$this->datos);
             if($this->datos > 0){
+            	Utils::log_info("Writing signature image to: ".$this->carpeta."fconsr".$id);
             	$imageFile = fopen($this->carpeta."fconsr".$id, 'x');
                 fwrite($imageFile, $image);
                 fclose($imageFile);

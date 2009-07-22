@@ -33,6 +33,22 @@
         {
         	$pass = $this->crypter->cifrar($datos[password]);
         	$privi = $this->crypter->cifrar($datos[privilegios]);
+        	$datos[nombre] = $this->crypter->corregir($datos[nombre]);
+        	$datos[apellido] = $this->crypter->corregir($datos[apellido]);
+        	$datos[apellido2] = $this->crypter->corregir($datos[apellido2]);
+        	$datos[dni] = $this->crypter->corregir($datos[dni]);
+        	$datos[direccion] = $this->crypter->corregir($datos[direccion]);
+        	$datos[cp] = $this->crypter->corregir($datos[cp]);
+        	$datos[ciudad] = $this->crypter->corregir($datos[ciudad]);
+        	$datos[telefono] = $this->crypter->corregir($datos[telefono]);
+        	$datos[movil] = $this->crypter->corregir($datos[movil]);
+        	$datos[email] = $this->crypter->corregir($datos[email]);
+        	$datos[num_colegiado] = $this->crypter->corregir($datos[num_colegiado]);
+        	$datos[especialidad] = $this->crypter->corregir($datos[especialidad]);
+        	$datos[fecha_alta] = $this->crypter->corregir($datos[fecha_alta]);
+        	$datos[curriculum] = $this->crypter->corregir($datos[curriculum]);
+        	$datos[extension] = $this->crypter->corregir($datos[extension]);
+        	$datos[login] = $this->crypter->corregir($datos[login]);
         	
         	$valores = COMILLA.$datos[nombre].COMILLA.COMA.
         		COMILLA.$datos[apellido].COMILLA.COMA.
@@ -98,6 +114,7 @@
             			}
             			break;
             		default:
+            			$valor = $this->crypter->corregir($valor);
             			break;
             	}
             	$parejas .= "$indice = '$valor', ";
@@ -105,10 +122,7 @@
             $parejas = substr ($parejas, 0, strlen($parejas) -2);
             $sentencia = "update personal set $parejas where id_personal = '$id' and id_usuario = '$idusr'";
 
-            $this->datos = $this->DBManager->hacer_peticion ($sentencia);
-            if($this->datos == 1)
-                $this->datos = $id;
-            return $this->datos;     
+            return $this->DBManager->hacer_peticion ($sentencia);     
         }
         function listado ($id, $pagina = -1)
         {

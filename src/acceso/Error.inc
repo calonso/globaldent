@@ -32,12 +32,15 @@
         } 
         function dispatch()
         {
+        	$peticion = $this->params->getParam("cod");
             $lang = $this->params->getParam("lang");
             
             if (($lang != "es_ES") && ($lang != "en_GB") && ($lang != "de_DE") && ($lang != "fr_FR") && ($lang != "it_IT") && ($lang != "pt_PT"))
             {
 			    $lang = LANG_LOCALE_DEFAULT;
 		    } 
+		    
+		    Utils::log_info("Denying $peticion request.");
             
             $objeto = new noAutorizado ($lang);
             $objeto->denegar ();

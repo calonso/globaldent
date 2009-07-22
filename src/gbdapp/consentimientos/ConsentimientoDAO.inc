@@ -31,6 +31,11 @@
         }
         function nuevo ($datos)
         {
+        	$datos[id_tipo_consentimiento] = $this->crypter->corregir($datos[id_tipo_consentimiento]);
+        	$datos[id_paciente] = $this->crypter->corregir($datos[id_paciente]);
+        	$datos[fecha] = $this->crypter->corregir($datos[fecha]);
+        	$datos[firma] = $this->crypter->corregir($datos[firma]);
+        	
             $valores = $datos[id_tipo_consentimiento].COMA.
             	$datos[id_paciente].COMA.
             	COMILLA.$datos[fecha].COMILLA.COMA.

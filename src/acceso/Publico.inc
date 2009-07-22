@@ -178,7 +178,7 @@
                     break;
                 default:
                     $objeto = new noAutorizado($lang);
-                    $objeto->denegar ();
+                    $objeto->denegar ($this->params, $peticion);
                     break;
             }    
         }

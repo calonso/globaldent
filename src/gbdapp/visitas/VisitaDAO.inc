@@ -28,7 +28,23 @@ class VisitaDAO extends DAO {
 		return;
 	}
 	function nuevo($datos) {
-		$valores = COMILLA . $datos [fecha] . COMILLA . COMA . COMILLA . $datos [asiento] . COMILLA . COMA . COMILLA . $datos [motivo] . COMILLA . COMA . COMILLA . $datos [diagnostico] . COMILLA . COMA . COMILLA . $datos [observaciones] . COMILLA . COMA . $datos [precio] . COMA . $datos [id_paciente] . COMA . $datos [id_usuario];
+		
+		$datos[fecha] = $this->crypter->corregir($datos[fecha]);
+		$datos[asiento] = $this->crypter->corregir($datos[asiento]);
+		$datos[motivo] = $this->crypter->corregir($datos[motivo]);
+		$datos[diagnostico] = $this->crypter->corregir($datos[diagnostico]);
+		$datos[observaciones] = $this->crypter->corregir($datos[observaciones]);
+		$datos[precio] = $this->crypter->corregir($datos[precio]);
+		
+		$valores = 
+		COMILLA.$datos[fecha].COMILLA.COMA.
+		COMILLA.$datos[asiento].COMILLA.COMA.
+		COMILLA.$datos[motivo].COMILLA.COMA.
+		COMILLA.$datos[diagnostico].COMILLA.COMA.
+		COMILLA.$datos[observaciones].COMILLA.COMA.
+		$datos[precio].COMA.
+		$datos[id_paciente].COMA.
+		$datos[id_usuario];
 		
 		$sentencia = "insert into visita (fecha, asiento, motivo, diagnostico, observaciones, precio, id_paciente, id_usuario) values ($valores)";
 		$this->datos = $this->DBManager->hacer_peticion ( $sentencia );
@@ -61,14 +77,12 @@ class VisitaDAO extends DAO {
 		$idusr = $_SESSION [id_usr];
 		$idp = $datos [id_paciente];
 		foreach ( $datos as $indice => $valor ) {
+			$valor = $this->crypter->corregir($valor);
 			$parejas .= "$indice = '$valor', ";
 		}
 		$parejas = substr ( $parejas, 0, strlen ( $parejas ) - 2 );
 		$sentencia = "update visita set $parejas where id_visita = $id and id_usuario = $idusr and id_paciente = $idp";
-		$this->datos = $this->DBManager->hacer_peticion ( $sentencia );
-		if ($this->datos == 1)
-			$this->datos = $id;
-		return $this->datos;
+		return $this->DBManager->hacer_peticion ( $sentencia );
 	}
 	function listado($id, $pagina = -1) {
 		$idusr = $_SESSION [id_usr];
