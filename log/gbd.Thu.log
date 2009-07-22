@@ -1,0 +1,33 @@
+Jul 16 17:55:09  [debug] For: 192.168.1.33:49408 0 privileges value binded.
+Jul 16 17:56:10  [debug] For: 192.168.1.33:49426 0 privileges value binded.
+Jul 16 17:56:11  [debug] For: 192.168.1.33:49429 0 privileges value binded.
+jul 16 17:56:11  [info] For: 192.168.1.33:49429 Creating connection to root@localhost/gbd
+Jul 16 17:56:17  [debug] For: 192.168.1.33:49433 0 privileges value binded.
+jul 16 17:56:17  [info] For: 192.168.1.33:49433 Creating connection to root@localhost/gbd
+jul 16 17:56:17  [info] For: 192.168.1.33:49433 Query: select id_personal, nombre, apellido, apellido2, login, password, id_usuario, privilegios from personal where login = 'clinicalonso'
+jul 16 17:56:17  [debug] For: 192.168.1.33:49433 The query has results, fetching an array
+jul 16 17:56:17  [debug] For: 192.168.1.33:49433 1 fetched
+jul 16 17:56:17  [info] For: 192.168.1.33:49433 Query: insert into log (id_usuario, id_personal, nombre, detalles, fecha, id_tipo_log, ip) values (1, 1, '# #, #', 'Desde: 192.168.1.33', '2009-07-16 17:56:17', 4, '192.168.1.33')
+jul 16 17:56:18  [info] For: 192.168.1.33:49433 The query resulted: 
+jul 16 17:56:18  [error] For: 192.168.1.33:49433 Unknown column 'ip' in 'field list' performing query: insert into log (id_usuario, id_personal, nombre, detalles, fecha, id_tipo_log, ip) values (1, 1, '# #, #', 'Desde: 192.168.1.33', '2009-07-16 17:56:17', 4, '192.168.1.33')
+jul 16 17:56:18  [warning] For: 192.168.1.33:49433 insert into log (id_usuario, id_personal, nombre, detalles, fecha, id_tipo_log, ip) values (1, 1, '# #, #', 'Desde: 192.168.1.33', '2009-07-16 17:56:17', 4, '192.168.1.33') resulted in no resultset!! returning -1
+Jul 16 18:54:58  [debug] For: 192.168.1.33:49650 4 privileges value binded.
+Jul 16 18:54:58  [info] For: 192.168.1.33:49650 Starting dispatch as admin for logout request.
+Jul 16 18:54:58  [info] For: 192.168.1.33:49650 Starting dispatch as subAdmin for logout request.
+Jul 16 18:54:58  [info] For: 192.168.1.33:49650 Starting dispatch as empleado for logout request.
+jul 16 18:54:58  [info] For: 192.168.1.33:49650 Creating connection to root@localhost/gbd
+jul 16 18:54:58  [info] For: 192.168.1.33:49650 Query: insert into log (id_usuario, id_personal, nombre, detalles, fecha, id_tipo_log, ip) values (1, 1, '# #, #', 'Satisfactoriamente', '2009-07-16 18:54:58', 5, '192.168.1.33')
+jul 16 18:54:58  [info] For: 192.168.1.33:49650 The query resulted: 
+jul 16 18:54:58  [error] For: 192.168.1.33:49650 Unknown column 'ip' in 'field list' performing query: insert into log (id_usuario, id_personal, nombre, detalles, fecha, id_tipo_log, ip) values (1, 1, '# #, #', 'Satisfactoriamente', '2009-07-16 18:54:58', 5, '192.168.1.33')
+jul 16 18:54:58  [warning] For: 192.168.1.33:49650 insert into log (id_usuario, id_personal, nombre, detalles, fecha, id_tipo_log, ip) values (1, 1, '# #, #', 'Satisfactoriamente', '2009-07-16 18:54:58', 5, '192.168.1.33') resulted in no resultset!! returning -1
+Jul 16 18:55:01  [debug] For: 192.168.1.33:49650 0 privileges value binded.
+jul 16 18:55:01  [info] For: 192.168.1.33:49650 Creating connection to root@localhost/gbd
+Jul 16 18:55:05  [debug] For: 192.168.1.33:49650 0 privileges value binded.
+jul 16 18:55:05  [info] For: 192.168.1.33:49650 Creating connection to root@localhost/gbd
+jul 16 18:55:05  [info] For: 192.168.1.33:49650 Query: select id_personal, nombre, apellido, apellido2, login, password, id_usuario, privilegios from personal where login = 'clinicalonso'
+jul 16 18:55:05  [debug] For: 192.168.1.33:49650 The query has results, fetching an array
+jul 16 18:55:05  [debug] For: 192.168.1.33:49650 1 fetched
+jul 16 18:55:05  [info] For: 192.168.1.33:49650 Query: insert into log (id_usuario, id_personal, nombre, detalles, fecha, id_tipo_log, ip) values (1, 1, '# #, #', 'Desde: 192.168.1.33', '2009-07-16 18:55:05', 4, '192.168.1.33')
+jul 16 18:55:05  [info] For: 192.168.1.33:49650 The query resulted: 
+jul 16 18:55:05  [error] For: 192.168.1.33:49650 Unknown column 'ip' in 'field list' performing query: insert into log (id_usuario, id_personal, nombre, detalles, fecha, id_tipo_log, ip) values (1, 1, '# #, #', 'Desde: 192.168.1.33', '2009-07-16 18:55:05', 4, '192.168.1.33')
+jul 16 18:55:05  [warning] For: 192.168.1.33:49650 insert into log (id_usuario, id_personal, nombre, detalles, fecha, id_tipo_log, ip) values (1, 1, '# #, #', 'Desde: 192.168.1.33', '2009-07-16 18:55:05', 4, '192.168.1.33') resulted in no resultset!! returning -1
