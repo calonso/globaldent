@@ -145,8 +145,10 @@
                 $this->datos = $this->datos[1];
                 foreach ($this->datos as $indice => $valor)
                 {
-                    $this->datos[$indice][tratamiento] = $this->verLineas ($this->datos[$indice][id_visita]);
-                    $this->datos[$indice][recetas] = $this->verRecetas ($this->datos[$indice][id_visita]); 
+                	if (!$this->datos[$indice][fsa] == 1){
+                        $this->datos[$indice][tratamiento] = $this->verLineas ($this->datos[$indice][id_visita]);
+                        $this->datos[$indice][recetas] = $this->verRecetas ($this->datos[$indice][id_visita]);
+                	} 
                 }
             }    
             $this->smarty->assign ('datos', $this->datos);
@@ -330,6 +332,31 @@
                   
         }
         /**
+         * Funcion que añade una nueva visita a la base de datos como falta sin aviso.
+         *
+         * @param resource Objeto params para acceder a los parametros de la peticion
+         * @param string Cadena que determina el template a mostrar
+         * @return void
+         */
+        function fsa ($params, $file) {
+            $this->datos[id_paciente] = $this->id;
+            $this->datos[asiento] = $params->getParam ('txtAsiento');
+            $this->datos[fsa] = 1;
+            $this->datos[fecha] = Date::getDate();
+            $this->datos[id_usuario] = $_SESSION[id_usr];
+            
+            Utils::log_info("Starting new visita register for paciente".$this->id);
+            $this->datos = $this->dao->fsa ($this->datos);
+            $this->smarty->assign ('codigo', $this->datos);
+            if($this->datos < 1) {
+                Utils::log_error("An error ocurred!!Rolling back...");
+            }
+            $file = "nuevavisita";
+            $this->smarty->display ($this->path.$file.".phtml");
+            return;
+        }
+        
+        /**
         * Funcion que añade una nueva visita a la base de datos a partir de los datos recibidos
         * 
         * Esta funcion guarda los registros correspondientes a la asistencia y colaboracion de la visita
@@ -343,12 +370,7 @@
             $this->datos = $this->recibirFormulario($params);
             $this->datos[id_paciente] = $this->id;
             $this->datos[id_usuario] = $_SESSION[id_usr];
-            
-            $fecha = strftime ("%d-%m-%Y");
-            $aux = explode ("-", $fecha);
-            $aux[0] = (int)$aux[0];
-            $aux[1] = (int)$aux[1];
-            $this->datos[fecha] = $aux[0]."-".$aux[1]."-".$aux[2];
+            $this->datos[fecha] = Date::getDate();
             
             Utils::log_info("Starting new visita register for paciente".$this->id);
             $this->dao->start ();

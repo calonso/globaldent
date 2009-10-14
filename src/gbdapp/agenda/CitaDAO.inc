@@ -106,8 +106,10 @@ class CitaDAO extends DAO
 
 	function verDia($fecha, $hora){
 		$idusr = $_SESSION[id_usr];
-		$sentencia = "select * from cita as cit
+		$sentencia = "select id_cita, fecha, hora, duracion, gabinete, cit.id_paciente, observaciones, tipo, bloqueado, color, cit.id_usuario, nombre, apellido, apellido2, IFNULL(fsa, 0) as fsa from cita as cit
 			left outer join (select id_paciente, nombre, apellido, apellido2 from paciente) as pac on (cit.id_paciente = pac.id_paciente)
+			left outer join (select id_paciente, case when fsa LIKE '1,1%' then 1 else 0 end as fsa from
+                (select id_paciente, cast(group_concat(fsa order by id_visita desc) as char) as fsa, id_usuario from visita where id_usuario = 1 group by id_paciente) as v where fsa = 1) as fsa on (pac.id_paciente = fsa.id_paciente)
 			where fecha = '$fecha' and hora = '$hora' and id_usuario = $idusr order by gabinete asc";
 		$this->datos = $this->DBManager->recoger_datos ($sentencia);
 		if (is_array($this->datos))

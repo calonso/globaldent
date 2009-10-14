@@ -19,8 +19,10 @@
 <div class="pac_info">
   {if is_array($paciente)}
   <p>{#texto8#}{$datos.nombre_pagador}</p>
-  <p>{#texto9#}{$paciente.direccion} {$paciente.ciudad}</p>
-  <p>{#texto10#}{$paciente.telefono_fijo}/{$paciente.telefono_movil}</p>
+  <p>{#texto9#}{$paciente.direccion}</p>
+  <p>{#texto59#}{$paciente.ciudad}</p>
+  <p>{#texto58#}{$paciente.cp}</p>
+  <p>{#texto60#}{$paciente.provincia}</p>
   <p>{#texto25#}{$datos.dni_pagador}</p>
   {/if}
 </div>

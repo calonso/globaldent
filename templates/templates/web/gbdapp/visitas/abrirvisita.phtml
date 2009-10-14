@@ -37,6 +37,14 @@ function linea()
   {literal}
     x.submit();
 }
+function fsa ()
+{
+	var x = document.getElementById ("formulario");
+	{/literal}
+    x.action = "{$req_base}index.php/cod.fsa/id.{$paciente.id_paciente}";
+  {literal}
+    x.submit();
+}
 function servicio()
 {
   var x = document.getElementsByName ("txtUnitario");
@@ -64,7 +72,8 @@ function loaded(){}
     <p>{#texto13#}</p>
     <form id="formulario" enctype="multipart/form-data" method="POST" action="{$req_base}index.php/cod.nuevavisita/id.{$paciente.id_paciente}">
       <fieldset><legend>{#texto14#}</legend>
-        <p>{#texto16#}</p><input type="text" name="txtAsiento" value="{$datos.asiento}"/><br />
+        <p>{#texto16#}</p><input type="text" name="txtAsiento" value="{$datos.asiento}"/>
+        <input type="button" value="{#texto90#}" onclick="fsa()"><br />
         <p>{#texto17#}</p>
           <script type="text/javascript">
             var oFCKeditor = new FCKeditor('txtMotivo','100%','200','MyToolbar','{$datos.motivo|regex_replace:"/[\r\n]/":""}');

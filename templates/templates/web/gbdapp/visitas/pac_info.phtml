@@ -3,7 +3,7 @@
   {if is_array($paciente)}
     {if $paciente.extension|count_characters > 0}
       <div class="fotopers">
-        <object data={$req_base}file.php/fotopers/{$paciente.id_paciente}/{$paciente.extension} type="image/{$paciente.extension}" height="80" width="80"></object>
+        <img class="obj" src="$req_base}file.php/fotopers/{$paciente.id_paciente}/{$paciente.extension}" width="80" height="80" />
       </div>
     {else}
       <div class="fotopers">

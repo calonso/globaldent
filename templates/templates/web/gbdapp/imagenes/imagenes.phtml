@@ -28,7 +28,7 @@
         {if isset($imag.extension)}
         <div class="imagen">
           <a href={$req_base}index.php/cod.verimagen/id.{$paciente.id_paciente}/img.{$imag.id_imagen}>
-          <object data={$req_base}file.php/fotopac/{$paciente.id_paciente}/{$imag.id_imagen}/{$imag.extension} type="image/{$imag.extension}" height="80" width="80"></object>
+          <img class="obj" src="{$req_base}file.php/fotopac/{$paciente.id_paciente}/{$imag.id_imagen}/{$imag.extension}" width="80" height="80" />
           </a>
           <p>{$imag.fecha}</p>
         </div>

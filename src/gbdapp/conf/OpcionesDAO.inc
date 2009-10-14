@@ -89,7 +89,7 @@
             {
             	if (!empty($valor)){
             		$valor = $this->crypter->corregir($valor);
-	          		$parejas .= "$indice = $valor, ";
+	          		$parejas .= "$indice = '$valor', ";
             	}
             } 
             $parejas = substr ($parejas, 0, strlen($parejas) -2);

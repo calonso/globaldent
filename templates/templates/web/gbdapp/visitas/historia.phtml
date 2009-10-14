@@ -49,6 +49,8 @@ function loaded(){}
             {foreach from=$visita.tratamiento item=servicio}
               {$servicio.cantidad} x {$servicio.servicio}<br />
             {/foreach}
+            {elseif $visita.fsa == 1}
+              {#texto90#}
             {else}
               {#texto57#}
             {/if}

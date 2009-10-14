@@ -380,6 +380,17 @@
                     $objeto = new Visita ($lang, $id);
                     $objeto->borraLinea ($this->params, $peticion);
                     break;
+                case "fsa":
+                    $id = $this->params->getParam('id');
+                    if(!isset($id))
+                    {
+                        $objeto = new noAutorizado ($lang);
+                        $objeto->denegar ($this->params, $peticion);
+                        break;
+                    }
+                    $objeto = new Visita ($lang, $id);
+                    $objeto->fsa ($this->params, $peticion);
+                    break;
                 case "vervisita":
                     $id = $this->params->getParam('id');
                     if(!isset($id))

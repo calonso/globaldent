@@ -141,6 +141,9 @@ function loaded(){}
 			                {if $cita.duracion > 1}
 			                  {assign var=gab$num value=$cita.duracion}
 			                {/if}
+			                {if $cita.fsa == 1}
+			                <img src={$img_path_base}icoatencion.png alt="FSA" width="16" height="16"/>
+			                {/if}
 			                <div class="menu" id="{$cita.id_cita}">
 			                	<ul>
 			                		<li><p>{$cita.paciente}</p></li>

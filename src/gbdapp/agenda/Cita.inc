@@ -85,7 +85,7 @@
             $fecha = $params->getParam('dia');
             if(!isset($fecha))
             {
-                $fecha = $this->fechas->getFecha(); 
+                $fecha = Date::getDate(); 
             }
             $horas = array("8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00",
                 "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30",
@@ -241,13 +241,24 @@
         {
             $datos = array();
             $dao = new PacienteDAO();
+            $visdao = new VisitaDAO();
             $datos = $dao->listado(0);
+            $fsa = $visdao->fsa_list();
             if(is_array($datos))
             {
                 $datos = $datos[1];
-                foreach($datos as $linea)
+                foreach($datos as $linea) {
                     $pacs[$linea[id_paciente]] = $linea[apellido]." ".$linea[apellido2].", ".$linea[nombre];
-                $this->smarty->assign ('pacs', $pacs);      
+                }
+                    
+                if (is_array($fsa)) {
+                	$temp = array();
+                	foreach ($fsa[1] as $linea) {
+                		array_push($temp, $linea[id_paciente]);
+                	}
+                }
+                $this->smarty->assign ('pacs', $pacs);    
+                $this->smarty->assign ('fsa', $temp);  
             }
             return;    
         }

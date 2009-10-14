@@ -50,6 +50,28 @@ class VisitaDAO extends DAO {
 		$this->datos = $this->DBManager->hacer_peticion ( $sentencia );
 		return $this->datos;
 	}
+	function fsa ($datos) {
+        $datos[fecha] = $this->crypter->corregir($datos[fecha]);
+        $datos[asiento] = $this->crypter->corregir($datos[asiento]);
+        
+        $valores = 
+	    COMILLA.$datos[fecha].COMILLA.COMA.
+        COMILLA.$datos[asiento].COMILLA.COMA.
+        $datos[id_paciente].COMA.
+        $datos[id_usuario].COMA.
+        $datos[fsa];
+        
+        $sentencia = "insert into visita (fecha, asiento, id_paciente, id_usuario, fsa) values ($valores)";
+        $this->datos = $this->DBManager->hacer_peticion ( $sentencia );
+        return $this->datos;
+	}
+	function fsa_list () {
+		$idusr = $_SESSION[id_usr];
+		$sentencia = "select id_paciente, case when fsa LIKE '1,1%' then 1 else 0 end as fsa from
+            (select id_paciente, cast(group_concat(fsa order by id_visita desc) as char) as fsa, id_usuario from visita where id_usuario = $idusr group by id_paciente) as v where fsa = 1";
+        $this->datos = $this->DBManager->recoger_datos ($sentencia);
+        return $this->datos;
+	}
 	function borrar($id) {
 		$idusr = $_SESSION [id_usr];
 		$sentencia = "delete from visita where id_usuario = $idusr and id_visita = $id";
@@ -86,7 +108,7 @@ class VisitaDAO extends DAO {
 	}
 	function listado($id, $pagina = -1) {
 		$idusr = $_SESSION [id_usr];
-		$sentencia = "select id_visita, fecha, observaciones from visita 
+		$sentencia = "select id_visita, fecha, observaciones, fsa from visita 
             	where id_usuario = $idusr and id_paciente = $id order by id_visita desc";
 		
 		if ($pagina != - 1) {

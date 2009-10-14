@@ -381,6 +381,7 @@ texto35 = "Habilita la ma&ntilde;ana."
 texto36 = "Bloquea la tarde."
 texto37 = "Habilita la tarde."
 texto38 = "Versi&oacute;n imprimible."
+texto39 = "Este paciente ha faltado a sus dos ultimas visitas sin avisar."
 
 error0 = "El valor de duraci&oacute;n debe ser num&eacute;rico."
 error1 = "Una cita no puede tener la duraci&oacute;n introducida."
@@ -751,6 +752,7 @@ texto86 = " hasta "
 texto87 = "Ning&uacute;n movimiento a partir del d&iacute;a "
 texto88 = "Saldo anterior al dia "
 texto89 = "Acciones"
+texto90 = "Paciente ausente."
  
 [conf]
 texto1 = "¿Qu&eacute; desea hacer?"
@@ -1110,6 +1112,9 @@ texto54 = "Actualizaci&oacute;n de una factura."
 texto55 = "Est&aacute; actualizando los datos de una factura. Modifique lo necesario y haga click en guardar."
 texto56 = "La factura fue actualizada correctamente."
 texto57 = "Actualizaci&oacute;n de la factura."
+texto58 = "C.P: "
+texto59 = "Ciudad: "
+texto60 = "Provincia: "
 
 [consentimientos]
 texto1 = "Listado de consentimientos de su paciente."

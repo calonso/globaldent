@@ -15,7 +15,7 @@
     /**
     * Inclusion de la clase fechas
     */
-    include_once PATH_BASE."src/common/fechas.inc";
+    include_once PATH_BASE."src/common/Date.inc";
     
     class DisplayManager
     {
@@ -34,8 +34,6 @@
         * @var int
         */
         protected $id_lang;
-        
-        protected $fechas;
     
         /**
         * Constructor de la clase, de ella heredarán todas sus hijas los valores necesarios para la presentación de vistas
@@ -71,8 +69,6 @@
                 $this->smarty->assign ('autenticado', 1);
             else
                 $this->smarty->assign ('autenticado', 0);   
-
-            $this->fechas = new fechas();
         }
     }
 ?>

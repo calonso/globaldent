@@ -12,6 +12,23 @@ function enviar()
   document.formulario.txtAsiento.disabled = false;
 }
 function loaded(){}
+function fsa() {
+	var x = document.getElementById ("selPac");
+	var id = x.options[x.selectedIndex].value;
+	{/literal}
+    var fsa = [
+    {foreach from=$fsa item=id}
+     "{$id}",
+     {/foreach}];
+    {literal}
+    for (var i = 0; i < fsa.length ; ++i) {
+        if (id == fsa[i]){
+        	{/literal}
+            alert("{#texto39#}");
+            {literal}
+        }
+    }
+}
 // --> {/literal}
 </script>
 
@@ -26,7 +43,7 @@ function loaded(){}
       <fieldset><legend>{#texto7#}</legend>
         <p>{#paciente#}</p>
         {if is_array($pacs)}
-          <select name="selPac">
+          <select name="selPac" id="selPac" onchange="fsa()">
             <option label="{#texto23#}" value="0">{#texto23#}</option>
             {html_options options=$pacs selected=0}
           </select>

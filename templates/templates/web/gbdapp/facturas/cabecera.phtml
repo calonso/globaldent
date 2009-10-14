@@ -18,8 +18,10 @@
 {if is_array($paciente)}
   <div class="pac_info">
     <p>{#texto8#}<input type="text" name="txtNombre" value="{$fact.nombre_pagador}" /></p>
-    <p>{#texto9#}{$paciente.direccion} {$paciente.ciudad}</p>
-    <p>{#texto10#}{$paciente.telefono_fijo}/{$paciente.telefono_movil}</p>
+    <p>{#texto9#}{$paciente.direccion}</p>
+    <p>{#texto59#}{$paciente.ciudad}</p>
+    <p>{#texto58#}{$paciente.cp}</p>
+    <p>{#texto60#}{$paciente.provincia}</p>
     <p>{#texto25#}<input type="text" name="txtDNI" value="{$fact.dni_pagador}" /></p>
   </div>
 {/if}

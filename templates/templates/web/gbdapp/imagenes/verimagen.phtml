@@ -24,8 +24,7 @@
         </fieldset>
         {if isset($datos.extension)}
         <div class="foto">
-          <object data={$req_base}file.php/fotopac/{$paciente.id_paciente}/{$datos.id_imagen}/{$datos.extension} type="image/{$datos.extension}" width="400" height="400">
-          </object>
+        <img class="obj" src="{$req_base}file.php/fotopac/{$paciente.id_paciente}/{$datos.id_imagen}/{$datos.extension}" width="400" height="400" />
         </div>
       {else}
         <p>{#texto34#}</p>
