@@ -135,6 +135,7 @@
                 $temp[paciente] = $this->datos[0][paciente];
                 $temp[saldo] = $this->datos[0][saldo];
                 $temp[id_paciente] = $currId;
+                $temp[fsa] = $this->datos[0][fsa];
                 array_push($ids_pacientes, $temp[id_paciente]);
                 $temp[pagos] = array("tarj" => (int)$this->datos[0][tarj], "efect" => (int)$this->datos[0][efect]);
                 
@@ -151,6 +152,7 @@
                         $temp[paciente] = $linea[paciente];
                         $temp[id_paciente] = $linea[id_paciente];
                         $temp[saldo] = $linea[saldo];
+                        $temp[fsa] = $linea[fsa];
                         array_push($ids_pacientes, $temp[id_paciente]);
                         $temp[pagos] = array("tarj" => (int)$linea[tarj], "efect" => (int)$linea[efect]);
                         //Reseteo las variables para empezar con el proximo

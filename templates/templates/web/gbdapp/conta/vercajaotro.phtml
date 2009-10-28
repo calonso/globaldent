@@ -34,6 +34,7 @@
             <td colspan="5">&nbsp;</td>
           </tr>
         {foreach from=$visitas item=visita}
+        {if $visita.fsa != 1}
           {assign var=linea value=0}
           <tr>
             <td><a href={$req_base}index.php/cod.verpac/id.{$visita.id_paciente}>{$visita.paciente}</a></td>
@@ -58,6 +59,7 @@
             <td colspan="5">&nbsp;</td>
           </tr>
           {counter}
+          {/if}
         {/foreach}
         </table>
       {else}

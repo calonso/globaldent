@@ -54,6 +54,7 @@ function loaded(){}
             <td colspan="6">&nbsp;</td>
           </tr>
         {foreach from=$visitas item=visita}
+        {if $visita.fsa != 1}
           {assign var=linea value=0}
           <tr>
             <td><a href={$req_base}index.php/cod.verpac/id.{$visita.id_paciente}>{$visita.paciente}</a></td>
@@ -88,6 +89,7 @@ function loaded(){}
             <td colspan="6">&nbsp;</td>
           </tr>
           {counter}
+          {/if}
         {/foreach}
         </table>
         <form name="fpago" method="POST" enctype="multipart/form-data" action="{$req_base}index.php/cod.pagavisita">

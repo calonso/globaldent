@@ -143,6 +143,7 @@
         function muestraFormulario ($params, $file)
         {
             $this->cargaSelector();  
+            $this->smarty->assign ('fechaFact', Date::getDate());
             $this->smarty->display ($this->path.$file.".phtml");
             return;
         }
@@ -252,7 +253,7 @@
         {
             $ldao = new LineaFacturaDAO();
             $this->datos = $this->recibirFormulario ($params);
-             
+            
             Utils::log_info("Starting new factura register.");
             $this->dao->start();
             $numero = $this->dao->bloquear(null);
@@ -301,14 +302,10 @@
         function recibirFormulario ($params)
         {
             $datos = array();
+            $datos[fecha] = $params->getParam('txtFecha');
             $datos[nombre_pagador] = $params->getParam('txtNombre');
             $datos[dni_pagador] = $params->getParam('txtDNI');
             $datos[total] = $params->getParam('txtTotal');
-            $fecha = strftime("%d-%m-%Y");
-            $aux = explode ("-", $fecha);
-            $aux[0] = (int)$aux[0];
-            $aux[1] = (int)$aux[1];
-            $datos[fecha] = $aux[0]."-".$aux[1]."-".$aux[2];
             $datos[id_paciente] = $this->id;
             $datos[id_usuario] = $_SESSION[id_usr];
             

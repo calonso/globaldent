@@ -5,7 +5,8 @@
   <div class="numpres">
   <p>{#texto12#}</p>
   <input type="text" name="txtNumero" value="{$fact.numero}" disabled="disabled"/>
-  <p>{#texto11#}{$fecha}</p>
+  <p>{#texto11#}</p>
+  <input type="text" name="txtFecha" value="{$fact.fecha|default:$fechaFact}" />
   </div>
   {if is_array($clinica)}
   <p>{$clinica.nombre}</p>

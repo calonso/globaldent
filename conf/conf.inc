@@ -39,7 +39,7 @@
     /**
     * Request base del site
     */ 
-    define ("REQ_BASE", "https://192.168.1.35/globaldent/"); 
+    define ("REQ_BASE", "https://192.168.1.36/globaldent/"); 
     /**
     * Path donde se localizan los archivos de texto
     */

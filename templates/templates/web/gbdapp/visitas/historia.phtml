@@ -46,9 +46,9 @@ function loaded(){}
           <td>{$visita.fecha}</td>
           <td colspan="2">
             {if is_array ($visita.tratamiento)}
-            {foreach from=$visita.tratamiento item=servicio}
-              {$servicio.cantidad} x {$servicio.servicio}<br />
-            {/foreach}
+	            {foreach from=$visita.tratamiento item=servicio}
+	              {$servicio.cantidad} x {$servicio.servicio}<br />
+	            {/foreach}
             {elseif $visita.fsa == 1}
               {#texto90#}
             {else}

@@ -53,15 +53,17 @@ class VisitaDAO extends DAO {
 	function fsa ($datos) {
         $datos[fecha] = $this->crypter->corregir($datos[fecha]);
         $datos[asiento] = $this->crypter->corregir($datos[asiento]);
+        $datos[observaciones] = $this->crypter->corregir($datos[observaciones]);
         
         $valores = 
 	    COMILLA.$datos[fecha].COMILLA.COMA.
         COMILLA.$datos[asiento].COMILLA.COMA.
         $datos[id_paciente].COMA.
         $datos[id_usuario].COMA.
-        $datos[fsa];
+        $datos[fsa].COMA.
+        COMILLA.$datos[observaciones].COMILLA;
         
-        $sentencia = "insert into visita (fecha, asiento, id_paciente, id_usuario, fsa) values ($valores)";
+        $sentencia = "insert into visita (fecha, asiento, id_paciente, id_usuario, fsa, observaciones) values ($valores)";
         $this->datos = $this->DBManager->hacer_peticion ( $sentencia );
         return $this->datos;
 	}
@@ -216,8 +218,8 @@ class VisitaDAO extends DAO {
 	function verCaja($fecha) {
 		$idusr = $_SESSION [id_usr];
 		
-		$sent = "select pagos.nombre, pagos.apellido, pagos.apellido2, vis.id_visita, vis.id_paciente, serv.nombre as servicio, cantidad, total, saldo, tarj, efect, precio from
-			(select id_paciente, id_visita, precio from visita where fecha = '$fecha' and id_usuario = $idusr group by id_paciente) as vis
+		$sent = "select pagos.nombre, pagos.apellido, pagos.apellido2, vis.id_visita, vis.id_paciente, vis.fsa, serv.nombre as servicio, cantidad, total, saldo, tarj, efect, precio from
+			(select id_paciente, id_visita, precio, fsa from visita where fecha = '$fecha' and id_usuario = $idusr group by id_paciente) as vis
 			left outer join
 			(select id_servicio, id_visita, cantidad, total from linea_visita) as lin on (vis.id_visita = lin.id_visita)
 			left outer join
@@ -226,7 +228,7 @@ class VisitaDAO extends DAO {
 			(select * from saldo_view group by id_paciente) as pagos on (vis.id_paciente = pagos.id_paciente)
 			left outer join
 			(select id_paciente, sum(total_tarjeta) as tarj, sum(total_efectivo) as efect from pagopac where fecha = '$fecha' group by id_paciente) as pagos2 on (vis.id_paciente = pagos2.id_paciente)";
-		
+
 		$devolver = $this->DBManager->recoger_datos ( $sent );
 		if(is_array($devolver)){
 			$this->datos = $devolver[1];

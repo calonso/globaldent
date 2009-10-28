@@ -341,6 +341,7 @@
         function fsa ($params, $file) {
             $this->datos[id_paciente] = $this->id;
             $this->datos[asiento] = $params->getParam ('txtAsiento');
+            $this->datos[observaciones] = $params->getParam ('txtObservaciones');
             $this->datos[fsa] = 1;
             $this->datos[fecha] = Date::getDate();
             $this->datos[id_usuario] = $_SESSION[id_usr];

@@ -254,7 +254,9 @@
                 if (is_array($fsa)) {
                 	$temp = array();
                 	foreach ($fsa[1] as $linea) {
-                		array_push($temp, $linea[id_paciente]);
+                		if ($linea[fsa] == 1){
+                		  array_push($temp, $linea[id_paciente]);
+                		}
                 	}
                 }
                 $this->smarty->assign ('pacs', $pacs);    
