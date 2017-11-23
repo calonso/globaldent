@@ -9,18 +9,18 @@
 class Params {
 		
 	private $HTTP_GET_PARSED_VARS;
+	private $HTTP_POST_VARS;
 	
 	/**
 	* Método constructor de la clase. Simplemente recoje todos los parámetros
 	* recibidos.
 	*/
 	function Params () {
-		
 		// Parseo de parámetros get
 		if(!empty($_SERVER["PATH_INFO"])) {	
 
 			$fchx_lang=$_SERVER["PATH_INFO"];
-  			$fchx_tmp = preg_replace("/^\//","",$fchx_lang);
+  			$fchx_tmp = preg_replace("/^\\//","",$fchx_lang);
 			$fchx_tok = strtok($fchx_tmp,"/");
 			while($fchx_tok) {
     		// list($k,$v) = explode(".",$fchx_tok);
@@ -35,6 +35,9 @@ class Params {
 			$this->HTTP_GET_PARSED_VARS[$k] = $v;
 			$fchx_tok = strtok("/");
 			}
+		}
+		if (!empty($_POST)){
+			$this->HTTP_POST_VARS = $_POST;
 		}
 	}
 	
@@ -58,6 +61,8 @@ class Params {
 	  } else { 
 	    if ($this->HTTP_GET_PARSED_VARS[$param]) {
 	      return stripslashes($this->HTTP_GET_PARSED_VARS[$param]);		
+	    } else if ($this->HTTP_POST_VARS[$param]){
+	    	return $this->HTTP_POST_VARS[$param];
 	    } else {
 	      return $_REQUEST[$param];
 	  	}

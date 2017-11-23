@@ -172,6 +172,10 @@
                     $objeto = new Paciente ($lang);
                     $objeto->index ($this->params, $peticion);
                     break;
+                case "felicitaciones":
+                	$objeto = new Paciente ($lang);
+                	$objeto->felicitaciones ($this->params, $peticion);
+                	break;
                 case "nuevopaciente":
                     $objeto = new Paciente ($lang);
                     $objeto->muestraFormulario ($this->params, $peticion);
@@ -612,30 +616,6 @@
                     }
                     $objeto = new Factura ($lang, $id);
                     $objeto->muestraFormulario ($this->params, $peticion);
-                    break;
-                case "nuevalineaf":
-                case "nuevalineamf":
-                    $id = $this->params->getParam('id');
-                    if(!isset($id))
-                    {
-                        $objeto = new noAutorizado ($lang);
-                        $objeto->denegar ($this->params, $peticion);
-                        break;
-                    }
-                    $objeto = new Factura ($lang, $id);
-                    $objeto->nuevaLinea ($this->params, $peticion);
-                    break;
-                case "borralineaf":
-                case "borralineamf":
-                    $id = $this->params->getParam('id');
-                    if(!isset($id))
-                    {
-                        $objeto = new noAutorizado ($lang);
-                        $objeto->denegar ($this->params, $peticion);
-                        break;
-                    }
-                    $objeto = new Factura ($lang, $id);
-                    $objeto->borraLinea ($this->params, $peticion);
                     break;
                 case "guardafact":
                     $id = $this->params->getParam('id');

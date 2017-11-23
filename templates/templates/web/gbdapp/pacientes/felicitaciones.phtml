@@ -1,0 +1,88 @@
+{config_load file=$lang_file section="pacientes"}
+
+{include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
+
+<style type="text/css">@import url({$req_base}js/calendario/estilos/calendar-system.css);</style>
+<script type="text/javascript" src="{$req_base}js/calendario/calendar.js"></script>
+<script type="text/javascript" src="{$req_base}js/calendario/calendar-es.js"></script>
+<script type="text/javascript" src="{$req_base}js/calendario/calendar-setup.js"></script>
+<script type="text/javascript">
+var emails = [
+{foreach from=$datos item=pac}
+    {if $pac.email|count_characters > 0}
+        "{$pac.email}",
+    {/if} 
+{/foreach}
+];
+  <!--
+  {literal}
+
+  function multiple() {
+	    for (var i = 0 ; i < emails.length ; ++i) {
+	    	var mailto_link = 'mailto:' + emails[i];
+	    	var win = window.open(mailto_link,'emailWindow');
+	    	if (win && win.open &&!win.closed) win.close();
+	    }
+  }
+  
+  function dateChanged(calendar) {
+      // Beware that this function is called even if the end-user only
+      // changed the month/year. In order to determine if a date was
+      // clicked you can use the dateClicked property of the calendar:
+      if (calendar.dateClicked) {
+      // OK, a date was clicked, redirect to /yyyy/mm/dd/index.php
+          var y = calendar.date.getFullYear();
+          var m = calendar.date.getMonth(); // integer, 0..11
+          m = m+1;
+          var d = calendar.date.getDate(); // integer, 1..31
+          // redirect...
+          {/literal}
+          document.location = "{$req_base}index.php/cod.felicitaciones/date." + d + "-" + m + "-" + y;
+          {literal}
+          //window.location = "/" + y + "/" + m + "/" + d + "/index.php";
+      }
+  }
+		  
+
+  function loaded(){
+	  Calendar.setup(
+			  {
+			    flat         : "calendar-container", // ID of the parent element
+			    flatCallback : dateChanged           // our callback function
+			  }
+			  );}
+  {/literal} 
+  // -->
+  </script>
+
+  <div class="contenidos">
+    <div class="col_central">
+    {if is_array($datos)}
+        <table border="0" width="100%">
+            <tr>
+                <th>{#texto90#}</th>
+                <th>{#texto26#}</th>
+            </tr>
+            {foreach from=$datos item=pac}
+            <tr>
+                <td><a href={$req_base}index.php/cod.verpac/id.{$pac.id_paciente}>{$pac.apellido} {$pac.apellido2}, {$pac.nombre}</a></td>
+                {if $pac.email|count_characters > 0}
+                    <td><a href="mailto:{$pac.email}">{#texto92#}</a></td>
+                {else}
+                    <td>{#texto91#}</td>
+                {/if}
+            </tr>    
+            {/foreach}
+        </table>
+    {else}
+        <p>{#texto43#}</p>    
+    {/if}
+    <input type="button" value="{#texto94#}" onclick="multiple()" />
+    </div>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_header.phtml"}
+      <li>{#texto93#}</li>
+      <li><div id="calendar-container"></div></li>
+    {include file=$tpl_path_base|cat:"gbdapp/common/recuadro_footer.phtml"}
+  </div>
+
+{include file=$tpl_path_base|cat:"gbdapp/common/footer.phtml"}

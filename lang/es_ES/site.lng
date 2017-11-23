@@ -539,6 +539,12 @@ texto85 = "D&iacute;a: "
 texto86 = " a las: "
 texto87 = " en gabinete: "
 texto88 = "Ver todas..."
+texto89 = "Felicitaciones."
+texto90 = "Paciente"
+texto91 = "No tiene direcci&oacute;n"
+texto92 = "Enviar"
+texto93 = "Ver felicitaciones de otro dia..."
+texto94 = "Enviar a todos"
 
 error0 = "Nombre: Campo requerido."
 error1 = "Nombre: Caracteres inv&aacute;lidos, introduzca solo alfanum&eacute;ricos."
@@ -753,6 +759,7 @@ texto87 = "Ning&uacute;n movimiento a partir del d&iacute;a "
 texto88 = "Saldo anterior al dia "
 texto89 = "Acciones"
 texto90 = "Paciente ausente."
+texto91 = "Crear una factura."
  
 [conf]
 texto1 = "¿Qu&eacute; desea hacer?"
@@ -1115,6 +1122,7 @@ texto57 = "Actualizaci&oacute;n de la factura."
 texto58 = "C.P: "
 texto59 = "Ciudad: "
 texto60 = "Provincia: "
+texto61 = "Detalles"
 
 [consentimientos]
 texto1 = "Listado de consentimientos de su paciente."

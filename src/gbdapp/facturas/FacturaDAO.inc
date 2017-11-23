@@ -80,7 +80,8 @@
         {
         	$id = $datos[id_factura];
             $idusr = $_SESSION[id_usr];
-        	foreach ($datos as $indice => $valor)
+
+            foreach ($datos as $indice => $valor)
             {
                 if(!empty($valor)){
                 	switch($indice){

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+  <horario>
+    <hora>8.00</hora>
+    <hora>8.30</hora>
+    <hora>9.00</hora>
+    <hora>9.30</hora>
+    <hora>10.00</hora>
+    <hora>10.30</hora>
+    <hora>11.00</hora>
+    <hora>11.30</hora>
+    <hora>12.00</hora>
+    <hora>12.30</hora>
+    <hora>13.00</hora>
+    <hora>13.30</hora>
+    <hora>14.00</hora>
+    <hora>14.30</hora>
+    <hora>15.00</hora>
+    <hora>15.30</hora>
+    <hora>16.00</hora>
+    <hora>16.30</hora>
+    <hora>17.00</hora>
+    <hora>17.30</hora>
+    <hora>18.00</hora>
+    <hora>18.30</hora>
+    <hora>19.00</hora>
+    <hora>19.30</hora>
+    <hora>20.00</hora>
+    <hora>20.30</hora>
+    <hora>21.00</hora>
+    <hora>21.30</hora>
+    <hora>22.00</hora>
+  </horario>
+  <agenda>
+    <gabinete num="1">
+      <hora h="8.00">
+        <paciente>Carlos Alonso Pérez</paciente>
+        <duracion>2</duracion>
+      </hora>
+  		<hora h="9.00">
+        <paciente>Vacío</paciente>
+        <duracion>1</duracion>
+      </hora>
+      <hora h="9.30">
+        <paciente>Vacío</paciente>
+        <duracion>1</duracion>
+      </hora>
+      <hora h="10.00">
+        <paciente>Rosa Pérez Gómez</paciente>
+        <duracion>4</duracion>
+      </hora>
+  		<hora h="12.00">
+        <paciente>Ángel Alonso Rosado</paciente>
+        <duracion>8</duracion>
+      </hora>
+      <hora h="16.00">
+        <paciente>El de las 4</paciente>
+        <duracion>1</duracion>
+      </hora>
+  	</gabinete>
+    <gabinete num="2">
+      <hora h="8.00">
+        <paciente>Carlos Alonso Pérez</paciente>
+        <duracion>2</duracion>
+      </hora>
+      <hora h="9.00">
+        <paciente>Vacío</paciente>
+        <duracion>1</duracion>
+  		</hora>
+  		<hora h="9.30">
+        <paciente>Vacío</paciente>
+        <duracion>1</duracion>
+      </hora>
+      <hora h="10.00">
+        <paciente>Ángel Alonso Rosado</paciente>
+        <duracion>4</duracion>
+      </hora>
+      <hora h="12.00">
+        <paciente>Rosa Pérez Gómez</paciente>
+        <duracion>8</duracion>
+      </hora>
+  		<hora h="16.00">
+        <paciente>El de las 4</paciente>
+        <duracion>1</duracion>
+      </hora>
+    </gabinete>
+  </agenda>
+</data>
+

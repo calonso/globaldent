@@ -32,6 +32,10 @@
     * Inclusion del archivo Logger
     */
     include_once PATH_BASE."src/gbdapp/log/Logger.inc";
+    /**
+    * Inclusion del archivo LineSet
+    */
+    include_once PATH_BASE."src/gbdapp/common/LineSet.inc";
     
     /**
     * Clase Factura. Implementa toda la lógica de manejo de datos y peticiones para el objeto Factura
@@ -165,39 +169,6 @@
             return; 
         }
         /**
-        * Funcion que recoje los datos de la nueva linea y sigue con la creacion de la factura
-        * @param resource Objeto de la clase params para acceder a los parámetros de la petición
-        * @param string Archivo que se ha solicitado
-        * @return void
-        */
-        function nuevaLinea ($params, $file)
-        {
-            $this->datos[id_servicio] = $params->getParam ('selServicio');
-            $this->datos[cantidad] = $params->getParam ('txtCuantos');
-            $this->datos[unitario] = $params->getParam ('txtUnitario');
-            $temp = $this->verServicio ($this->datos[id_servicio]);
-            $this->datos[total] = $this->datos[unitario] * $this->datos[cantidad];
-            $this->datos[servicio] = $temp[nombre];
-            if(!isset($_SESSION['lf'.$this->id]))
-                $_SESSION['lf'.$this->id] = array();
-            array_push($_SESSION['lf'.$this->id], $this->datos);
-            $this->smarty->assign ('datos', $_SESSION['lf'.$this->id]);
-            
-            $this->datos = $this->recibirFormulario ($params);
-        	$id = $params->getParam ('fact');
-            if($id)
-            {
-                $this->datos[id_factura] = $id;
-            }
-            $this->smarty->assign ('fact', $this->datos);
-            
-           	if($file == 'nuevalineamf')
-                $this->muestraFormulario ($params, "modfact");
-            else
-                $this->muestraFormulario ($params, "nuevafact");  
-            return;
-        }
-        /**
         * Funcion que busca y devuelve las propiedades del servicio solicitado
         * @param int Id del servicio
         * @return array
@@ -211,39 +182,6 @@
             return $devolver;    
         }
         /**
-        * Funcion que quita la linea seleccionada de la factura que se esta creando
-        * @param resource Objeto de la clase params para acceder a los parámetros de la petición
-        * @param string Archivo que se ha solicitado
-        * @return void
-        */
-        function borraLinea ($params, $file)
-        {
-            $temp = array();
-            $num = $params->getParam ('num');
-            for ($i = 0; $i<count($_SESSION['lf'.$this->id]); $i++) 
-            {
-                if($i == $num)
-                    continue;
-                array_push ($temp, $_SESSION['lf'.$this->id][$i]);   
-            }
-            $_SESSION['lf'.$this->id] = $temp;
-            $this->smarty->assign ('datos', $_SESSION['lf'.$this->id]);
-            
-            $this->datos = $this->recibirFormulario ($params);
-            $id = $params->getParam ('fact');
-            if($id)
-            {
-                $this->datos[id_factura] = $id;
-            }
-            $this->smarty->assign ('fact', $this->datos);
-            
-            if($file == 'borralineamf')
-                $this->muestraFormulario ($params, "modfact");
-            else
-                $this->muestraFormulario ($params, "nuevafact");
-            return;
-        }
-        /**
         * Funcion que guarda los datos de la factyra y de las lineas de la misma recibidas
         * @param resource Objeto de la clase params para acceder a los parámetros de la petición
         * @param string Archivo que se ha solicitado
@@ -253,44 +191,34 @@
         {
             $ldao = new LineaFacturaDAO();
             $this->datos = $this->recibirFormulario ($params);
+            $lineset = $this->datos[lines];
             
             Utils::log_info("Starting new factura register.");
             $this->dao->start();
             $numero = $this->dao->bloquear(null);
             $this->datos[numero] = $numero[1][0][numero] + 1;
             Utils::log_debug("Number ".$this->datos[numero]." assigned to the new factura.");
-            $this->datos = $this->dao->nuevo ($this->datos);
-            if($this->datos > 0)
-            {   
-            	Utils::log_debug("Factura register stored successfully with id: ".$this->datos);
-            	Utils::log_info("Starting register of ".count($_SESSION['lf'.$this->id])."lines for factura id: ".$this->datos);
-            	$linesArray = Utils::print_array($_SESSION['lf'.$this->id]);
-            	Utils::log_debug("Storing lines: $linesArray");
-                foreach ($_SESSION['lf'.$this->id] as $linea)
-                {
-                    $linea[id_factura] = $this->datos;
-                    $linea[id_usuario] = $_SESSION[id_usr]; 
-                    $aux = $ldao->nuevo ($linea); 
-                    if($aux < 1)
-                    {
-                    	Utils::log_error("An error ocurred storing the line!! Rolling back");
-                        $this->smarty->assign ('codigo', $aux);
-                        $this->dao->rollback ();
-                        $this->smarty->display ($this->path.$file.".phtml");
-                        return;
-                    } else {
-                    	Utils::log_info("New stored line was given id: $aux");
-                    }
+            $lines = $lineset->getLines();
+            $id = $this->dao->nuevo ($this->datos);
+            if($id > 0) {   
+            	Utils::log_debug("Factura register stored successfully with id: ".$id);
+                Utils::log_info("Starting register of ".count($lines)."lines for factura id: ".$id);
+                if ($this->storeLines($ldao, $lineset, $id)) {
+                    $this->logger->save (LOG_ALTA, $this->nombre);
+                    Utils::log_info("Factura and lines stored successfully");
+                    $this->dao->commit ();
+                    $this->smarty->assign ('codigo', $id);	
+                } else {
+                	Utils::log_error("An error ocurred storing data!! Rolling back...");
+                    $this->dao->rollback ();
+                    $this->smarty->assign ('codigo', -1);
                 }
-                $this->logger->save (LOG_ALTA, $this->nombre);
-                Utils::log_info("Factura and lines stored successfully");
-                $this->dao->commit ();
             } else {
-            	Utils::log_error("An error ocurred storing the new factura. ".$this->datos." code retrieved");
+            	$this->smarty->assign ('codigo', -1);
+            	Utils::log_error("An error ocurred storing the new factura. ".$id." code retrieved");
             	$this->dao->rollback();
             }
-            $_SESSION['lf'.$this->id] = null;    
-            $this->smarty->assign ('codigo', $this->datos);
+               
             $this->smarty->display ($this->path.$file.".phtml");
             return; 
         }
@@ -308,6 +236,8 @@
             $datos[total] = $params->getParam('txtTotal');
             $datos[id_paciente] = $this->id;
             $datos[id_usuario] = $_SESSION[id_usr];
+            
+            $datos[lines] = new LineSet($params);
             
             return $datos;  
         }
@@ -382,9 +312,7 @@
                     foreach($lineas as $indice => $valor)
                     {
                         $lineas[$indice][unitario] = $lineas[$indice][total] / $lineas[$indice][cantidad];
-                    }
-                    $_SESSION['lf'.$this->id] = array();
-                    $_SESSION['lf'.$this->id] = $lineas;   
+                    } 
                 }
             }
                 
@@ -401,7 +329,7 @@
         * @return void
         */
         function actualizar ($params, $file)
-        {
+        {      	
             $id = $params->getParam ('fact');
         
             $this->datos = $this->recibirFormulario ($params);
@@ -413,44 +341,51 @@
             $ldao = new LineaFacturaDAO();
             $lborradas = $ldao->borrar ($id);
             Utils::log_debug("$lborradas lines deleted of the factura");
-            Utils::log_info("Starting register of ".count($_SESSION['lf'.$this->id])."lines for factura id: ".$this->datos);
-            Utils::log_debug("Inserting this lines: ".Utils::print_array($_SESSION['lf'.$this->id]));
+            Utils::log_info("Starting register of ".count(lines)."lines for factura id: ".$this->datos);
             
-            
-            foreach ($_SESSION['lf'.$this->id] as $linea)
-            {
-                $linea[id_factura] = $id;
-                $linea[id_usuario] = $_SESSION[id_usr]; 
-                $aux = $ldao->nuevo ($linea); 
-                if($aux < 1)
-                {
-                	Utils::log_error("An error ocurred storing the line!! Rolling back");
-                    $this->dao->rollback ();
-                    $this->smarty->assign ('codigo', 0);
-                    $this->smarty->display ($this->path.$file.".phtml");
-                    $_SESSION['lf'.$this->id] = null;
-                    return; 
-                } else {
-                	Utils::log_info("New stored line was given id: $aux");
-                }
-            }
-            
-            Utils::log_info("Updating now factura register data");
-            $this->datos = $this->dao->modificar ($this->datos);
-            if($this->datos >= 0){
-                $this->logger->save(LOG_MODIFICACION, $this->nombre);
-                Utils::log_info("Factura data was updated successfully!");
-                $this->dao->commit ();
-                $this->smarty->assign ('codigo', $id);
-            }else {
-            	Utils::log_error("An error ocurred updating data!! Rolling back...");
+            if ($this->storeLines($ldao, $this->datos[lines], $id)) {
+	            Utils::log_info("Updating now factura register data");
+	            $this->datos[lines] = null;
+	            $this->datos = $this->dao->modificar ($this->datos);
+	            if($this->datos >= 0){
+	                $this->logger->save(LOG_MODIFICACION, $this->nombre);
+	                Utils::log_info("Factura data was updated successfully!");
+	                $this->dao->commit ();
+	                $this->smarty->assign ('codigo', $id);
+	            }else {
+	                Utils::log_error("An error ocurred updating data!! Rolling back...");
+	                $this->dao->rollback ();
+	                $this->smarty->assign ('codigo', 0);
+	            }
+            } else {
+            	Utils::log_error("An error ocurred storing the line!! Rolling back");
                 $this->dao->rollback ();
-                $this->smarty->assign ('codigo', 0);
+            	$this->smarty->assign ('codigo', 0);
             }
             
-            $_SESSION['lf'.$this->id] = null;
             $this->smarty->display ($this->path.$file.".phtml");
             return;   
+        }
+        
+        function storeLines ($lineDAO, $lineset, $id) {
+        	$lines = $lineset->getLines();
+            foreach ($lines as $temp)
+            {
+                $linea[id_factura] = $id;
+                $linea[id_usuario] = $_SESSION[id_usr];
+                $linea[id_servicio] = $temp->getId();
+                $linea[cantidad] = $temp->getNum();
+                $linea[total] = $temp->getTotal();
+                $linea[texto] = $temp->getText(); 
+                $aux = $lineDAO->nuevo ($linea); 
+                if($aux < 1)
+                {
+                    return false; 
+                } else {
+                    Utils::log_info("New stored line was given id: $aux");
+                }
+            }	
+            return true;
         }
     }
 ?>

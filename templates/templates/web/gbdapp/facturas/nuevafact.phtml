@@ -2,110 +2,29 @@
 
 {include file=$tpl_path_base|cat:"gbdapp/common/header.phtml"}
 
+<script language="JavaScript" src="{$req_base}js/TableManager.js" type="text/javascript"></script>
+
 <script type="text/javascript">
+var tableManager;
+var services = [
+    {foreach from=$servicios item=service key=key}
+         new Option("{$service}", "{$key}"),
+    {/foreach}
+    ];
 {literal}
 <!--
-function borrar(num)
-{
-    var x = document.getElementById ("formulario");
-  {/literal}
-    x.action = "{$req_base}index.php/cod.borralineaf/id.{$paciente.id_paciente}/num."+num;
-  {literal}
-  x.submit();
+function loaded(){
+    tableManager = new TableManager(services, 'formTable', 'formulario', 'numLines', 'total');
 }
-function linea()
-{
-  var x = document.getElementById ("formulario");
-  {/literal}
-    x.action = "{$req_base}index.php/cod.nuevalineaf/id.{$paciente.id_paciente}";
-  {literal}
-  x.submit();
-}
-function servicio()
-{
-  var x = document.getElementsByName ("txtUnitario");
-  var y = document.getElementsByName ("selServicio");
-  var txt = y[0].options[y[0].selectedIndex].text;
-  var primero = txt.lastIndexOf ("-");
-  primero += 2;
-  var ultimo = txt.lastIndexOf ("€");
-  var cadena = txt.slice (primero, ultimo);
-  x[0].value= cadena ;  
-}
-function loaded(){}
--->
 {/literal}
 </script>
 
 <div class="contenidos">
-  <div class="col_izq">
-    <span class="intro">{#texto5#}</span>
-    <p>{#texto6#}</p>
-  </div>
   <div class="col_central">
     <span class="intro">{#texto7#}</span>
     <form id="formulario" enctype="multipart/form-data" method="POST" action={$req_base}index.php/cod.guardafact/id.{$paciente.id_paciente}>
     {include file=$tpl_path_base|cat:"gbdapp/facturas/cabecera.phtml"}
-    <table border="0" width="100%">
-      <tr>
-        <th colspan="6">&nbsp;</th>
-      </tr>
-      <tr>
-        <td colspan="6">&nbsp;</td>
-      </tr>
-      <tr>
-        <th colspan="2">{#texto15#}</th>
-        <th>{#texto53#}</th>
-        <th>{#texto14#}</th>
-        <th>{#texto16#}</th>
-        <th>&nbsp;</th>
-      </tr>
-      <tr>
-        <td colspan="6" class="lineahor">&nbsp;</td>
-      </tr>
-      {counter assign=numlinea start=1 skip=1}
-      {assign var=total value=0}
-        {if is_array($datos)}
-          {foreach from=$datos key=llave item=linea}
-            <tr>
-              <td colspan="2">{$numlinea}.&nbsp;{$linea.servicio|default:#texto24#}</td>
-              <td>{$linea.unitario}</td>
-              <td align="center">{$linea.cantidad}</td>
-              <td align="right">{$linea.total} €.</td>
-              <td><input type="button" value="{#borrar#}" onclick="borrar({$llave})">
-            </tr>
-          {counter}
-          {math equation="x + y" x=$total y=$linea.total assign=total}
-          {/foreach}
-        {/if}
-      <tr>
-        <td colspan="2">{$numlinea}.&nbsp;
-          {if is_array($servicios)}
-            <select name="selServicio" onchange="servicio()">
-              <option label="{#texto17#}" value=0>{#texto17#}</option>
-              {html_options options=$servicios selected=0}
-            </select>
-          {else}
-            {#texto18#}
-            <a href={$req_base}index.php/cod.servicios>{#texto19#}</a>
-          {/if}
-        </td>
-        <td><input type="text" name="txtUnitario" />
-        <td><input type="text" name="txtCuantos" value="1"></td>
-        <td><input type="button" value="{#aceptar#}" onclick="linea()"/></td>
-      </tr>
-      <tr>
-        <td colspan="6" class="lineahor">&nbsp;</td>
-      </tr>
-      <tr>
-        <th colspan="4">{#texto20#}</th>
-        <th>{$total} €.</th>
-        <th>&nbsp;</th>
-      </tr>
-    </table>   
-      <input type="hidden" name="txtTotal" value="{$total}" />
-      <input type="submit" value="{#texto22#}" />
-      <input type="button" value="{#cancelar#}" onclick="document.location='{$req_base}index.php/cod.facturas/id.{$paciente.id_paciente}'">
+    {include file=$tpl_path_base|cat:"gbdapp/facturas/formTable.phtml"}
     </form>
   </div>
 </div>

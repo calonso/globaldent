@@ -39,7 +39,7 @@
     /**
     * Request base del site
     */ 
-    define ("REQ_BASE", "https://192.168.1.36/globaldent/"); 
+    define ("REQ_BASE", "https://192.168.1.35/globaldent/"); 
     /**
     * Path donde se localizan los archivos de texto
     */
@@ -128,4 +128,8 @@
     * Constante de administrador del portal
     */
     define ("ADMIN", 9);
+    /**
+     * Constante para id indefinido
+     */
+    define ('UNDEFINED_ID', -1);
 ?>

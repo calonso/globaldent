@@ -16,6 +16,14 @@
             $aux[1] = (int)$aux[1];
             return $aux[0]."-".$aux[1]."-".$aux[2];
 		}
+		
+		static function toSQL($date) {
+			$ret = $date;
+			if (preg_match("/\\d{1,2}-\\d{1,2}-\\d{4}/", $date)){
+				$ret = preg_replace("/(\\d{1,2})-(\\d{1,2})-(\\d{4})/", "$3-$2-$1", $date);
+			}
+			return $ret;
+		}
 	}
 
 ?>

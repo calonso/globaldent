@@ -1,0 +1,34 @@
+<input type="button" value="+" onClick="tableManager.newLine(tableManager)" />
+<table id="formTable" border="0" width="100%">
+    <tr>
+        <th colspan="7">&nbsp;</th>
+    </tr>
+    <tr>
+        <td colspan="7">&nbsp;</td>
+    </tr>
+    <tr>
+        <th colspan="2">{#texto15#}</th>
+        <th>{#texto61#}</th>
+        <th>{#texto53#}</th>
+        <th>{#texto14#}</th>
+        <th>{#texto16#}</th>
+        <th>&nbsp;</th>
+    </tr>
+    <tr>
+        <td colspan="7" class="lineahor">&nbsp;</td>
+    </tr>
+    <!-- Lineas -->
+    <tr>
+        <td colspan="7" class="lineahor">&nbsp;</td>
+    </tr>
+    <tr>
+        <th colspan="5">{#texto20#}</th>
+        <th>0 €.</th>
+        <th>&nbsp;</th>
+    </tr>
+    </table>   
+    <input id="total" type="hidden" name="txtTotal" />
+    <input id="numLines" type="hidden" name="txtNumLines" />
+    <input type="submit" value="{#texto22#}" />
+    <input type="button" value="{#cancelar#}" onclick="document.location='{$req_base}index.php/cod.facturas/id.{$paciente.id_paciente}'">
+    

@@ -517,7 +517,7 @@
                     	Utils::log_error("An error ocurred storing the collaboration item!!Returning error");
                         return false;
                     } else {
-                    	Utils::log_debug("Collaboration item stored successfully with id: $aux");       
+                    	Utils::log_debug("Collaboration item stored successfully with id: $ret");       
                     }
                 }   
                 return true;

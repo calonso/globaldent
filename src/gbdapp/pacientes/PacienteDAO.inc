@@ -450,5 +450,27 @@
         {
           
         }  
+        function felicitaciones ($date) {
+            $idusr = $_SESSION[id_usr];
+            if (empty($date)){
+            	$date = 'now()';
+            } else {
+            	$date = '\''.$date.'\''; 
+            }
+            $sentencia = "select id_paciente, nombre, apellido, apellido2, email from paciente where id_usuario = $idusr and fecha_nacimiento like concat(date_format($date, \"%d-%m\"), \"-%\")";
+            $this->datos = $this->DBManager->recoger_datos($sentencia);
+            if (is_array($this->datos)) {
+            	$this->datos = $this->datos[1];
+                foreach ($this->datos as $indice => $paciente) {
+                    $this->datos[$indice][nombre] = $this->crypter->descifrar ($paciente[nombre]);
+                    $this->datos[$indice][apellido] = $this->crypter->descifrar ($paciente[apellido]);
+                    $this->datos[$indice][apellido2] = $this->crypter->descifrar ($paciente[apellido2]);
+                    $this->datos[$indice][email] = $this->crypter->descifrar ($paciente[email]);
+                }
+                return $this->datos;
+            } else {
+            	return 0;
+            }
+        }
     }
 ?>

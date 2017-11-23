@@ -482,5 +482,17 @@ class Paciente extends DisplayManager {
 		$this->smarty->display ( $this->path . $file . ".phtml" );
 		return;
 	}
+	
+	function felicitaciones($params, $file) {
+		$date = ($params->getParam('date'));
+		if (empty($date)) {
+		  $date = Date::getDate();
+		}
+		$date = Date::toSQL($date);
+		$list = $this->dao->felicitaciones($date);
+		$this->smarty->assign("datos", $list);
+		$this->smarty->display($this->path.$file.".phtml");
+		return;
+	}
 }
 ?>

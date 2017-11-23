@@ -33,14 +33,16 @@
         {
         	$datos[cantidad] = $this->crypter->corregir($datos[cantidad]);
         	$datos[total] = $this->crypter->corregir($datos[total]);
-        	
+        	$datos[texto] = $this->crypter->corregir($datos[texto]);
+       
 			$valores = $datos[id_factura].COMA.
 				$datos[id_servicio].COMA.
 				$datos[cantidad].COMA.
 				$datos[total].COMA.
-				$datos[id_usuario];
+				$datos[id_usuario].COMA.
+				COMILLA.$datos[texto].COMILLA;
 				            
-            $sentencia = "insert into linea_factura (id_factura, id_servicio, cantidad, total, id_usuario) values ($valores)";
+            $sentencia = "insert into linea_factura (id_factura, id_servicio, cantidad, total, id_usuario, texto) values ($valores)";
             $this->datos = $this->DBManager->hacer_peticion ($sentencia);
             return $this->datos;   
         }
